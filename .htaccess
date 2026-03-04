@@ -1,0 +1,61 @@
+# .htaccess para Apache
+# Aplica configuraciones de seguridad y redirecciones
+
+# Habilitar mod_rewrite
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+</IfModule>
+
+# Seguridad: prevenir acceso directo a archivos sensibles
+<FilesMatch "\.env|\.git|README|compose">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear acceso a directorios sensibles
+<DirectoryMatch "^.*\.(git|env|htaccess|json).*$">
+    Deny from all
+</DirectoryMatch>
+
+# Forzar HTTPS (comentar si no uses SSL)
+# <IfModule mod_rewrite.c>
+#     RewriteCond %{HTTPS} off
+#     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+# Permitir archivos estáticos sin reescritura
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+</IfModule>
+
+# Redireccionar / a /vistas/bienvenido.php (opcional)
+# <IfModule mod_rewrite.c>
+#     RewriteCond %{REQUEST_URI} ^/$
+#     RewriteRule ^(.*)$ /vistas/bienvenido.php [L]
+# </IfModule>
+
+# Headers de seguridad
+<IfModule mod_headers.c>
+    HttpHeader set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Comprimir contenido (si está disponible mod_deflate)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
+
+# Caché de navegador para archivos estáticos
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>

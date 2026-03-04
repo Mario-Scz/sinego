@@ -1,0 +1,163 @@
+﻿*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display:flex;
+    background-color:#EAF0EE;
+    margin: 0;
+}
+
+
+.sb {
+    width:120px;
+    height:100vh;
+    background-color:#B3D1CD;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
+    padding:30px 0;
+}
+
+
+.menu div {
+    width:45px;
+    height:8px;
+    background:#22545C;
+    margin:8px 0;
+    border-radius:20px;
+}
+
+
+.brand img {
+    width: 130px;   
+    height:auto;  
+}
+
+
+.main {
+    flex:1;
+    padding:60px 0px;
+}
+
+
+.tit {
+    display:flex;
+    justify-content:center;
+    align-items:  center;
+}
+
+.tit h1 {
+    background:#1D7874;
+    color:white;
+    padding: 30px 120px;
+    border-radius:60px;
+    font-size:55px;
+}
+
+
+.clt {
+    width:150px;  
+    height:auto;  
+    margin-right: 30px;
+}
+
+
+
+.c {
+    width: 100%;
+    display: flex;
+    flex-direction: column;  
+    align-items: flex-start;  
+    margin-left: 20px;        
+    gap: 30px;
+}
+
+.bus {
+    margin-top: 40px;
+    display: flex;         
+    align-items: center;
+    gap: 15px;
+}
+.bus input {
+    width: 900px;
+    height: 55px;
+    border-radius: 25px;     
+    border: 2px solid #1f6f6d;
+    padding-left: 20px;
+    font-size: 16px;
+    outline: none;
+    
+}
+.tcl {
+    width: 880px;
+    border-collapse: collapse;
+}
+
+.tcl th {
+    background-color: #1f6f6d;
+    color: white;
+    padding: 15px;
+}
+
+.tcl td {
+    border: 2px solid #1f6f6d;
+    padding: 10px;
+}
+
+.tcl input {
+    width: 100%;
+    border: none;
+    outline: none;
+}
+.tc {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+
+.bi {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.bi img {
+    width: 80px;
+    display: block;
+}
+.at {
+    display: flex;
+    gap: 20px;   
+}
+
+.tb {
+    display: flex;
+    justify-content: flex-end;  
+}
+
+.ban {
+    background-color: #1f6f6d;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 150px;
+}
+
+
+
+
+
+
+

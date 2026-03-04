@@ -1,0 +1,72 @@
+========================================
+SINEGO - GUÍA RÁPIDA DE INSTALACIÓN
+========================================
+
+REQUISITOS MÍNIMOS:
+- PHP 7.4+ con PDO y pdo_mysql
+- MySQL 5.7+ o MariaDB 10.5+
+- VS Code (opcional, pero recomendado)
+
+PASOS RÁPIDOS (3 minutos):
+
+1. Copia .env.example a .env:
+   cp .env.example .env
+
+2. Edita .env con tus credenciales MySQL:
+   - DB_HOST=localhost
+   - DB_USER=tu_usuario
+   - DB_PASS=tu_contraseña
+   - DB_NAME=sinego
+
+3. Crea la base de datos:
+   mysql -u <usuario> -p < config/schema.sql
+
+4. Crea el usuario admin:
+   php scripts/create_admin.php admin MiPassword123 "Administrador" admin@example.com
+
+5. Inicia el servidor PHP:
+   php -S localhost:8000 -t .
+
+6. Abre en el navegador:
+   http://localhost:8000/vistas/register.php
+
+7. Inicia sesión:
+   Usuario: admin
+   Contraseña: MiPassword123
+
+========================================
+SOLUCIÓN DE PROBLEMAS
+========================================
+
+❌ "php: comando no encontrado"
+→ PHP no está en el PATH
+→ Solución: usa PHP portable (ver PORTABLE_PHP.md)
+
+❌ "Error de conexión a BD"
+→ Credenciales erróneas o BD no creada
+→ Verifica .env y ejecuta: mysql -u <usuario> -p < config/schema.sql
+
+❌ "Sesión no iniciada"
+→ Carpeta logs/ no tiene permisos de escritura
+→ Ejecuta: mkdir -p logs && chmod 755 logs
+
+========================================
+DOCUMENTACIÓN
+========================================
+
+- README.md → Descripción general del proyecto
+- API_ENDPOINTS.md → Referencia de endpoints REST
+- PORTABLE_PHP.md → Cómo usar PHP sin instalación
+- DEPLOYMENT.md → Cómo desplegar a producción
+- DEVELOPMENT.md → Guía para desarrolladores (si existe)
+
+========================================
+CONTACTO / SOPORTE
+========================================
+
+Si encuentras errores:
+1. Revisa logs/app.log
+2. Ejecuta: php scripts/check.php
+3. Verifica que PHP y MySQL están disponibles
+
+========================================

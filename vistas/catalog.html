@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Sinego</title>
+    <link rel="stylesheet" href="../css/catalogo.css">
+</head>
+<body>
+<!-- nav -->
+<nav class="n">
+  <div class="nc">
+    <div class="nl">
+      <a href="/vistas/bienvenido.html">
+        <img src="../img/sinego.png" alt="Sinego Logo" class="lg" />
+      </a>
+    </div>
+    <input type="checkbox" id="mchk" class="cm" />
+    <label for="mchk" class="tm">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+    <nav class="mn">
+      <ul>
+        <li><a href="/vistas/bienvenido.html">INICIO</a></li>
+        <li><a href="/vistas/imprenta.html">IMPRENTA</a></li>
+        <li><a href="/vistas/catalogo.html">CATALOGO</a></li>
+        <li><a href="/vistas/register.html">INICIAR SESIÓN</a></li>
+        <li><a href="/vistas/menu.html">MENÚ</a></li>
+      </ul>
+    </nav>
+    <div class="ni">
+      <a href="/vistas/cart.html" class="ic" title="Carrito">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="cc" id="cc">0</span>
+      </a>
+      <a href="/vistas/favorites.html" class="ic" title="Favoritos">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <span class="cf" id="cf">0</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="h">
+  <div class="hc">
+    <h1 class="ht">Catálogo de Libros</h1>
+    <p class="hs">Gestiona el catálogo de productos disponibles</p>
+  </div>
+</section>
+
+<!-- Main Content -->
+<main class="c">
+  <section class="ts">
+    <div class="te">
+      <h2>Libros Disponibles</h2>
+      <a href="cat add.html"><button class="b bp">+ Agregar Libro</button></a>
+    </div>
+    
+    <div class="bb">
+      <input type="text" placeholder="Buscar libro por autor, tipo o ID..." class="ib" />
+    </div>
+
+    <div class="tw">
+      <table class="td">
+        <thead>
+          <tr>
+            <th>Autor</th>
+            <th>Tipo</th>
+            <th>ID Libro</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Autor"><input type="text" value="Cervantes" /></td>
+            <td data-label="Tipo"><input type="text" value="Clásico" /></td>
+            <td data-label="ID Libro"><input type="text" value="LIB001" /></td>
+            <td data-label="Acciones">
+              <div class="ba">
+                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba d" title="Eliminar">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td data-label="Autor"><input type="text" value="García Márquez" /></td>
+            <td data-label="Tipo"><input type="text" value="Novela" /></td>
+            <td data-label="ID Libro"><input type="text" value="LIB002" /></td>
+            <td data-label="Acciones">
+              <div class="ba">
+                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba d" title="Eliminar">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td data-label="Autor"><input type="text" value="Borges" /></td>
+            <td data-label="Tipo"><input type="text" value="Cuento" /></td>
+            <td data-label="ID Libro"><input type="text" value="LIB003" /></td>
+            <td data-label="Acciones">
+              <div class="ba">
+                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba d" title="Eliminar">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td data-label="Autor"><input type="text" value="Allende" /></td>
+            <td data-label="Tipo"><input type="text" value="Drama" /></td>
+            <td data-label="ID Libro"><input type="text" value="LIB004" /></td>
+            <td data-label="Acciones">
+              <div class="ba">
+                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba d" title="Eliminar">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td data-label="Autor"><input type="text" value="Vargas Llosa" /></td>
+            <td data-label="Tipo"><input type="text" value="Novela" /></td>
+            <td data-label="ID Libro"><input type="text" value="LIB005" /></td>
+            <td data-label="Acciones">
+              <div class="ba">
+                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba d" title="Eliminar">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script src="../js/common.js"></script>
+<script src="../js/catalog.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/favorites.js"></script>
+<!-- ftr -->
+<footer class="ft">
+  <div class="ftc">
+    <p>&copy; 2026 Sinego. Todos los derechos reservados.</p>
+    <p>Gestión integral del catálogo de libros.</p>
+  </div>
+</footer>
+</body>
+</html>
+
+

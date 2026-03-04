@@ -1,0 +1,381 @@
+﻿/* ============================================
+   FAVORITOS - ESTILOS
+   ============================================ */
+
+:root {
+    --cp: #1D7874;
+    --cs: #22545C;
+    --ca: #B3D1CD;
+    --cl: #EAF0EE;
+    --cw: #ffffff;
+    --ct: #333333;
+    --ss: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --sl: 0 8px 24px rgba(0, 0, 0, 0.2);
+    --t: all 0.3s ease;
+    --danger: #e74c3c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--cl);
+    color: var(--ct);
+}
+
+/* nav */
+.n {
+    background: linear-gradient(135deg, var(--cs) 0%, var(--cp) 100%);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--sm);
+}
+
+.nc {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nl {
+    display: flex;
+    align-items: center;
+}
+
+.nl a {
+    text-decoration: none;
+}
+
+.lg {
+    height: 50px;
+    width: auto;
+    filter: brightness(1.2);
+}
+
+.mn {
+    display: flex;
+    align-items: center;
+}
+
+.mn ul {
+    display: flex;
+    list-style: none;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.mn ul li {
+    position: relative;
+}
+
+.mn ul li a {
+    display: block;
+    color: var(--cw);
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    transition: var(--t);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.mn ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ni {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-left: auto;
+}
+
+.ic {
+    color: var(--cw);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: var(--t);
+}
+
+.ic:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.ic.active {
+    background-color: rgba(179, 209, 205, 0.3);
+    border-radius: 50%;
+}
+
+.ic.active svg {
+    stroke: var(--ca);
+    stroke-width: 3;
+}
+
+.ic svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--cw);
+    stroke-width: 2;
+}
+
+.cc, .cf {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--danger);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.cm, .tm {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .tm {
+        display: block;
+        background: none;
+        border: none;
+        flex-direction: column;
+        cursor: pointer;
+    }
+    
+    .tm span {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        margin: 5px 0;
+        transition: var(--t);
+    }
+}
+
+/* Hero Section */
+.h {
+    background: linear-gradient(135deg, var(--cs) 0%, var(--cp) 100%);
+    color: white;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.hc h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hc p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* cont */
+.c {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* Favorites Section */
+.fvs {
+    margin-bottom: 3rem;
+}
+
+.ef {
+    background: white;
+    border-radius: 8px;
+    padding: 4rem 2rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.ef p {
+    font-size: 1.2rem;
+    color: #999;
+    margin-bottom: 1.5rem;
+}
+
+.fvg {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.favorite-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: var(--t);
+    display: flex;
+    flex-direction: column;
+}
+
+.favorite-card:hover {
+    transfrm: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, var(--cl) 0%, #ddd 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+}
+
+.card-remove-fav {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--t);
+}
+
+.card-remove-fav:hover {
+    background: white;
+    color: var(--danger);
+}
+
+.card-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-content h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--cp);
+}
+
+.card-content p {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.card-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--cp);
+    margin-bottom: 1rem;
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.card-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--t);
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.btn-add-cart {
+    background-color: var(--cp);
+    color: white;
+}
+
+.btn-add-cart:hover {
+    background-color: #166660;
+}
+
+.bp {
+    background-color: var(--cp);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+.bp:hover {
+    background-color: #166660;
+}
+
+/* ftr */
+.ft {
+    background-color: var(--cp);
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.ftc {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.ftc p {
+    margin: 0.5rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .fvg {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .card-image {
+        height: 150px;
+        font-size: 2rem;
+    }
+    
+    .card-btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+
+
