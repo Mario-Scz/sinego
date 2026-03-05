@@ -1,18 +1,26 @@
+<?php
+$pageTitle = 'Catálogo';
+session_start();
+if (empty($_SESSION['usuario'])) {
+    header('Location: /vistas/register.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo - Sinego</title>
-    <link rel="stylesheet" href="../css/catalogo.css">
+    <link rel="stylesheet" href="/css/catalogo.css">
 </head>
 <body>
 <!-- nav -->
 <nav class="n">
   <div class="nc">
     <div class="nl">
-      <a href="/vistas/bienvenido.html">
-        <img src="../img/sinego.png" alt="Sinego Logo" class="lg" />
+      <a href="/vistas/bienvenido.php">
+        <img src="/img/sinego.png" alt="Sinego Logo" class="lg" />
       </a>
     </div>
     <input type="checkbox" id="mchk" class="cm" />
@@ -23,15 +31,15 @@
     </label>
     <nav class="mn">
       <ul>
-        <li><a href="/vistas/bienvenido.html">INICIO</a></li>
-        <li><a href="/vistas/imprenta.html">IMPRENTA</a></li>
-        <li><a href="/vistas/catalogo.html">CATALOGO</a></li>
-        <li><a href="/vistas/register.html">INICIAR SESIÓN</a></li>
-        <li><a href="/vistas/menu.html">MENÚ</a></li>
+        <li><a href="/vistas/bienvenido.php">INICIO</a></li>
+        <li><a href="/vistas/imprenta.php">IMPRENTA</a></li>
+        <li><a href="/vistas/catalogo.php">CATALOGO</a></li>
+        <li><a href="/vistas/register.php">INICIAR SESIÓN</a></li>
+        <li><a href="/vistas/menu.php">MENÚ</a></li>
       </ul>
     </nav>
     <div class="ni">
-      <a href="/vistas/cart.html" class="ic" title="Carrito">
+      <a href="/vistas/cart.php" class="ic" title="Carrito">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="9" cy="21" r="1"></circle>
           <circle cx="20" cy="21" r="1"></circle>
@@ -39,7 +47,7 @@
         </svg>
         <span class="cc" id="cc">0</span>
       </a>
-      <a href="/vistas/favorites.html" class="ic" title="Favoritos">
+      <a href="/vistas/favorites.php" class="ic" title="Favoritos">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
         </svg>
@@ -62,7 +70,7 @@
   <section class="ts">
     <div class="te">
       <h2>Libros Disponibles</h2>
-      <a href="cat add.html"><button class="b bp">+ Agregar Libro</button></a>
+      <a href="/vistas/cat add.php"><button class="b bp">+ Agregar Libro</button></a>
     </div>
     
     <div class="bb">
@@ -86,7 +94,7 @@
             <td data-label="ID Libro"><input type="text" value="LIB001" /></td>
             <td data-label="Acciones">
               <div class="ba">
-                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba e" title="Editar">✏️</button>
                 <button class="ba d" title="Eliminar">🗑️</button>
               </div>
             </td>
@@ -97,7 +105,7 @@
             <td data-label="ID Libro"><input type="text" value="LIB002" /></td>
             <td data-label="Acciones">
               <div class="ba">
-                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba e" title="Editar">✏️</button>
                 <button class="ba d" title="Eliminar">🗑️</button>
               </div>
             </td>
@@ -108,7 +116,7 @@
             <td data-label="ID Libro"><input type="text" value="LIB003" /></td>
             <td data-label="Acciones">
               <div class="ba">
-                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba e" title="Editar">✏️</button>
                 <button class="ba d" title="Eliminar">🗑️</button>
               </div>
             </td>
@@ -119,7 +127,7 @@
             <td data-label="ID Libro"><input type="text" value="LIB004" /></td>
             <td data-label="Acciones">
               <div class="ba">
-                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba e" title="Editar">✏️</button>
                 <button class="ba d" title="Eliminar">🗑️</button>
               </div>
             </td>
@@ -130,7 +138,7 @@
             <td data-label="ID Libro"><input type="text" value="LIB005" /></td>
             <td data-label="Acciones">
               <div class="ba">
-                <button class="ba e" title="ediar">✏️</button>
+                <button class="ba e" title="Editar">✏️</button>
                 <button class="ba d" title="Eliminar">🗑️</button>
               </div>
             </td>
@@ -141,10 +149,10 @@
   </section>
 </main>
 
-<script src="../js/common.js"></script>
-<script src="../js/catalog.js"></script>
-<script src="../js/cart.js"></script>
-<script src="../js/favorites.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/catalog.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/favorites.js"></script>
 <!-- ftr -->
 <footer class="ft">
   <div class="ftc">
@@ -154,5 +162,3 @@
 </footer>
 </body>
 </html>
-
-
