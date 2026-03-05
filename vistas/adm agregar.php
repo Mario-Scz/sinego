@@ -1,3 +1,11 @@
+<?php
+$pageTitle = 'Administración agregar';
+session_start();
+if (empty($_SESSION['usuario'])) {
+    header('Location: /vistas/register.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
