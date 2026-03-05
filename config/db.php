@@ -16,10 +16,10 @@ if (file_exists(__DIR__ . '/../.env')) {
     }
 }
 
-$host = getenv('DB_HOST') ?: 'localhost';
-$db   = getenv('DB_NAME') ?: 'sinego';
-$user = getenv('DB_USER') ?: 'root';
-$pass = getenv('DB_PASS') ?: '';
+$host = getenv('DB_HOST') ?: 'sql3.freesqldatabase.com';
+$db   = getenv('DB_NAME') ?: 'sql3818944';
+$user = getenv('DB_USER') ?: 'sql3818944';
+$pass = getenv('DB_PASS') ?: 't9YcpBF2Sn';
 $port = getenv('DB_PORT') ?: 3306;
 $charset = 'utf8mb4';
 
