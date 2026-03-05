@@ -20,7 +20,7 @@ if (!empty($_SESSION['usuario'])) {
   <div class="login-cont">
     <div class="login-card">
       <div class="login-logo">
-        <img src="../img/sinego.png" alt="Sinego" />
+        <img src="/img/sinego.png" alt="Sinego" />
       </div>
       <h2>Bienvenido</h2>
       <p class="login-subtitle">Ingresa tus credenciales para acceder</p>

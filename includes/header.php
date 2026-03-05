@@ -8,8 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sinego - <?php echo $pageTitle ?? 'Página'; ?></title>
-    <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/register.css">
 </head>
 <body>
 <nav class="n">
