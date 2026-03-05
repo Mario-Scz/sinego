@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Cliente - Sinego</title>
-    <link rel="stylesheet" href="../css/cl add.css">
+    <title>Agregar Factura - Sinego</title>
+    <link rel="stylesheet" href="/css/fac add.css">
 </head>
 <body>
 <!-- nav -->
 <nav class="n">
   <div class="nc">
     <div class="nl">
-      <a href="/vistas/bienvenido.html">
-        <img src="../img/sinego.png" alt="Sinego Logo" class="lg" />
+      <a href="/vistas/bienvenido.php">
+        <img src="/img/sinego.png" alt="Sinego Logo" class="lg" />
       </a>
     </div>
     <input type="checkbox" id="mchk" class="cm" />
@@ -23,15 +23,15 @@
     </label>
     <nav class="mn">
       <ul>
-     <li><a href="/vistas/bienvenido.html">INICIO</a></li>
-        <li><a href="/vistas/imprenta.html">IMPRENTA</a></li>
-        <li><a href="/vistas/catalogo.html">CATALOGO</a></li>
-        <li><a href="/vistas/register.html">INICIAR SESIÓN</a></li>
-        <li><a href="/vistas/menu.html">MENÚ</a></li>
+         <li><a href="/vistas/bienvenido.php">INICIO</a></li>
+        <li><a href="/vistas/imprenta.php">IMPRENTA</a></li>
+        <li><a href="/vistas/catalogo.php">CATALOGO</a></li>
+        <li><a href="/vistas/register.php">INICIAR SESIÓN</a></li>
+        <li><a href="/vistas/menu.php">MENÚ</a></li>
       </ul>
     </nav>
     <div class="ni">
-      <a href="/vistas/cart.html" class="ic" title="Carrito">
+      <a href="/vistas/cart.php" class="ic" title="Carrito">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="9" cy="21" r="1"></circle>
           <circle cx="20" cy="21" r="1"></circle>
@@ -39,7 +39,7 @@
         </svg>
         <span class="cc" id="cc">0</span>
       </a>
-      <a href="/vistas/favorites.html" class="ic" title="Favoritos">
+      <a href="/vistas/favorites.php" class="ic" title="Favoritos">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
         </svg>
@@ -52,8 +52,8 @@
 <!-- Hero Section -->
 <section class="h">
   <div class="hc">
-    <h1 class="ht">Agregar Nuevo Cliente</h1>
-    <p class="hs">Registra un nuevo cliente en tu base de datos</p>
+    <h1 class="ht">Agregar Nueva Factura</h1>
+    <p class="hs">Registra una nueva factura en el sistema</p>
   </div>
 </section>
 
@@ -61,26 +61,26 @@
 <main class="c">
   <section class="fs">
     <div class="ac">
-      <h2>Información del Cliente</h2>
+      <h2>Información de la Factura</h2>
       <form class="fm">
         <div class="fg">
-          <label for="nombre">Nombre Completo</label>
+          <label for="idFactura">ID de Factura</label>
+          <input type="text" id="idFactura" placeholder="Ej: FAC001" required />
+        </div>
+
+        <div class="fg">
+          <label for="nombre">Empresa o Cliente</label>
           <input type="text" id="nombre" placeholder="Nombre del cliente" required />
         </div>
 
         <div class="fg">
-          <label for="telefono">Teléfono</label>
-          <input type="text" id="telefono" placeholder="Número de teléfono" required />
-        </div>
-
-        <div class="fg">
-          <label for="correo">Correo Electrónico</label>
-          <input type="email" id="correo" placeholder="Correo del cliente" required />
+          <label for="comentario">Descripción o Comentarios</label>
+          <textarea id="comentario" placeholder="Detalles adicionales de la factura" rows="4"></textarea>
         </div>
 
         <div class="fa">
-          <a href="cliente.html"><button type="button" class="b bs">Cancelar</button></a>
-          <button type="submit" class="b bp">Agregar Cliente</button>
+          <a href="facturar.html"><button type="button" class="b bs">Cancelar</button></a>
+          <button type="submit" class="b bp">Agregar Factura</button>
         </div>
       </form>
     </div>
@@ -94,11 +94,12 @@
   </div>
 </footer>
 
-<script src="../js/common.js"></script>
-<script src="../js/cl-add.js"></script>
-<script src="../js/cart.js"></script>
-<script src="../js/favorites.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/fac-add.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/favorites.js"></script>
 </body>
 </html>
+
 
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Agregar Usuario - Administración</title>
-    <link rel="stylesheet" href="../css/adm agregar.css">
+    <link rel="stylesheet" href="/css/adm agregar.css">
 </head>
 <body>
     <!--
@@ -12,7 +12,7 @@
     <nav class="n">
         <div class="nc">
             <a href="bienvenido.html" class="nl">
-                <img src="../img/sinego.png" alt="Logo" class="lg">
+                <img src="/img/sinego.png" alt="Logo" class="lg">
 
             </a>
             <input type="checkbox" id="cm" class="cm">
@@ -23,13 +23,13 @@
             </label>
             <nav class="mn">
                 <ul>
-                    <li><a href="menu.html">Inicio</a></li>
-                    <li><a href="administrar.html">Administración</a></li>
-                    <li><a href="cliente.html">Clientes</a></li>
-                    <li><a href="catalog.html">Catálogo</a></li>
+                    <li><a href="menu.php">Inicio</a></li>
+                    <li><a href="administrar.php">Administración</a></li>
+                    <li><a href="cliente.php">Clientes</a></li>
+                    <li><a href="catalog.php">Catálogo</a></li>
                 </ul>
             </nav>            <div class="ni">
-              <a href="/vistas/cart.html" class="ic" title="Carrito">
+              <a href="/vistas/cart.php" class="ic" title="Carrito">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="9" cy="21" r="1"></circle>
                   <circle cx="20" cy="21" r="1"></circle>
@@ -37,7 +37,7 @@
                 </svg>
                 <span class="cc" id="cc">0</span>
               </a>
-              <a href="/vistas/favorites.html" class="ic" title="Favoritos">
+              <a href="/vistas/favorites.php" class="ic" title="Favoritos">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                 </svg>
@@ -93,10 +93,10 @@
             <p>Plataforma de Gestión Empresarial</p>
         </div>
     </footer>
-<script src="../js/common.js"></script>
-<script src="../js/adm-add.js"></script>
-<script src="../js/cart.js"></script>
-<script src="../js/favorites.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/adm-add.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/favorites.js"></script>
 </body>
 </html>
 

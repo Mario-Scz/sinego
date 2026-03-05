@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes - Sinego</title>
-    <link rel="stylesheet" href="../css/cliente.css">
+    <title>Facturación - Sinego</title>
+    <link rel="stylesheet" href="/css/facturar.css">
 </head>
 <body>
 <!-- nav -->
 <nav class="n">
   <div class="nc">
     <div class="nl">
-      <a href="/vistas/bienvenido.html">
-        <img src="../img/sinego.png" alt="Sinego Logo" class="lg" />
+      <a href="/vistas/bienvenido.php">
+        <img src="/img/sinego.png" alt="Sinego Logo" class="lg" />
       </a>
     </div>
     <input type="checkbox" id="mchk" class="cm" />
@@ -23,15 +23,15 @@
     </label>
     <nav class="mn">
       <ul>
-        <li><a href="/vistas/bienvenido.html">INICIO</a></li>
-        <li><a href="/vistas/imprenta.html">IMPRENTA</a></li>
-        <li><a href="/vistas/catalogo.html">CATALOGO</a></li>
-        <li><a href="/vistas/register.html">INICIAR SESIÓN</a></li>
-        <li><a href="/vistas/menu.html">MENÚ</a></li>
+        <li><a href="/vistas/bienvenido.php">INICIO</a></li>
+        <li><a href="/vistas/imprenta.php">IMPRENTA</a></li>
+        <li><a href="/vistas/catalogo.php">CATALOGO</a></li>
+        <li><a href="/vistas/register.php">INICIAR SESIÓN</a></li>
+        <li><a href="/vistas/menu.php">MENÚ</a></li>
       </ul>
     </nav>
     <div class="ni">
-      <a href="/vistas/cart.html" class="ic" title="Carrito">
+      <a href="/vistas/cart.php" class="ic" title="Carrito">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="9" cy="21" r="1"></circle>
           <circle cx="20" cy="21" r="1"></circle>
@@ -39,7 +39,7 @@
         </svg>
         <span class="cc" id="cc">0</span>
       </a>
-      <a href="/vistas/favorites.html" class="ic" title="Favoritos">
+      <a href="/vistas/favorites.php" class="ic" title="Favoritos">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
         </svg>
@@ -52,8 +52,8 @@
 <!-- Hero Section -->
 <section class="h">
   <div class="hc">
-    <h1 class="ht">Gestión de Clientes</h1>
-    <p class="hs">Administra tu base de clientes</p>
+    <h1 class="ht">Facturación</h1>
+    <p class="hs">Gestiona tus facturas y transacciones</p>
   </div>
 </section>
 
@@ -61,29 +61,29 @@
 <main class="c">
   <section class="ts">
     <div class="te">
-      <h2>Lista de Clientes</h2>
-      <a href="cl add.html"><button class="b bp">+ Nuevo Cliente</button></a>
+      <h2>Facturas Emitidas</h2>
+      <a href="fac add.html"><button class="b bp">+ Nueva Factura</button></a>
     </div>
     
     <div class="bb">
-      <input type="text" placeholder="Buscar cliente por nombre o correo..." class="ib" />
+      <input type="text" placeholder="Buscar factura por ID o cliente..." class="ib" />
     </div>
 
     <div class="tw">
       <table class="td">
         <thead>
           <tr>
-            <th>Nombre</th>
-            <th>Teléfono</th>
-            <th>Correo</th>
+            <th>ID Factura</th>
+            <th>Cliente</th>
+            <th>Comentario</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td data-label="Nombre"><input type="text" value="Empresa ABC" /></td>
-            <td data-label="Teléfono"><input type="text" value="+34 111 222" /></td>
-            <td data-label="Correo"><input type="email" value="info@empresaabc.com" /></td>
+            <td data-label="ID Factura"><input type="text" value="FAC-001-2026" /></td>
+            <td data-label="Cliente"><input type="text" value="Empresa ABC" /></td>
+            <td data-label="Comentario"><input type="text" value="Pedido de impresión" /></td>
             <td data-label="Acciones">
               <div class="ba">
                 <button class="ba e" title="ediar">✏️</button>
@@ -92,9 +92,9 @@
             </td>
           </tr>
           <tr>
-            <td data-label="Nombre"><input type="text" value="Distribuidora XYZ" /></td>
-            <td data-label="Teléfono"><input type="text" value="+34 222 333" /></td>
-            <td data-label="Correo"><input type="email" value="contacto@distribxyz.com" /></td>
+            <td data-label="ID Factura"><input type="text" value="FAC-002-2026" /></td>
+            <td data-label="Cliente"><input type="text" value="Distribuidora XYZ" /></td>
+            <td data-label="Comentario"><input type="text" value="Servicio de encuadernación" /></td>
             <td data-label="Acciones">
               <div class="ba">
                 <button class="ba e" title="ediar">✏️</button>
@@ -103,9 +103,9 @@
             </td>
           </tr>
           <tr>
-            <td data-label="Nombre"><input type="text" value="Retail Store" /></td>
-            <td data-label="Teléfono"><input type="text" value="+34 333 444" /></td>
-            <td data-label="Correo"><input type="email" value="ventas@retailstore.com" /></td>
+            <td data-label="ID Factura"><input type="text" value="FAC-003-2026" /></td>
+            <td data-label="Cliente"><input type="text" value="Retail Store" /></td>
+            <td data-label="Comentario"><input type="text" value="Packaging personalizado" /></td>
             <td data-label="Acciones">
               <div class="ba">
                 <button class="ba e" title="ediar">✏️</button>
@@ -114,9 +114,9 @@
             </td>
           </tr>
           <tr>
-            <td data-label="Nombre"><input type="text" value="ediorial Pro" /></td>
-            <td data-label="Teléfono"><input type="text" value="+34 444 555" /></td>
-            <td data-label="Correo"><input type="email" value="ediorial@edipro.com" /></td>
+            <td data-label="ID Factura"><input type="text" value="FAC-004-2026" /></td>
+            <td data-label="Cliente"><input type="text" value="ediorial Pro" /></td>
+            <td data-label="Comentario"><input type="text" value="Impresión de catálogos" /></td>
             <td data-label="Acciones">
               <div class="ba">
                 <button class="ba e" title="ediar">✏️</button>
@@ -130,15 +130,15 @@
   </section>
 </main>
 
-<script src="../js/common.js"></script>
-<script src="../js/cliente.js"></script>
-<script src="../js/cart.js"></script>
-<script src="../js/favorites.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/facturar.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/favorites.js"></script>
 <!-- ftr -->
 <footer class="ft">
   <div class="ftc">
     <p>&copy; 2026 Sinego. Todos los derechos reservados.</p>
-    <p>Gestión profesional de clientes.</p>
+    <p>Sistema de facturación profesional.</p>
   </div>
 </footer>
 </body>

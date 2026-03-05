@@ -7,7 +7,7 @@ if (empty($_SESSION['usuario'])) {
 }
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
-<link rel="stylesheet" href="../css/cart.css">
+<link rel="stylesheet" href="/css/cart.css">
 
 <main class="cart-container">
   <h1>Tu carrito</h1>
@@ -22,6 +22,6 @@ if (empty($_SESSION['usuario'])) {
 </main>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-<script src="../js/cart.js"></script>
+<script src="/js/cart.js"></script>
 </body>
 </html>

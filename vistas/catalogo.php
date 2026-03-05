@@ -8,7 +8,7 @@ if (empty($_SESSION['usuario'])) {
 }
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
-<link rel="stylesheet" href="../css/catalogo.css">
+<link rel="stylesheet" href="/css/catalogo.css">
 
 <section class="h">
   <div class="hc">
@@ -70,8 +70,8 @@ if (empty($_SESSION['usuario'])) {
 </main>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-<script src="../js/catalogo.js"></script>
-<script src="../js/cart.js"></script>
-<script src="../js/favorites.js"></script>
+<script src="/js/catalogo.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/favorites.js"></script>
 </body>
 </html>

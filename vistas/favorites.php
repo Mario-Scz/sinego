@@ -7,7 +7,7 @@ if (empty($_SESSION['usuario'])) {
 }
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
-<link rel="stylesheet" href="../css/favorites.css">
+<link rel="stylesheet" href="/css/favorites.css">
 
 <main class="favorites-container">
   <h1>Tus favoritos</h1>
@@ -16,6 +16,6 @@ if (empty($_SESSION['usuario'])) {
 </main>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-<script src="../js/favorites.js"></script>
+<script src="/js/favorites.js"></script>
 </body>
 </html>

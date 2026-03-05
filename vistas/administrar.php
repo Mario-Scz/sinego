@@ -7,7 +7,7 @@ if (empty($_SESSION['usuario'])) {
 }
 ?>
 <?php include __DIR__ . '/../includes/header.php'; ?>
-<link rel="stylesheet" href="../css/administrar.css">
+<link rel="stylesheet" href="/css/administrar.css">
 
 <section class="d2">
   <div class="cd">
@@ -58,6 +58,6 @@ if (empty($_SESSION['usuario'])) {
 </main>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-<script src="../js/adm-products.js"></script>
+<script src="/js/adm-products.js"></script>
 </body>
 </html>
