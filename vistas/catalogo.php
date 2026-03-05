@@ -1,12 +1,4 @@
-<?php
-$pageTitle = 'Catálogo';
-session_start();
-// puede permitir acceso sin login, o redirigir según necesidad
-if (empty($_SESSION['usuario'])) {
-    header('Location: /vistas/register.php');
-    exit;
-}
-?>
+
 <?php include __DIR__ . '/../includes/header.php'; ?>
 <link rel="stylesheet" href="/css/catalogo.css">
 

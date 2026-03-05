@@ -1,3 +1,12 @@
+<?php
+$pageTitle = 'Menu Principal';
+session_start();
+// puede permitir acceso sin login, o redirigir según necesidad
+if (empty($_SESSION['usuario'])) {
+    header('Location: /vistas/register.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
