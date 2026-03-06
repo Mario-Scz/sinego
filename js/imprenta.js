@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await fetch("/api/imprenta/editar.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id, id_libro, autor, tipo })
+          body: JSON.stringify({id_libro, autor, tipo })
         });
         const data = await res.json();
         if (data.success) {
