@@ -97,7 +97,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
         <p>Panel administrativo</p>
       </a>
 
-      <a href="imprenta2.php" class="ac">
+      <a href="imprenta.php" class="ac">
         <div class="ia">
           <img src="/img/imprenta.png" alt="Imprenta" />
         </div>
