@@ -77,6 +77,7 @@ placeholder="Buscar usuario..."
 <th>ID</th>
 <th>Usuario</th>
 <th>Contraseña</th>
+<th>Acciones</th>
 </tr>
 </thead>
 
