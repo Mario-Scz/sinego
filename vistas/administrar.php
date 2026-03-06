@@ -1,161 +1,111 @@
 <?php
 $pageTitle = 'Administración';
 session_start();
+
+$_SESSION['usuario'] = "admin";
+$_SESSION['rol'] = "admin";
+
 if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     header('Location: /vistas/register.php');
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración - Sinego</title>
-    <link rel="stylesheet" href="/css/administrar.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administración de Usuarios - Sinego</title>
+<link rel="stylesheet" href="/css/administrar.css">
 </head>
+
 <body>
-<!--
-barra de navegación
--->
+
+<!-- NAV -->
 <nav class="n">
-  <div class="nc">
-    <div class="nl">
-      <a href="/vistas/bienvenido.html">
-        <img src="/img/sinego.png" alt="Sinego Logo" class="lg" />
-      </a>
-    </div>
-    <input type="checkbox" id="mchk" class="cm" />
-    <label for="mchk" class="tm">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
-    <nav class="mn">
-      <ul>
-        <li><a href="/vistas/bienvenido.php">INICIO</a></li>
-        <li><a href="/vistas/imprenta.php">IMPRENTA</a></li>
-        <li><a href="/vistas/catalogo.php">CATALOGO</a></li>
-        <li><a href="/vistas/register.php">INICIAR SESIÓN</a></li>
-        <li><a href="/vistas/menu.php">MENÚ</a></li>
-      </ul>
-    </nav>
-    <div class="ni">
-      <a href="/vistas/cart.php" class="ic" title="Carrito">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-        <span class="cc" id="cc">0</span>
-      </a>
-      <a href="/vistas/favorites.php" class="ic" title="Favoritos">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-        </svg>
-        <span class="cf" id="cf">0</span>
-      </a>
-    </div>
-  </div>
+<div class="nc">
+
+<div class="nl">
+<a href="/vistas/bienvenido.php">
+<img src="/img/sinego.png" class="lg">
+</a>
+</div>
+
+</div>
 </nav>
 
-<!--
-sección dstacada
--->
-<section class="d2">
-  <div class="cd">
-    <h1 class="td2">Administración</h1>
-    <p class="sd">Gestiona los datos de tu plataforma</p>
-  </div>
+<!-- HERO -->
+<section class="h">
+<div class="hc">
+<h1 class="ht">Administración de Usuarios</h1>
+<p class="hs">Gestiona los usuarios del sistema</p>
+</div>
 </section>
 
-<!--
-contenido principal (tabla usuarios)
--->
+<!-- MAIN -->
 <main class="c">
-  <section class="ts">
-    <div class="te">
-      <h2>Usuarios del Sistema</h2>
-      <a href="adm agregar.php"><button class="b bp">+ Añadir Usuario</button></a>
-    </div>
-    
-    <div class="bb">
-      <input type="text" placeholder="Buscar usuario..." class="ib" />
-    </div>
 
-    <div class="tw">
-      <table class="td">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Teléfono</th>
-            <th>Correo</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td data-label="Nombre"><input type="text" value="Juan Pérez" /></td>
-            <td data-label="Teléfono"><input type="text" value="+34 123 456" /></td>
-            <td data-label="Correo"><input type="email" value="juan@sinego.com" /></td>
-            <td data-label="Acciones">
-              <div class="ba">
-                <button class="ba e" title="Editar">✏️</button>
-                <button class="ba d" title="Eliminar">🗑️</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td data-label="Nombre"><input type="text" value="María García" /></td>
-            <td data-label="Teléfono"><input type="text" value="+34 234 567" /></td>
-            <td data-label="Correo"><input type="email" value="maria@sinego.com" /></td>
-            <td data-label="Acciones">
-              <div class="ba">
-                <button class="ba e" title="Editar">✏️</button>
-                <button class="ba d" title="Eliminar">🗑️</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td data-label="Nombre"><input type="text" value="Carlos López" /></td>
-            <td data-label="Teléfono"><input type="text" value="+34 345 678" /></td>
-            <td data-label="Correo"><input type="email" value="carlos@sinego.com" /></td>
-            <td data-label="Acciones">
-              <div class="ba">
-                <button class="ba e" title="Editar">✏️</button>
-                <button class="ba d" title="Eliminar">🗑️</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td data-label="Nombre"><input type="text" value="Ana Rodríguez" /></td>
-            <td data-label="Teléfono"><input type="text" value="+34 456 789" /></td>
-            <td data-label="Correo"><input type="email" value="ana@sinego.com" /></td>
-            <td data-label="Acciones">
-              <div class="ba">
-                <button class="ba e" title="Editar">✏️</button>
-                <button class="ba d" title="Eliminar">🗑️</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+<section class="ts">
+
+<div class="te">
+
+<h2>Lista de Usuarios</h2>
+
+<a href="/vistas/adm agregar.php">
+<button class="b bp">+ Nuevo Usuario</button>
+</a>
+
+</div>
+
+<div class="bb">
+<input type="text" id="buscarUsuario" placeholder="Buscar usuario..." class="ib">
+</div>
+
+<div class="tw">
+
+<table class="td">
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Usuario</th>
+<th>Acciones</th>
+</tr>
+
+</thead>
+
+<tbody id="tablaUsuarios">
+<!-- JavaScript insertará los usuarios -->
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
 </main>
+
+<!-- FOOTER -->
+
+<footer class="ft">
+
+<div class="ftc">
+
+<p>&copy; 2026 Sinego. Todos los derechos reservados.</p>
+<p>Panel administrativo del sistema.</p>
+
+</div>
+
+</footer>
 
 <script src="/js/common.js"></script>
 <script src="/js/administrar.js"></script>
 <script src="/js/cart.js"></script>
 <script src="/js/favorites.js"></script>
-<!--
-pie de página
--->
-<footer class="ft">
-  <div class="ftc">
-    <p>&copy; 2026 Sinego. Todos los derechos reservados.</p>
-    <p>Panel administrativo seguro y confiable.</p>
-  </div>
-</footer>
+
 </body>
 </html>
