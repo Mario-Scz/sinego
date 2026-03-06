@@ -9,7 +9,7 @@ require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/functions.php';
 session_start();
 
-if (empty($_SESSION['id']) || $_SESSION['role'] !== 'admin') {
+if (empty($_SESSION['id']) || ($_SESSION['role'] ?? $_SESSION['rol'] ?? '') !== 'admin') {
     echo json_encode(['success' => false, 'message' => 'Acceso denegado']);
     exit;
 }

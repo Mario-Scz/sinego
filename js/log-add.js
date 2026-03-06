@@ -22,7 +22,7 @@ function inicializarfrmLogistica() {
             guardarNuevoEnvio();
         });
         
-        debug('frm de agregar envío inicializado');
+        debug('Formulario de agregar envío inicializado');
     }
 }
 
@@ -39,10 +39,11 @@ function validarcmpLogistica(e) {
     }
 }
 
-function guardarNuevoEnvio() {
-    const idLibro = document.getElementById('id_libro')?.value.trim() || '';
+async function guardarNuevoEnvio() {
+    // Obtener valores con los IDs correctos del HTML
+    const idLibro = document.getElementById('idLibro')?.value.trim() || '';
     const autor = document.getElementById('autor')?.value.trim() || '';
-    const tipo = document.getElementById('tipo_envio')?.value.trim() || '';
+    const tipo = document.getElementById('tipo')?.value.trim() || '';
     
     // Validaciones
     if (!idLibro) {
@@ -60,24 +61,34 @@ function guardarNuevoEnvio() {
         return;
     }
     
-    debug('Nuevo envío guardado:', { idLibro, autor, tipo });
+    debug('Intentando guardar nuevo envío:', { id_libro: idLibro, autor, tipo_envio: tipo });
     
-    // Guardar en localStorage (simulación)
-    let envios = Storage.get('envios') || [];
-    envios.push({
-        id: Date.now(),
-        idLibro,
-        autor,
-        tipo,
-        fechaCreacion: new Date().toISOString()
-    });
-    Storage.set('envios', envios);
-    
-    mostrarNotificacion(`✓ Envío "${idLibro}" agregado correctamente`, 'success');
-    
-    setTimeout(() => {
-        window.location.href = 'logistica.html';
-    }, 1500);
+    try {
+        const res = await fetch('/api/envios/envios.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id_libro: idLibro,
+                autor: autor,
+                tipo_envio: tipo
+            })
+        });
+        
+        const data = await res.json();
+        
+        if (data.success) {
+            mostrarNotificacion(`✓ Envío "${idLibro}" agregado correctamente`, 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'logistica.php';
+            }, 1500);
+        } else {
+            mostrarNotificacion('Error: ' + (data.message || 'Desconocido'), 'error');
+        }
+    } catch (err) {
+        console.error('Error de conexión:', err);
+        mostrarNotificacion('Error de conexión con el servidor', 'error');
+    }
 }
 
 
