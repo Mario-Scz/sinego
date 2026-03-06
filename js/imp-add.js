@@ -20,11 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const idLibro = idLibroInput.value.trim();
+    const idlibro = idLibroInput.value.trim();
     const autor = autorInput.value.trim();
     const tipo = tipoInput.value.trim();
 
-    if (!idLibro || !autor || !tipo) {
+    if (!idlibro || !autor || !tipo) {
       alert("Por favor, completa todos los campos.");
       return;
     }
