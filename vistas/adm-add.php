@@ -83,7 +83,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 
 <div class="fc">
 
-<form class="fm" id="formUsuario">
+<form class="adm-add-frm" id="formUsuario">
 
 <div class="fl">
 <label for="usuario">Usuario</label>
@@ -91,8 +91,8 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 </div>
 
 <div class="fl">
-<label for="password">Contraseña</label>
-<input type="password" id="password" name="password" placeholder="Ingrese contraseña" required>
+<label for="contrasena">Contraseña</label>
+<input type="password" id="contrasena" name="password" placeholder="Ingrese contraseña" required>
 </div>
 
 <div class="bf">

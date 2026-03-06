@@ -10,12 +10,13 @@ if (!$input || !isset($input['usuario'], $input['contraseña'])) {
 }
 
 try {
+    // Crear hash seguro
+    $hash = password_hash($input['contraseña'], PASSWORD_DEFAULT);
 
     $stmt = $pdo->prepare("INSERT INTO usuarios (usuario, contraseña) VALUES (?, ?)");
-
     $stmt->execute([
         $input['usuario'],
-        $input['contraseña']
+        $hash
     ]);
 
     echo json_encode([
@@ -24,7 +25,5 @@ try {
     ]);
 
 } catch (PDOException $e) {
-
     echo json_encode(['error' => $e->getMessage()]);
-
 }
