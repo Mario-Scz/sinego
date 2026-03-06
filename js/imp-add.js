@@ -5,11 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const autor = document.getElementById("autor").value.trim();
-    const tipo = document.getElementById("tipo").value.trim();
-    const idLibro = document.getElementById("idLibro").value.trim();
+    const idLibro = document.getElementById("idL").value.trim();
+    const autor = document.getElementById("aut").value.trim();
+    const tipo = document.getElementById("tp").value.trim();
 
-    if (!autor || !tipo || !idLibro) {
+    if (!idLibro || !autor || !tipo) {
       alert("Por favor, completa todos los campos.");
       return;
     }
@@ -18,16 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("/api/imprenta/agregar.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ autor, tipo, idLibro })
+        body: JSON.stringify({ idLibro, autor, tipo })
       });
 
       const data = await res.json();
 
       if (data.success) {
-        alert("Registro agregado con ID " + data.id);
+        alert("Producción agregada con ID " + data.id);
         form.reset();
       } else {
-        alert("Error: " + (data.error || "Desconocido"));
+        alert("Error: " + (data.error || "desconocido"));
       }
     } catch (err) {
       alert("Error de conexión: " + err.message);

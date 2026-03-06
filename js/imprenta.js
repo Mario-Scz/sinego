@@ -1,10 +1,10 @@
-// imprenta.js
+// imp.js
 document.addEventListener("DOMContentLoaded", () => {
   const tabla = document.getElementById("tablaImprenta");
   const buscarInput = document.getElementById("buscarImprenta");
 
-  // Función para actualizar la tabla desde el servidor
-  async function cargarImprenta(query = "") {
+  // Función para cargar la tabla desde el servidor
+  async function cargarImprentas(query = "") {
     try {
       const res = await fetch(`/api/imprenta/consultar.php?buscar=${encodeURIComponent(query)}`);
       const data = await res.json();
@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         tr.innerHTML = `
           <td data-label="ID">${item.id}</td>
-          <td data-label="Autor"><input type="text" class="autor" value="${item.autor}"></td>
-          <td data-label="Tipo"><input type="text" class="tipo" value="${item.tipo}"></td>
           <td data-label="ID Libro"><input type="text" class="idLibro" value="${item.idLibro}"></td>
+          <td data-label="Autor"><input type="text" class="autor" value="${item.autor}"></td>
+          <td data-label="Tipo"><input type="text" class="tipo" value="${item.tipoImpresion}"></td>
           <td data-label="Acciones">
             <div class="ba">
               <button class="ba editar">✏️</button>
@@ -30,16 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
         tabla.appendChild(tr);
       });
     } catch (err) {
-      console.error("Error al cargar imprenta:", err);
+      console.error("Error al cargar imprentas:", err);
     }
   }
 
-  // Cargar imprenta al inicio
-  cargarImprenta();
+  // Cargar tabla al inicio
+  cargarImprentas();
 
-  // Buscar mientras escribes
+  // Buscar mientras se escribe
   buscarInput?.addEventListener("input", e => {
-    cargarImprenta(e.target.value);
+    cargarImprentas(e.target.value);
   });
 
   // Delegación de eventos para editar, guardar y eliminar
@@ -48,28 +48,28 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!tr) return;
     const id = tr.dataset.id;
 
-    // EDITAR: mostrar botón guardar
+    // EDITAR
     if (e.target.classList.contains("editar")) {
       tr.querySelector(".guardar").style.display = "inline-block";
       e.target.style.display = "none";
     }
 
-    // GUARDAR: enviar cambios al servidor
+    // GUARDAR
     if (e.target.classList.contains("guardar")) {
+      const idLibro = tr.querySelector(".idLibro").value.trim();
       const autor = tr.querySelector(".autor").value.trim();
       const tipo = tr.querySelector(".tipo").value.trim();
-      const idLibro = tr.querySelector(".idLibro").value.trim();
 
       try {
         const res = await fetch("/api/imprenta/editar.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id, autor, tipo, idLibro })
+          body: JSON.stringify({ id, idLibro, autor, tipo })
         });
-
         const data = await res.json();
+
         if (data.success) {
-          alert("Registro actualizado");
+          alert("Producción actualizada");
           tr.querySelector(".editar").style.display = "inline-block";
           e.target.style.display = "none";
         } else {
@@ -83,15 +83,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ELIMINAR
     if (e.target.classList.contains("eliminar")) {
-      if (!confirm("¿Eliminar registro de imprenta?")) return;
+      if (!confirm("¿Eliminar esta producción?")) return;
+
       try {
         const res = await fetch("/api/imprenta/eliminar.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id })
         });
-
         const data = await res.json();
+
         if (data.success) {
           tr.remove();
         } else {
