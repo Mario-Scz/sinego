@@ -1,45 +1,30 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.querySelector(".fm").addEventListener("submit", async function(e){
 
-const form = document.querySelector(".fm");
+    e.preventDefault();
 
-form.addEventListener("submit", function(e){
+    const nombre = document.getElementById("nombre").value;
+    const telefono = document.getElementById("telefono").value;
+    const correo = document.getElementById("correo").value;
 
-e.preventDefault();
+    const res = await fetch("/api/cliente/agregar.php",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            nombre:nombre,
+            telefono:telefono,
+            correo:correo
+        })
+    });
 
-let nombre = document.getElementById("nombre").value;
-let telefono = document.getElementById("telefono").value;
-let correo = document.getElementById("correo").value;
+    const data = await res.json();
 
-fetch("/api/cliente/agregar.php", {
-
-method: "POST",
-
-headers: {
-"Content-Type": "application/json"
-},
-
-body: JSON.stringify({
-nombre,
-telefono,
-correo
-})
-
-})
-
-.then(res => res.json())
-
-.then(data => {
-
-if(data.success){
-alert("Cliente agregado correctamente");
-window.location.href = "/vistas/cliente.php";
-}else{
-alert("Error: " + data.error);
-console.log(data);
-}
-
-});
-
-});
+    if(data.success){
+        alert(data.mensaje);
+        window.location.href="/vistas/cliente.php";
+    }else{
+        alert(data.mensaje);
+    }
 
 });
