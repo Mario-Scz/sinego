@@ -39,7 +39,7 @@ tr.innerHTML = `
 </td>
 
 <td>
-<input type="password" class="password" value="${usuario.password}">
+<input type="password" class="password" value="${usuario.contraseña}">
 </td>
 
 <td>
@@ -89,7 +89,7 @@ e.target.style.display="none";
 if(e.target.classList.contains("guardar")){
 
 const usuario = tr.querySelector(".usuario").value.trim();
-const password = tr.querySelector(".password").value.trim();
+const contraseña = tr.querySelector(".contraseña").value.trim();
 
 try{
 
@@ -97,7 +97,7 @@ const res = await fetch("/api/usuarios/editar.php",{
 
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({id,usuario,password})
+body:JSON.stringify({id,usuario,contraseña})
 
 });
 

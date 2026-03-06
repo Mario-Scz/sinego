@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     const usuario = document.getElementById("usuario").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const contraseña = document.getElementById("password").value.trim();
 
-    if (!usuario || !password) {
+    if (!usuario || !contraseña) {
       alert("Por favor, completa todos los campos.");
       return;
     }
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         body: JSON.stringify({
           usuario,
-          password
+          contraseña
         })
       });
 
