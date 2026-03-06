@@ -36,7 +36,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
       <ul>
         <li><a href="/vistas/bienvenido.php">INICIO</a></li>
         <li><a href="/vistas/imprenta.php">IMPRENTA</a></li>
-        <li><a href="/vistas/catalogo.php">CATALOGO</a></li>
+        <li><a href="/vistas/catalog.php">CATALOGO</a></li>
         <li><a href="/vistas/register.php">INICIAR SESIÓN</a></li>
         <li><a href="/vistas/menu.php">MENÚ</a></li>
       </ul>
