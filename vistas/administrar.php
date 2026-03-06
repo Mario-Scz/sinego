@@ -27,11 +27,9 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 <nav class="n">
 <div class="nc">
 
-<div class="nl">
 <a href="/vistas/bienvenido.php">
 <img src="/img/sinego.png" class="lg">
 </a>
-</div>
 
 </div>
 </nav>
@@ -39,12 +37,14 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 <!-- HERO -->
 <section class="h">
 <div class="hc">
+
 <h1 class="ht">Administración de Usuarios</h1>
 <p class="hs">Gestiona los usuarios del sistema</p>
+
 </div>
 </section>
 
-<!-- MAIN -->
+<!-- CONTENIDO -->
 <main class="c">
 
 <section class="ts">
@@ -53,14 +53,19 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 
 <h2>Lista de Usuarios</h2>
 
-<a href="/vistas/adm-add.php">
-<button class="b bp">+ Nuevo Usuario</button>
+<a href="/vistas/adm-add.php" class="b bp">
++ Nuevo Usuario
 </a>
 
 </div>
 
 <div class="bb">
-<input type="text" id="buscarUsuario" placeholder="Buscar usuario..." class="ib">
+<input
+type="text"
+id="buscarUsuario"
+class="ib"
+placeholder="Buscar usuario..."
+>
 </div>
 
 <div class="tw">
@@ -76,16 +81,9 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 </thead>
 
 <tbody id="tablaUsuarios">
-<tr>
-<td>1</td>
-<td>admin</td>
-<td>
-<div class="pw">
-<input type="password" value="12345678" readonly class="pwi">
-<button class="bpw" onclick="togglePassword(this)">👁</button>
-</div>
-</td>
-</tr>
+
+<!-- JS llena esto -->
+
 </tbody>
 
 </table>
