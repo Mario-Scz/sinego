@@ -76,7 +76,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     </div>
     
     <div class="bb">
-      <input type="text" placeholder="Buscar libro por autor, tipo o ID..." class="ib" />
+      <input type="text" id="buscarLibro" placeholder="Buscar libro..." class="ib">
     </div>
 
     <div class="tw">
