@@ -1,107 +1,106 @@
 <?php
 $pageTitle = 'Imprenta';
 session_start();
+
 $_SESSION['usuario'] = "admin";
 $_SESSION['rol'] = "admin";
+
 if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     header('Location: /vistas/register.php');
     exit;
 }
-?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Bienvenidos</title>
-    <link rel="stylesheet" href="/css/imprentacss.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imprenta - Sinego</title>
+<link rel="stylesheet" href="/css/cliente.css">
 </head>
+
 <body>
-    <div class="sb">
-       <label for="toggle" class="mn">
-    <div></div>
-    <div></div>
-    <div></div>
-</label>
 
-        <div class="br">
-            <img src="/img/sinego.png" alt="Sinego Logo" />
-        </div>
-    </div>
-   
-    <div class="mc">
-<div class="tb">
-        <a href="/vistas/imp add.php"><button class="ban">Añadir</button></a>
-    </div>
-        <div class="ti">
-            <img src="/img/caja.png" class="ct" alt="caja" />
-            <h1>IMPRENTA</h1>
-        </div>
-           
-        <div class="c">
-             <div class="bs">
-    <input type="text" placeholder="Buscar...">
-
-    <button class="bi">
-        <img src="/img/busqueda.png" alt="buscar" />
-    </button>
+<!-- NAV -->
+<nav class="n">
+<div class="nc">
+<div class="nl">
+<a href="/vistas/bienvenido.php">
+<img src="/img/sinego.png" class="lg">
+</a>
 </div>
-<div class="tc">
-  <table class="tcl">
-
-        <tr>
-            <th>AUTOR</th>
-            <th>TIPO</th>
-            <th>ID LIBRO</th>
-        </tr>
-
-        <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="email"></td>
-        </tr>
-
-        <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="email"></td>
-        </tr>
-
-        <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="email"></td>
-        </tr>
-
-        <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="email"></td>
-        </tr>
-
-        <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="email"></td>
-        </tr>
-
-        <tr>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><input type="email"></td>
-        </tr>
-
-    </table>
- <div class="at">
-        <button class="bi">
-            <img src="/img/BASURA.PNG" alt="eliminar" />
-        </button>
-
-        <button class="bi">
-            <img src="/img/lapiz.png" alt="editar" />
-        </button>
-    </div>
-        </div>
 </div>
-    </div>
+</nav>
+
+<!-- HERO -->
+<section class="h">
+<div class="hc">
+<h1 class="ht">Gestión de Imprenta</h1>
+<p class="hs">Administra los registros de imprenta</p>
+</div>
+</section>
+
+<!-- MAIN -->
+<main class="c">
+<section class="ts">
+<div class="te">
+<h2>Lista de Imprenta</h2>
+<a href="/vistas/imp-add.php">
+<button class="b bp">+ Nuevo Registro</button>
+</a>
+</div>
+
+<div class="bb">
+<input type="text" id="buscarImprenta" placeholder="Buscar por autor, tipo o ID..." class="ib">
+</div>
+
+<div class="tw">
+<table class="td">
+<thead>
+<tr>
+<th>ID</th>
+<th>Autor</th>
+<th>Tipo</th>
+<th>ID Libro</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody id="tablaImprenta">
+<?php while($registro = $resultado->fetch()): ?>
+<tr data-id="<?php echo $registro['id']; ?>">
+<td data-label="ID"><?php echo $registro['id']; ?></td>
+<td data-label="Autor"><input type="text" class="autor" value="<?php echo $registro['autor']; ?>"></td>
+<td data-label="Tipo"><input type="text" class="tipo" value="<?php echo $registro['tipo']; ?>"></td>
+<td data-label="ID Libro"><input type="text" class="idlibro" value="<?php echo $registro['id_libro']; ?>"></td>
+<td data-label="Acciones">
+<div class="ba">
+<button class="ba editar">✏️</button>
+<button class="ba guardar" style="display:none;">💾</button>
+<button class="ba eliminar">🗑️</button>
+</div>
+</td>
+</tr>
+<?php endwhile; ?>
+</tbody>
+
+</table>
+</div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer class="ft">
+<div class="ftc">
+<p>&copy; 2026 Sinego. Todos los derechos reservados.</p>
+<p>Gestión profesional de imprenta.</p>
+</div>
+</footer>
+
+<script src="/js/common.js"></script>
+<script src="/js/imprenta.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/favorites.js"></script>
+
 </body>
 </html>
