@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("/api/imprenta/agregar.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idLibro, autor, tipo })
+        body: JSON.stringify({ idlibro, autor, tipo })
       });
 
       const data = await res.json();
