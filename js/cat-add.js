@@ -11,39 +11,44 @@ document.addEventListener("DOMContentLoaded", () => {
     const titulo = document.getElementById("libro").value.trim();
     const tipo = document.getElementById("tp").value.trim();
 
-    if(!codigo || !autor || !titulo || !tipo){
+    if (!codigo || !autor || !titulo || !tipo) {
       alert("Completa todos los campos");
       return;
     }
 
-    try{
+    try {
 
-      const res = await fetch("/api/catalogo/agregar.php",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
+      const res = await fetch("/api/catalogo/agregar.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         },
-        body:JSON.stringify({
-          codigo:codigo,
-          autor:autor,
-          titulo:titulo,
-          tipo:tipo
+        body: JSON.stringify({
+          codigo,
+          autor,
+          titulo,
+          tipo
         })
       });
 
       const data = await res.json();
 
-      if(data.success){
-        alert("Libro agregado");
+      if (data.success) {
+
+        alert("Libro agregado correctamente");
+
         form.reset();
-      }else{
-        alert(data.error);
+
+      } else {
+
+        alert("Error: " + (data.error || "desconocido"));
+
       }
 
-    }catch(err){
+    } catch (err) {
 
-      console.error(err);
       alert("Error de conexión");
+      console.error(err);
 
     }
 
