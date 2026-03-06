@@ -40,9 +40,9 @@ function validarcmpLogistica(e) {
 }
 
 function guardarNuevoEnvio() {
-    const idLibro = document.getElementById('idLibro')?.value.trim() || '';
+    const idLibro = document.getElementById('id_libro')?.value.trim() || '';
     const autor = document.getElementById('autor')?.value.trim() || '';
-    const tipo = document.getElementById('tipo')?.value.trim() || '';
+    const tipo = document.getElementById('tipo_envio')?.value.trim() || '';
     
     // Validaciones
     if (!idLibro) {
