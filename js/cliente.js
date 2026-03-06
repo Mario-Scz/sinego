@@ -1,194 +1,222 @@
-// ============================================
-// GESTIÓN DE cltS
-// ============================================
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener('DOMContentLoaded', function() {
-    inicializarGestionclts();
+    cargarClientes();
+
+    const buscador = document.querySelector(".ib");
+
+    buscador.addEventListener("keyup", function(){
+        buscarCliente(this.value);
+    });
+
 });
 
-function inicializarGestionclts() {
-    // Búsqueda de clts
-    const inpBus = document.querySelector('.inp-bus');
-    if (inpBus) {
-        inpBus.addEventListener('input', filtrarclts);
-    }
-    
-    // Botones de acción (ediar y eliminar)
-    configurarBotonesAccion();
-    
-    // Botón para agregar nuevo clt ya está en el HTML con href
-    debug('Gestión de clts inicializada');
-}
 
-// Filtrar clts por búsqueda
-function filtrarclts(e) {
-    const termBus = e.target.value.toLowerCase();
-    const rows = document.querySelectorAll('.tab-dat tbody tr');
-    
-    let cltsVisibles = 0;
-    
-    rows.forEach(row => {
-        const nombre = row.querySelector('td:nth-child(1) input')?.value.toLowerCase() || '';
-        const telefono = row.querySelector('td:nth-child(2) input')?.value.toLowerCase() || '';
-        const correo = row.querySelector('td:nth-child(3) input')?.value.toLowerCase() || '';
-        
-        const coincide = nombre.includes(termBus) || 
-                        telefono.includes(termBus) || 
-                        correo.includes(termBus);
-        
-        row.style.display = coincide ? '' : 'none';
-        if (coincide) cltsVisibles++;
+/* ===============================
+CARGAR CLIENTES
+=============================== */
+
+function cargarClientes(){
+
+    fetch("/api/clientes/consultar.php")
+    .then(res => res.json())
+    .then(data => {
+
+        pintarTabla(data);
+
     });
-    
-    debug(`Búsqueda: ${termBus} - ${cltsVisibles} resultados`);
+
 }
 
-// Configurar botones de ediar y eliminar
-function configurarBotonesAccion() {
-    const table = document.querySelector('.tab-dat');
-    if (!table) return;
-    
-    // Botones de ediar
-    const ediButtons = table.querySelectorAll('.bacc.edi');
-    ediButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const row = this.closest('tr');
-            ediarclt(row);
-        });
+
+/* ===============================
+PINTAR TABLA
+=============================== */
+
+function pintarTabla(data){
+
+    const tabla = document.getElementById("tablaClientes");
+    tabla.innerHTML = "";
+
+    data.forEach(cliente => {
+
+        tabla.innerHTML += `
+        <tr data-id="${cliente.id}">
+            <td><input type="text" value="${cliente.nombre}" disabled></td>
+            <td><input type="text" value="${cliente.telefono}" disabled></td>
+            <td><input type="email" value="${cliente.correo}" disabled></td>
+            <td>
+                <div class="ba">
+                    <button class="ba editar">✏️</button>
+                    <button class="ba guardar" style="display:none;">💾</button>
+                    <button class="ba eliminar">🗑️</button>
+                </div>
+            </td>
+        </tr>
+        `;
+
     });
-    
-    // Botones de eliminar
-    const delButtons = table.querySelectorAll('.bacc.del');
-    delButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const row = this.closest('tr');
-            eliminarclt(row);
+
+    activarBotones();
+
+}
+
+
+/* ===============================
+ACTIVAR BOTONES
+=============================== */
+
+function activarBotones(){
+
+    document.querySelectorAll(".editar").forEach(btn => {
+
+        btn.addEventListener("click", function(){
+
+            const fila = this.closest("tr");
+
+            fila.querySelectorAll("input").forEach(input=>{
+                input.disabled = false;
+            });
+
+            fila.querySelector(".guardar").style.display="inline";
+            this.style.display="none";
+
         });
+
     });
-}
 
-// ediar clt
-function ediarclt(row) {
-    const nombre = row.querySelector('td:nth-child(1) input');
-    const telefono = row.querySelector('td:nth-child(2) input');
-    const correo = row.querySelector('td:nth-child(3) input');
-    
-    const nombreAnterior = nombre.value;
-    
-    // Habilitar edición
-    nombre.disabled = false;
-    telefono.disabled = false;
-    correo.disabled = false;
-    nombre.focus();
-    
-    // Cambiar botón a guardar
-    const actionCell = row.querySelector('td:nth-child(4)');
-    const ediBtn = actionCell.querySelector('.btn-acc.edi');
-    ediBtn.textContent = '✓';
-    ediBtn.style.backgroundColor = '#4CAF50';
-    ediBtn.title = 'Guardar';
-    
-    // Al hacer click de nuevo, guardar
-    ediBtn.onclick = function(e) {
-        if (!validarDatosclt(nombre.value, telefono.value, correo.value)) {
-            return;
-        }
-        
-        e.preventDefault();
-        
-        debug('clt actualizado:', {
-            nombre: nombre.value,
-            telefono: telefono.value,
-            correo: correo.value
+
+    document.querySelectorAll(".guardar").forEach(btn => {
+
+        btn.addEventListener("click", function(){
+
+            const fila = this.closest("tr");
+
+            const id = fila.dataset.id;
+            const nombre = fila.children[0].children[0].value;
+            const telefono = fila.children[1].children[0].value;
+            const correo = fila.children[2].children[0].value;
+
+            editarCliente(id,nombre,telefono,correo);
+
         });
-        
-        mostrarNotificacion(`clt "${nombre.value}" actualizado correctamente`, 'success');
-        
-        // Desactivar cmps
-        nombre.disabled = true;
-        telefono.disabled = true;
-        correo.disabled = true;
-        
-        // Restaurar botón
-        ediBtn.textContent = '✏️';
-        ediBtn.style.backgroundColor = '';
-        ediBtn.title = 'ediar';
-        ediBtn.onclick = null;
-        configurarBotonesAccion();
-    };
+
+    });
+
+
+    document.querySelectorAll(".eliminar").forEach(btn => {
+
+        btn.addEventListener("click", function(){
+
+            const fila = this.closest("tr");
+            const id = fila.dataset.id;
+
+            eliminarCliente(id,fila);
+
+        });
+
+    });
+
 }
 
-// Eliminar clt
-function eliminarclt(row) {
-    const nombreclt = row.querySelector('td:nth-child(1) input').value;
-    
-    if (confirm(`¿Estás seguro de que deseas eliminar al clt "${nombreclt}"?`)) {
-        debug('clt eliminado:', nombreclt);
-        
-        row.style.animation = 'fadeOut 0.3s ease-out';
-        setTimeout(() => {
-            row.remove();
-            mostrarNotificacion(`clt "${nombreclt}" eliminado correctamente`, 'success');
-        }, 300);
-    }
-}
 
-// Validar datos del clt
-function validarDatosclt(nombre, telefono, correo) {
-    if (!nombre.trim()) {
-        mostrarNotificacion('El nombre no puede estar vacío', 'error');
-        return false;
-    }
-    
-    if (!telefono.trim()) {
-        mostrarNotificacion('El teléfono no puede estar vacío', 'error');
-        return false;
-    }
-    
-    if (!validarTelefono(telefono)) {
-        mostrarNotificacion('El teléfono no es válido', 'error');
-        return false;
-    }
-    
-    if (!correo.trim()) {
-        mostrarNotificacion('El correo no puede estar vacío', 'error');
-        return false;
-    }
-    
-    if (!validarEmail(correo)) {
-        mostrarNotificacion('El correo no es válido', 'error');
-        return false;
-    }
-    
-    return true;
-}
+/* ===============================
+EDITAR CLIENTE
+=============================== */
 
-// Agregar estilos de animación
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-            transfrm: translateX(0);
+function editarCliente(id,nombre,telefono,correo){
+
+    fetch("/api/clientes/editar.php",{
+
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            id:id,
+            nombre:nombre,
+            telefono:telefono,
+            correo:correo
+        })
+
+    })
+    .then(res=>res.json())
+    .then(data=>{
+
+        if(data.success){
+
+            alert("Cliente actualizado");
+
+            cargarClientes();
+
+        }else{
+
+            alert("Error al actualizar");
+
         }
-        to {
-            opacity: 0;
-            transfrm: translateX(-20px);
+
+    });
+
+}
+
+
+/* ===============================
+ELIMINAR CLIENTE
+=============================== */
+
+function eliminarCliente(id,fila){
+
+    if(!confirm("¿Eliminar cliente?")) return;
+
+    fetch("/api/clientes/eliminar.php",{
+
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            id:id
+        })
+
+    })
+    .then(res=>res.json())
+    .then(data=>{
+
+        if(data.success){
+
+            fila.remove();
+
+        }else{
+
+            alert("Error al eliminar");
+
         }
-    }
-    
-    .tab-dat input {
-        cursor: default;
-    }
-    
-    .tab-dat input:disabled {
-        background-color: transparent;
-        border: none;
-        padding: 0;
-    }
-`;
-document.head.appendChild(style);
+
+    });
+
+}
 
 
+/* ===============================
+BUSCADOR EN TIEMPO REAL
+=============================== */
+
+function buscarCliente(texto){
+
+    fetch("/api/clientes/consultar.php")
+    .then(res=>res.json())
+    .then(data=>{
+
+        const filtrados = data.filter(cliente =>
+
+            cliente.nombre.toLowerCase().includes(texto.toLowerCase()) ||
+            cliente.correo.toLowerCase().includes(texto.toLowerCase())
+
+        );
+
+        pintarTabla(filtrados);
+
+    });
+
+}

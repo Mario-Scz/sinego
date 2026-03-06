@@ -119,5 +119,3 @@ function guardarNuevoUsuario() {
         window.location.href = 'administrar.html';
     }, 1500);
 }
-
-
