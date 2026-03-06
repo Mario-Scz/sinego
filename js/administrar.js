@@ -11,178 +11,178 @@ if(input.type === "password"){
 }
 // administrar.js
 
+// administrar.js
+
 document.addEventListener("DOMContentLoaded", () => {
 
-  const tabla = document.getElementById("tablaUsuarios");
-  const buscarInput = document.getElementById("buscarUsuario");
+const tabla = document.getElementById("tablaUsuarios");
+const buscarInput = document.getElementById("buscarUsuario");
 
-  async function cargarUsuarios(query = "") {
+async function cargarUsuarios(query = "") {
 
-    try {
+try {
 
-      const res = await fetch(`/api/usuarios/consultar.php?buscar=${encodeURIComponent(query)}`);
-      const data = await res.json();
+const res = await fetch(`/api/usuarios/consultar.php?buscar=${encodeURIComponent(query)}`);
+const data = await res.json();
 
-      tabla.innerHTML = "";
+tabla.innerHTML = "";
 
-      data.forEach(usuario => {
+// prevenir error si no es arreglo
+if (!Array.isArray(data)) {
+console.error("La respuesta no es un arreglo:", data);
+return;
+}
 
-        const tr = document.createElement("tr");
-        tr.dataset.id = usuario.id;
+data.forEach(usuario => {
 
-        tr.innerHTML = `
-          <td data-label="ID">${usuario.id}</td>
+const tr = document.createElement("tr");
+tr.dataset.id = usuario.id;
 
-          <td data-label="Usuario">
-            <input type="text" class="usuario" value="${usuario.usuario}">
-          </td>
+tr.innerHTML = `
+<td data-label="ID">${usuario.id}</td>
 
-          <td data-label="Contraseña">
-            <div style="display:flex;gap:6px;">
-              <input type="password" class="contrasena" value="${usuario.contraseña}">
-              <button class="ver">👁</button>
-            </div>
-          </td>
+<td data-label="Usuario">
+<input type="text" class="usuario" value="${usuario.usuario}">
+</td>
 
-          <td data-label="Acciones">
-            <div class="ba">
-              <button class="ba editar">✏️</button>
-              <button class="ba guardar" style="display:none;">💾</button>
-              <button class="ba eliminar">🗑️</button>
-            </div>
-          </td>
-        `;
+<td data-label="Contraseña">
+<div style="display:flex;gap:6px;">
+<input type="password" class="contrasena" value="${usuario.contraseña}">
+<button class="ver">👁</button>
+</div>
+</td>
 
-        tabla.appendChild(tr);
+<td data-label="Acciones">
+<div class="ba">
+<button class="ba editar">✏️</button>
+<button class="ba guardar" style="display:none;">💾</button>
+<button class="ba eliminar">🗑️</button>
+</div>
+</td>
+`;
 
-      });
+tabla.appendChild(tr);
 
-    } catch (err) {
+});
 
-      console.error("Error al cargar usuarios:", err);
+} catch (err) {
 
-    }
+console.error("Error cargando usuarios", err);
 
-  }
+}
 
-  cargarUsuarios();
+}
 
-  buscarInput?.addEventListener("input", e => {
-    cargarUsuarios(e.target.value);
-  });
+cargarUsuarios();
 
-  tabla.addEventListener("click", async e => {
+buscarInput?.addEventListener("input", e => {
+cargarUsuarios(e.target.value);
+});
 
-    const tr = e.target.closest("tr");
-    if (!tr) return;
+tabla.addEventListener("click", async e => {
 
-    const id = tr.dataset.id;
+const tr = e.target.closest("tr");
+if (!tr) return;
 
-    // revelar contraseña
+const id = tr.dataset.id;
 
-    if (e.target.classList.contains("ver")) {
+// VER CONTRASEÑA
+if (e.target.classList.contains("ver")) {
 
-      const input = tr.querySelector(".contrasena");
+const input = tr.querySelector(".contrasena");
 
-      if (input.type === "password") {
-        input.type = "text";
-      } else {
-        input.type = "password";
-      }
+input.type = input.type === "password" ? "text" : "password";
 
-    }
+}
 
-    // editar
+// EDITAR
+if (e.target.classList.contains("editar")) {
 
-    if (e.target.classList.contains("editar")) {
+tr.querySelector(".guardar").style.display = "inline-block";
+e.target.style.display = "none";
 
-      tr.querySelector(".guardar").style.display = "inline-block";
-      e.target.style.display = "none";
+}
 
-    }
+// GUARDAR
+if (e.target.classList.contains("guardar")) {
 
-    // guardar
+const usuario = tr.querySelector(".usuario").value.trim();
+const contrasena = tr.querySelector(".contrasena").value.trim();
 
-    if (e.target.classList.contains("guardar")) {
+try {
 
-      const usuario = tr.querySelector(".usuario").value.trim();
-      const contrasena = tr.querySelector(".contrasena").value.trim();
+const res = await fetch("/api/usuarios/editar.php", {
 
-      try {
+method: "POST",
+headers: { "Content-Type": "application/json" },
 
-        const res = await fetch("/api/usuarios/editar.php", {
+body: JSON.stringify({
+id,
+usuario,
+contraseña: contrasena
+})
 
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+});
 
-          body: JSON.stringify({
-            id,
-            usuario,
-            contraseña: contrasena
-          })
+const data = await res.json();
 
-        });
+if (data.success) {
 
-        const data = await res.json();
+alert("Usuario actualizado");
 
-        if (data.success) {
+tr.querySelector(".editar").style.display = "inline-block";
+e.target.style.display = "none";
 
-          alert("Usuario actualizado");
+} else {
 
-          tr.querySelector(".editar").style.display = "inline-block";
-          e.target.style.display = "none";
+alert("Error: " + (data.error || "desconocido"));
 
-        } else {
+}
 
-          alert("Error: " + (data.error || "desconocido"));
+} catch (err) {
 
-        }
+alert("Error de conexión: " + err.message);
 
-      } catch (err) {
+}
 
-        alert("Error de conexión: " + err.message);
+}
 
-      }
+// ELIMINAR
+if (e.target.classList.contains("eliminar")) {
 
-    }
+if (!confirm("¿Eliminar usuario?")) return;
 
-    // eliminar
+try {
 
-    if (e.target.classList.contains("eliminar")) {
+const res = await fetch("/api/usuarios/eliminar.php", {
 
-      if (!confirm("¿Eliminar usuario?")) return;
+method: "POST",
+headers: { "Content-Type": "application/json" },
 
-      try {
+body: JSON.stringify({ id })
 
-        const res = await fetch("/api/usuarios/eliminar.php", {
+});
 
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+const data = await res.json();
 
-          body: JSON.stringify({ id })
+if (data.success) {
 
-        });
+tr.remove();
 
-        const data = await res.json();
+} else {
 
-        if (data.success) {
+alert("Error: " + (data.error || "desconocido"));
 
-          tr.remove();
+}
 
-        } else {
+} catch (err) {
 
-          alert("Error: " + (data.error || "desconocido"));
+alert("Error de conexión");
 
-        }
+}
 
-      } catch (err) {
+}
 
-        alert("Error de conexión");
-
-      }
-
-    }
-
-  });
+});
 
 });
