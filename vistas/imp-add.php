@@ -61,7 +61,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 </div>
 
 <div class="fa">
-<a href="/vistas/imprenta.php">
+<a href="/vistas/imprenta2.php">
 <button type="button" class="b bs">Cancelar</button>
 </a>
 <button type="submit" class="b bp">Agregar Producción</button>
