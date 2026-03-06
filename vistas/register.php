@@ -16,7 +16,7 @@ $error = '';
 <head>
 <meta charset="UTF-8">
 <title>Iniciar Sesión - Sinego</title>
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/register.css">
 </head>
 <body>
 
