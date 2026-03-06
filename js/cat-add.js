@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.querySelector(".fm");
 
+  if (!form) return;
+
   form.addEventListener("submit", async (e) => {
 
     e.preventDefault();
@@ -12,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tipo = document.getElementById("tp").value.trim();
 
     if (!codigo || !autor || !titulo || !tipo) {
-      alert("Por favor completa todos los campos");
+      alert("Completa todos los campos");
       return;
     }
 
@@ -24,10 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          codigo,
-          autor,
-          titulo,
-          tipo
+          codigo: codigo,
+          autor: autor,
+          titulo: titulo,
+          tipo: tipo
         })
       });
 
@@ -41,13 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       } else {
 
-        alert("Error: " + (data.error || "Desconocido"));
+        alert("Error: " + (data.error || "Error al agregar"));
 
       }
 
     } catch (err) {
 
-      alert("Error de conexión: " + err.message);
+      alert("Error de conexión");
       console.error(err);
 
     }
