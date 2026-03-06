@@ -1,42 +1,17 @@
 <?php
-
-header("Content-Type: application/json");
-
+header('Content-Type: application/json');
 require_once "../../config/db.php";
 
-$data = json_decode(file_get_contents("php://input"), true);
-
-$id = $data["id"] ?? "";
-$nombre = $data["nombre"] ?? "";
-$telefono = $data["telefono"] ?? "";
-$correo = $data["correo"] ?? "";
-
-if(!$id){
-echo json_encode(["success"=>false]);
-exit;
+$input = json_decode(file_get_contents('php://input'), true);
+if (!$input || !isset($input['id'], $input['nombre'], $input['telefono'], $input['correo'])) {
+    echo json_encode(['error' => 'Datos incompletos']);
+    exit;
 }
 
-try{
-
-$sql = "UPDATE clientes
-        SET nombre=:nombre,
-            telefono=:telefono,
-            correo=:correo
-        WHERE id=:id";
-
-$stmt = $pdo->prepare($sql);
-
-$stmt->execute([
-":id"=>$id,
-":nombre"=>$nombre,
-":telefono"=>$telefono,
-":correo"=>$correo
-]);
-
-echo json_encode(["success"=>true]);
-
-}catch(PDOException $e){
-
-echo json_encode(["success"=>false]);
-
+try {
+    $stmt = $pdo->prepare("UPDATE clientes SET nombre = ?, telefono = ?, correo = ? WHERE id = ?");
+    $stmt->execute([$input['nombre'], $input['telefono'], $input['correo'], $input['id']]);
+    echo json_encode(['success' => true]);
+} catch (PDOException $e) {
+    echo json_encode(['error' => $e->getMessage()]);
 }

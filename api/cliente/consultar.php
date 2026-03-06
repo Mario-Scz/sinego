@@ -1,21 +1,14 @@
 <?php
-
-header("Content-Type: application/json");
-
+header('Content-Type: application/json');
 require_once "../../config/db.php";
 
-try{
+$buscar = $_GET['buscar'] ?? "";
 
-$sql = "SELECT * FROM clientes ORDER BY id DESC";
-
-$stmt = $pdo->query($sql);
-
-$clientes = $stmt->fetchAll();
-
-echo json_encode($clientes);
-
-}catch(PDOException $e){
-
-echo json_encode([]);
-
+if ($buscar) {
+    $stmt = $pdo->prepare("SELECT * FROM clientes WHERE nombre LIKE ? OR correo LIKE ? ORDER BY id DESC");
+    $stmt->execute(["%$buscar%", "%$buscar%"]);
+} else {
+    $stmt = $pdo->query("SELECT * FROM clientes ORDER BY id DESC");
 }
+
+echo json_encode($stmt->fetchAll());
