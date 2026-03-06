@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
 
-      const res = await fetch("/api/usuario/agregar.php", {
+      const res = await fetch("/api/usuarios/agregar.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -15,7 +15,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 <head>
 <meta charset="UTF-8">
 <title>Agregar Usuario - Administración</title>
-<link rel="stylesheet" href="/css/adm agregar.css">
+<link rel="stylesheet" href="/css/adm add.css">
 </head>
 
 <body>
