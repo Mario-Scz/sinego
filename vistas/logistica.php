@@ -80,7 +80,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     </div>
 
     <div class="tw">
-      <table class="td">
+      <table class="tab-dat td">
         <thead>
           <tr>
             <th>Autor</th>
@@ -90,69 +90,4 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td data-label="Autor"><input type="text" value="Juan Manuel" /></td>
-            <td data-label="Tipo de Envío"><input type="text" value="Express" /></td>
-            <td data-label="ID Libro"><input type="text" value="LIB-2026-001" /></td>
-            <td data-label="Acciones">
-              <div class="ba">
-                <button class="ba e" title="ediar">✏️</button>
-                <button class="ba d" title="Eliminar">🗑️</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td data-label="Autor"><input type="text" value="María Sánchez" /></td>
-            <td data-label="Tipo de Envío"><input type="text" value="Standard" /></td>
-            <td data-label="ID Libro"><input type="text" value="LIB-2026-002" /></td>
-            <td data-label="Acciones">
-              <div class="ba">
-                <button class="ba e" title="ediar">✏️</button>
-                <button class="ba d" title="Eliminar">🗑️</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td data-label="Autor"><input type="text" value="Carlos Fernández" /></td>
-            <td data-label="Tipo de Envío"><input type="text" value="Express" /></td>
-            <td data-label="ID Libro"><input type="text" value="LIB-2026-003" /></td>
-            <td data-label="Acciones">
-              <div class="ba">
-                <button class="ba e" title="ediar">✏️</button>
-                <button class="ba d" title="Eliminar">🗑️</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td data-label="Autor"><input type="text" value="Ana García" /></td>
-            <td data-label="Tipo de Envío"><input type="text" value="Pickup" /></td>
-            <td data-label="ID Libro"><input type="text" value="LIB-2026-004" /></td>
-            <td data-label="Acciones">
-              <div class="ba">
-                <button class="ba e" title="ediar">✏️</button>
-                <button class="ba d" title="Eliminar">🗑️</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-</main>
-
-<script src="/js/common.js"></script>
-<script src="/js/logistica.js"></script>
-<script src="/js/cart.js"></script>
-<script src="/js/favorites.js"></script>
-<!-- ftr -->
-<footer class="ft">
-  <div class="ftc">
-    <p>&copy; 2026 Sinego. Todos los derechos reservados.</p>
-    <p>Servicio de logística confiable.</p>
-  </div>
-</footer>
-</body>
-</html>
-
-
-
+          <!-- Los envíos se cargan dinámicamente desde la API -->
