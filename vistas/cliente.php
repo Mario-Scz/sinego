@@ -1,22 +1,19 @@
 <?php
 $pageTitle = 'Clientes';
 session_start();
+
 $_SESSION['usuario'] = "admin";
 $_SESSION['rol'] = "admin";
 
 if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
     header('Location: /vistas/register.php');
     exit;
-} 
-
-require_once "../config/db.php";
-
-$sql = "SELECT * FROM clientes";
-$resultado = $conn->query($sql);
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,11 +59,9 @@ $resultado = $conn->query($sql);
 
 </div>
 
-
 <div class="bb">
 <input type="text" id="buscarCliente" placeholder="Buscar cliente por nombre o correo..." class="ib">
 </div>
-
 
 <div class="tw">
 
@@ -84,45 +79,8 @@ $resultado = $conn->query($sql);
 
 </thead>
 
-
 <tbody id="tablaClientes">
-
-<?php while($cliente = $resultado->fetch_assoc()): ?>
-
-<tr data-id="<?php echo $cliente['id']; ?>">
-
-<td data-label="ID">
-<?php echo $cliente['id']; ?>
-</td>
-
-<td data-label="Nombre">
-<input type="text" class="nombre" value="<?php echo $cliente['nombre']; ?>">
-</td>
-
-<td data-label="Teléfono">
-<input type="text" class="telefono" value="<?php echo $cliente['telefono']; ?>">
-</td>
-
-<td data-label="Correo">
-<input type="email" class="correo" value="<?php echo $cliente['correo']; ?>">
-</td>
-
-<td data-label="Acciones">
-
-<div class="ba">
-
-<button class="ba editar">✏️</button>
-<button class="ba guardar" style="display:none;">💾</button>
-<button class="ba eliminar">🗑️</button>
-
-</div>
-
-</td>
-
-</tr>
-
-<?php endwhile; ?>
-
+<!-- Aquí JavaScript insertará los clientes -->
 </tbody>
 
 </table>
@@ -140,13 +98,11 @@ $resultado = $conn->query($sql);
 <div class="ftc">
 
 <p>&copy; 2026 Sinego. Todos los derechos reservados.</p>
-
 <p>Gestión profesional de clientes.</p>
 
 </div>
 
 </footer>
-
 
 <script src="/js/common.js"></script>
 <script src="/js/cliente.js"></script>

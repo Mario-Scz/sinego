@@ -1,46 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const form = document.querySelector(".fm");
+const form = document.querySelector(".fm");
 
-    form.addEventListener("submit", function(e){
+form.addEventListener("submit", function(e){
 
-        e.preventDefault();
+e.preventDefault();
 
-        const nombre = document.getElementById("nombre").value;
-        const telefono = document.getElementById("telefono").value;
-        const correo = document.getElementById("correo").value;
+let nombre = document.getElementById("nombre").value;
+let telefono = document.getElementById("telefono").value;
+let correo = document.getElementById("correo").value;
 
-        fetch("/api/clientes/agregar.php",{
+fetch("/api/clientes/agregar.php", {
 
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
+method: "POST",
 
-            body:JSON.stringify({
-                nombre:nombre,
-                telefono:telefono,
-                correo:correo
-            })
+headers: {
+"Content-Type": "application/json"
+},
 
-        })
-        .then(res=>res.json())
-        .then(data=>{
+body: JSON.stringify({
+nombre,
+telefono,
+correo
+})
 
-            if(data.success){
+})
 
-                alert("Cliente agregado");
+.then(res => res.json())
 
-                form.reset();
+.then(data => {
 
-            }else{
+if(data.success){
 
-                alert("Error al agregar");
+alert("Cliente agregado correctamente");
 
-            }
+window.location.href = "/vistas/cliente.php";
 
-        });
+}else{
 
-    });
+alert("Error al agregar cliente");
+
+}
+
+});
+
+});
 
 });

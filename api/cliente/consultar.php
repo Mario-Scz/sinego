@@ -1,14 +1,21 @@
 <?php
 
-require "../../config/db.php";
+header("Content-Type: application/json");
 
-$sql = "SELECT * FROM clientes";
-$result = $conn->query($sql);
+require_once "../../config/db.php";
 
-$clientes = [];
+try{
 
-while($row = $result->fetch_assoc()){
-    $clientes[] = $row;
-}
+$sql = "SELECT * FROM clientes ORDER BY id DESC";
+
+$stmt = $pdo->query($sql);
+
+$clientes = $stmt->fetchAll();
 
 echo json_encode($clientes);
+
+}catch(PDOException $e){
+
+echo json_encode([]);
+
+}
