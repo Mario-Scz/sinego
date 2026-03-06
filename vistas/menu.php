@@ -36,7 +36,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
       <ul>
         <li><a href="/vistas/bienvenido.php">INICIO</a></li>
         <li><a href="/vistas/imprenta.php">IMPRENTA</a></li>
-        <li><a href="/vistas/catalog.php">CATALOGO</a></li>
+        <li><a href="/vistas/catalogo.php">CATALOGO</a></li>
         <li><a href="/vistas/register.php">INICIAR SESIÓN</a></li>
         <li><a href="/vistas/menu.php">MENÚ</a></li>
       </ul>
@@ -97,7 +97,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
         <p>Panel administrativo</p>
       </a>
 
-      <a href="imprenta2.php" class="ac">
+      <a href="imprenta.php" class="ac">
         <div class="ia">
           <img src="/img/imprenta.png" alt="Imprenta" />
         </div>
@@ -113,7 +113,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
         <p>Gestión de envíos</p>
       </a>
 
-      <a href="catalogo.php" class="ac">
+      <a href="catalog.php" class="ac">
         <div class="ia">
           <img src="/img/catalogo.png" alt="Catálogo" />
         </div>
