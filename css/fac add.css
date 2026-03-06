@@ -74,8 +74,6 @@ body {
     list-style: none;
     display: flex;
     gap: 30px;
-    margin: 0;
-    padding: 0;
 }
 
 .mn ul li a {
@@ -90,7 +88,7 @@ body {
     color: #1D7874;
 }
 
-/* Nav nav-ico (Shopping Cart & Favorites) */
+/* iconos */
 .ni {
     display: flex;
     gap: 1.5rem;
@@ -113,10 +111,6 @@ body {
     background-color: rgba(29, 120, 116, 0.1);
 }
 
-.ic.active svg {
-    stroke: #22545C;
-}
-
 .ic svg {
     width: 24px;
     height: 24px;
@@ -136,10 +130,9 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    font-weight: bold;
 }
 
-/* Hero Section */
+/* Hero */
 .h {
     background: linear-gradient(135deg, #1D7874 0%, #22545C 100%);
     color: white;
@@ -163,7 +156,7 @@ body {
     opacity: 0.9;
 }
 
-/* cont */
+/* contenedor */
 .c {
     max-width: 1200px;
     margin: 0 auto;
@@ -171,26 +164,24 @@ body {
     flex: 1;
 }
 
-/* frm Section */
+/* formulario */
 .fs {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
 }
 
 .fm-crd {
     background: white;
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    max-width: 600px;
     width: 100%;
 }
 
 .fm-crd h2 {
     color: #1D7874;
-    margin-bottom: 30px;
-    font-size: 28px;
+    margin-bottom: 25px;
 }
 
 .fm {
@@ -202,40 +193,36 @@ body {
 .fm-grp {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .fm-grp label {
     font-weight: 600;
-    color: #333;
     font-size: 14px;
 }
 
 .fm-grp input,
-.fm-grp textarea {
+.fm-grp textarea,
+.fm-grp select {
     padding: 12px;
     border: 2px solid #e0e0e0;
     border-radius: 6px;
     font-size: 14px;
-    font-family: inherit;
-    transition: border-color 0.3s ease;
 }
 
 .fm-grp input:focus,
-.fm-grp textarea:focus {
+.fm-grp textarea:focus,
+.fm-grp select:focus {
     outline: none;
     border-color: #1D7874;
-    box-shadow: 0 0 0 3px rgba(29, 120, 116, 0.1);
+    box-shadow: 0 0 0 3px rgba(29,120,116,0.1);
 }
 
+/* botones */
 .fa {
     display: flex;
     gap: 12px;
-    margin-top: 30px;
-}
-
-.fa a {
-    flex: 1;
+    margin-top: 20px;
 }
 
 .b {
@@ -247,7 +234,6 @@ body {
     font-size: 14px;
     transition: all 0.3s ease;
     text-decoration: none;
-    display: inline-block;
     text-align: center;
     flex: 1;
 }
@@ -259,8 +245,8 @@ body {
 
 .bp:hover {
     background-color: #155f5c;
-    transfrm: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(29, 120, 116, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(29,120,116,0.3);
 }
 
 .bs {
@@ -270,16 +256,15 @@ body {
 
 .bs:hover {
     background-color: #d0d0d0;
-    transfrm: translateY(-2px);
+    transform: translateY(-2px);
 }
 
-/* ftr */
+/* footer */
 .ft {
     background-color: #222;
     color: white;
     padding: 30px 20px;
     text-align: center;
-    margin-top: 40px;
 }
 
 .ft-content p {
@@ -287,41 +272,20 @@ body {
     font-size: 14px;
 }
 
-/* Responsive */
+/* responsive */
 @media (max-width: 768px) {
+
     .ht {
-        font-size: 28px;
-    }
-
-    .hs {
-        font-size: 16px;
-    }
-
-    .fm-crd {
-        padding: 30px;
-    }
-
-    .mn ul {
-        gap: 15px;
-    }
-
-    .mn ul li a {
-        font-size: 12px;
+        font-size: 30px;
     }
 
     .fa {
         flex-direction: column;
     }
 
-    .b {
-        width: 100%;
-    }
 }
 
 @media (max-width: 600px) {
-    .nl {
-        font-size: 16px;
-    }
 
     .tm {
         display: flex;
@@ -335,7 +299,7 @@ body {
         width: 100%;
         background: white;
         flex-direction: column;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
     }
 
     .cm:checked ~ .mn {
@@ -344,17 +308,12 @@ body {
 
     .mn ul {
         flex-direction: column;
-        gap: 0;
         width: 100%;
     }
 
     .mn ul li a {
         padding: 15px 20px;
-        border-bottom: 1px solid #f0f0f0;
-    }
-
-    .ht {
-        font-size: 24px;
+        border-bottom: 1px solid #eee;
     }
 
     .c {
@@ -362,18 +321,7 @@ body {
     }
 
     .fm-crd {
-        padding: 20px;
+        padding: 25px;
     }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
