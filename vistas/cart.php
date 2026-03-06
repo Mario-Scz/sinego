@@ -35,19 +35,19 @@ barra de navegación
     </label>
     <nav class="mn">
       <ul>
-        <li><a href="/vistas/bienvenido.html">INICIO</a></li>
-        <li><a href="/vistas/imprenta.html">IMPRENTA</a></li>
-        <li><a href="/vistas/catalog.html">CATALOGO</a></li>
-        <li><a href="/vistas/register.html">INICIAR SESIÓN</a></li>
-        <li><a href="/vistas/menu.html">MENÚ</a></li>
+        <li><a href="/vistas/bienvenido.php">INICIO</a></li>
+        <li><a href="/vistas/imprenta.php">IMPRENTA</a></li>
+        <li><a href="/vistas/catalog.php">CATALOGO</a></li>
+        <li><a href="/vistas/register.php">INICIAR SESIÓN</a></li>
+        <li><a href="/vistas/menu.php">MENÚ</a></li>
       </ul>
     </nav>
     <div class="ni">
-      <a href="/vistas/cart.html" class="ic active" id="cartico" title="Carrito">
+      <a href="/vistas/cart.php" class="ic active" id="cartico" title="Carrito">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         <span class="cc" id="cc">0</span>
       </a>
-      <a href="/vistas/favorites.html" class="ic" id="fvic" title="Favoritos">
+      <a href="/vistas/favorites.php" class="ic" id="fvic" title="Favoritos">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         <span class="cf" id="cf">0</span>
       </a>
@@ -75,7 +75,7 @@ contenido principal (carrito)
       <div class="ct-items">
         <div class="emp-ct" id="emptyCart">
           <p>Tu carrito está vacío</p>
-          <a href="/vistas/catalog.html" class="b bp">Continuar Comprando</a>
+          <a href="/vistas/catalogo.php" class="b bp">Continuar Comprando</a>
         </div>
         <div class="items-lst" id="cartItems" style="display: none;"></div>
       </div>
@@ -99,7 +99,7 @@ contenido principal (carrito)
           </div>
         </div>
         <button class="b bp" id="chkBtn">Proceder al Pago</button>
-        <a href="/vistas/catalog.html" class="b bs">Seguir Comprando</a>
+        <a href="/vistas/catalogo.php" class="b bs">Seguir Comprando</a>
       </aside>
     </div>
   </section>
@@ -114,7 +114,7 @@ pie de página
   </div>
 </footer>
 
-<script src="../js/common.js"></script>
-<script src="../js/cart.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/cart.js"></script>
 </body>
 </html>

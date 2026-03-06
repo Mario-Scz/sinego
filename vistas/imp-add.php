@@ -43,7 +43,7 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
 <div class="ac">
 <h2>Información de Producción</h2>
 
-<form id="formImprenta" class="fm" method="POST" action="/controladores/agregarImprenta.php">
+<form id="formImprenta" class="fm">
 
 <div class="fg">
 <label for="idLibro">ID del Libro</label>
