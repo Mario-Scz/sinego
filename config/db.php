@@ -33,6 +33,5 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (PDOException $e) {
-    // en producción, registra el error en log y no lo muestres al usuario
-    die('Error de conexión a la base de datos. Verifica config/db.php o el archivo .env');
+    die("Error de conexión: " . $e->getMessage());
 }
