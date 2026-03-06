@@ -72,24 +72,24 @@ if (empty($_SESSION['usuario']) || $_SESSION['rol'] !== 'admin') {
   <section class="fs">
     <div class="ac">
       <h2>Información del Envío</h2>
-      <form class="fm">
+      <form class="frm">
         <div class="fg">
           <label for="idLibro">ID del Libro</label>
-          <input type="text" id="idL" placeholder="Ej: LOG001" required />
+          <input type="text" id="idLibro" placeholder="Ej: LOG001" required />
         </div>
 
         <div class="fg">
           <label for="autor">Autor</label>
-          <input type="text" id="aut" placeholder="Nombre del autor" required />
+          <input type="text" id="autor" placeholder="Nombre del autor" required />
         </div>
 
         <div class="fg">
           <label for="tipo">Tipo de Envío</label>
-          <input type="text" id="tp" placeholder="Ej: Estándar, Express, Local" required />
+          <input type="text" id="tipo" placeholder="Ej: Estándar, Express, Local" required />
         </div>
 
         <div class="fa">
-          <a href="logistica.html"><button type="button" class="b bs">Cancelar</button></a>
+          <a href="logistica.php"><button type="button" class="b bs">Cancelar</button></a>
           <button type="submit" class="b bp">Agregar Envío</button>
         </div>
       </form>
