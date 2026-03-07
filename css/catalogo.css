@@ -664,6 +664,34 @@ body {
     padding: 0.75rem 0.5rem;
   }
 }
+/* Contenedor de la imagen */
+.pi {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+/* El corazón que sale al pasar el mouse */
+.fav-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 2.5rem;
+  transition: all 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pi:hover .fav-overlay {
+  transform: translate(-50%, -50%) scale(1.2);
+  opacity: 1;
+}
+
+.pi:hover img {
+  filter: blur(2px) brightness(0.8);
+}
 
 
 

@@ -26,8 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const precio = libro.precio ? parseFloat(libro.precio).toFixed(2) : "0.00";
 
         card.innerHTML = `
-          <div class="pi">
+          <div class="pi btn-fav-image" data-id="${libro.id}" data-titulo="${libro.titulo}" title="¡Click para añadir a favoritos!">
             <img src="/img/ejemplos.png" alt="${libro.titulo}">
+            <div class="fav-overlay">❤️</div>
           </div>
           <div class="pf">
             <h3>${libro.titulo}</h3>
@@ -42,8 +43,28 @@ document.addEventListener("DOMContentLoaded", () => {
         grid.appendChild(card);
       });
 
+      // Eventos para el carrito
       document.querySelectorAll(".btn-agr").forEach(btn => {
         btn.addEventListener("click", agregarAlCarrito);
+      });
+
+      // EVENTO PARA FAVORITOS (Al hacer clic en la imagen)
+      document.querySelectorAll(".btn-fav-image").forEach(imgCont => {
+        imgCont.addEventListener("click", function() {
+            const idLibro = this.dataset.id;
+            const titulo = this.dataset.titulo;
+            
+            // Efecto visual de pulsación
+            this.style.transform = "scale(0.95)";
+            setTimeout(() => this.style.transform = "scale(1)", 100);
+
+            // Llamar a la función que debe estar en favorites.js
+            if (typeof agregarAFavoritos === 'function') {
+                agregarAFavoritos(idLibro, titulo);
+            } else {
+                console.error("No se encontró la función agregarAFavoritos en favorites.js");
+            }
+        });
       });
 
     } catch (err) {
@@ -52,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // --- FUNCIÓN CARRITO ---
   async function agregarAlCarrito(e) {
     const id = e.target.dataset.id;
     const titulo = e.target.dataset.titulo;
@@ -76,16 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // --- ACTUALIZAR CONTADORES ---
   async function actualizarContadorCarrito() {
     try {
       const res = await fetch("/api/cart.php?action=count");
       const data = await res.json();
-      document.getElementById("cc").textContent = data.total || 0;
+      const el = document.getElementById("cc");
+      if(el) el.textContent = data.total || 0;
     } catch (err) {
       console.error("Error al actualizar carrito:", err);
     }
   }
 
+  // --- BUSCADOR ---
   buscarInput?.addEventListener("input", e => {
     const termino = e.target.value.toLowerCase();
     const cards = document.querySelectorAll(".pc");
@@ -103,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // --- FILTROS CHECKBOX ---
   checkboxes.forEach(checkbox => {
     checkbox.addEventListener("change", () => {
       const termino = checkbox.parentElement.querySelector("span").textContent.toLowerCase();
@@ -110,7 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       cards.forEach(card => {
         const tipo = card.dataset.tipo;
-
         if (tipo.includes(termino)) {
           card.style.display = "block";
         } else {
