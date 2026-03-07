@@ -11,12 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const precio = document.getElementById("prc").value.trim() || "0.00";
     const imagenInput = document.getElementById("img");
 
+    // Validar campos obligatorios
     if (!codigo || !autor || !titulo || !tipo) {
       alert("Completa todos los campos obligatorios");
       return;
     }
 
-    // Validar que precio sea un número válido
+    // Validar precio
     if (isNaN(precio) || precio < 0) {
       alert("El precio debe ser un número válido");
       return;
@@ -40,12 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData
       });
 
-      // Verificar si la respuesta es JSON
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Respuesta no es JSON");
-      }
-
       const data = await res.json();
 
       if (data.success) {
@@ -55,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Error: " + (data.error || "desconocido"));
       }
     } catch (err) {
+      console.error("Error:", err);
       alert("Error de conexión: " + err.message);
-      console.error("Error completo:", err);
     }
   });
 });

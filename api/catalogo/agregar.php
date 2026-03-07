@@ -4,27 +4,16 @@ header('Access-Control-Allow-Origin: *');
 
 require_once "../../config/db.php";
 
-// Verificar si hay datos en POST o JSON
-if (isset($_FILES['imagen'])) {
-    // Modo con imagen (FormData)
-    $codigo = $_POST['codigo'] ?? '';
-    $autor = $_POST['autor'] ?? '';
-    $titulo = $_POST['titulo'] ?? '';
-    $tipo = $_POST['tipo'] ?? '';
-    $precio = $_POST['precio'] ?? 0.00;
-} else {
-    // Modo sin imagen (JSON)
-    $input = json_decode(file_get_contents('php://input'), true);
-    $codigo = $input['codigo'] ?? '';
-    $autor = $input['autor'] ?? '';
-    $titulo = $input['titulo'] ?? '';
-    $tipo = $input['tipo'] ?? '';
-    $precio = $input['precio'] ?? 0.00;
-}
+// Obtener datos
+$codigo = $_POST['codigo'] ?? '';
+$autor = $_POST['autor'] ?? '';
+$titulo = $_POST['titulo'] ?? '';
+$tipo = $_POST['tipo'] ?? '';
+$precio = $_POST['precio'] ?? 0.00;
 
 // Validar datos
 if (!$codigo || !$autor || !$titulo || !$tipo) {
-    echo json_encode(['error' => 'Datos incompletos']);
+    echo json_encode(['success' => false, 'error' => 'Datos incompletos']);
     exit;
 }
 
@@ -40,7 +29,7 @@ try {
             mkdir($uploadDir, 0777, true);
         }
 
-        $fileName = uniqid() . '_' . basename($_FILES['imagen']['name']);
+        $fileName = uniqid() . '_' . time() . '_' . basename($_FILES['imagen']['name']);
         $uploadPath = $uploadDir . $fileName;
 
         // Validar tipo de archivo
@@ -50,16 +39,11 @@ try {
         if (in_array($fileType, $allowedTypes)) {
             if (move_uploaded_file($_FILES['imagen']['tmp_name'], $uploadPath)) {
                 $imagen = "img/libros/" . $fileName;
-            } else {
-                echo json_encode(['error' => 'Error al subir la imagen']);
-                exit;
             }
-        } else {
-            echo json_encode(['error' => 'Tipo de archivo no permitido']);
-            exit;
         }
     }
 
+    // Insertar libro
     $stmt = $pdo->prepare("
         INSERT INTO libros (codigo, autor, titulo, tipo, precio, imagen)
         VALUES (?, ?, ?, ?, ?, ?)
