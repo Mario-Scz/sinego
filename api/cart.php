@@ -4,17 +4,14 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// Manejar preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-// Desactivar errores HTML en la salida
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 
-// Intentar cargar la configuración
 $configPath = __DIR__ . '/../config/db.php';
 if (!file_exists($configPath)) {
     $configPath = __DIR__ . '/../../config/db.php';
@@ -32,7 +29,6 @@ try {
     exit;
 }
 
-// Verificar conexión
 if (!isset($pdo)) {
     echo json_encode(['success' => false, 'error' => 'PDO no está definido']);
     exit;
@@ -40,7 +36,6 @@ if (!isset($pdo)) {
 
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
-// LISTAR CARRITO
 if ($action === 'list') {
     try {
         $stmt = $pdo->query("
@@ -50,7 +45,6 @@ if ($action === 'list') {
             ORDER BY c.id DESC
         ");
         $items = $stmt->fetchAll();
-        
         echo json_encode(['success' => true, 'items' => $items]);
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'error' => 'Error en consulta: ' . $e->getMessage()]);
@@ -58,23 +52,18 @@ if ($action === 'list') {
     exit;
 }
 
-// AGREGAR AL CARRITO
 if ($action === 'add') {
     $input = json_decode(file_get_contents('php://input'), true);
-    
     if (!$input || !isset($input['id'])) {
         echo json_encode(['success' => false, 'error' => 'Datos inválidos']);
         exit;
     }
-    
     $id = $input['id'];
     $tipo = $input['tipo'] ?? 'libro';
-    
     try {
         $stmt = $pdo->prepare("SELECT * FROM carrito WHERE id_libro = ? AND tipo = ?");
         $stmt->execute([$id, $tipo]);
         $existe = $stmt->fetch();
-        
         if ($existe) {
             $nuevaCantidad = $existe['cantidad'] + 1;
             $stmt = $pdo->prepare("UPDATE carrito SET cantidad = ? WHERE id = ?");
@@ -83,7 +72,6 @@ if ($action === 'add') {
             $stmt = $pdo->prepare("INSERT INTO carrito (id_libro, tipo, cantidad) VALUES (?, ?, 1)");
             $stmt->execute([$id, $tipo]);
         }
-        
         echo json_encode(['success' => true]);
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'error' => 'Error al agregar: ' . $e->getMessage()]);
@@ -91,18 +79,14 @@ if ($action === 'add') {
     exit;
 }
 
-// ACTUALIZAR CANTIDAD
 if ($action === 'update') {
     $input = json_decode(file_get_contents('php://input'), true);
-    
     if (!$input || !isset($input['product_id']) || !isset($input['cantidad'])) {
         echo json_encode(['success' => false, 'error' => 'Datos inválidos']);
         exit;
     }
-    
     $id = $input['product_id'];
     $cantidad = $input['cantidad'];
-    
     try {
         $stmt = $pdo->prepare("UPDATE carrito SET cantidad = ? WHERE id = ?");
         $stmt->execute([$cantidad, $id]);
@@ -113,17 +97,13 @@ if ($action === 'update') {
     exit;
 }
 
-// ELIMINAR DEL CARRITO
 if ($action === 'remove') {
     $input = json_decode(file_get_contents('php://input'), true);
-    
     if (!$input || !isset($input['product_id'])) {
         echo json_encode(['success' => false, 'error' => 'Datos inválidos']);
         exit;
     }
-    
     $id = $input['product_id'];
-    
     try {
         $stmt = $pdo->prepare("DELETE FROM carrito WHERE id = ?");
         $stmt->execute([$id]);
@@ -134,7 +114,6 @@ if ($action === 'remove') {
     exit;
 }
 
-// VACIAR CARRITO
 if ($action === 'clear') {
     try {
         $pdo->query("DELETE FROM carrito");
@@ -145,7 +124,6 @@ if ($action === 'clear') {
     exit;
 }
 
-// CONTAR ITEMS
 if ($action === 'count') {
     try {
         $stmt = $pdo->query("SELECT SUM(cantidad) as total FROM carrito");

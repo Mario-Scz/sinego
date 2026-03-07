@@ -67,104 +67,43 @@ function mostrarItemsCarrito(carrito) {
         `;
         itemsList.appendChild(itemElement);
     });
-    
-    // AGREGAR EVENT LISTENERS DIRECTOS A LOS BOTONES
-    const minusButtons = document.querySelectorAll('.btn-minus');
-    const plusButtons = document.querySelectorAll('.btn-plus');
-    const removeButtons = document.querySelectorAll('.btn-remove');
-    const quantityInputs = document.querySelectorAll('.quantity-input');
-    
-    // Botón Disminuir
-    minusButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const itemRow = this.closest('.cart-item');
-            const itemId = itemRow.dataset.id;
-            const currentCantidad = parseInt(itemRow.dataset.cantidad);
-            const titulo = itemRow.dataset.titulo;
-            
-            if (currentCantidad > 1) {
-                actualizarCantidad(itemId, currentCantidad - 1, titulo);
-            }
-        });
-    });
-    
-    // Botón Aumentar
-    plusButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const itemRow = this.closest('.cart-item');
-            const itemId = itemRow.dataset.id;
-            const currentCantidad = parseInt(itemRow.dataset.cantidad);
-            const titulo = itemRow.dataset.titulo;
-            
-            actualizarCantidad(itemId, currentCantidad + 1, titulo);
-        });
-    });
-    
-    // Botón Eliminar
-    removeButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const itemRow = this.closest('.cart-item');
-            const itemId = itemRow.dataset.id;
-            const titulo = itemRow.dataset.titulo;
-            
-            if (confirm('¿Estás seguro de que deseas eliminar este item?')) {
-                eliminarItem(itemId, titulo);
-            }
-        });
-    });
-    
-    // Input de cantidad
-    quantityInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            const itemRow = this.closest('.cart-item');
-            const itemId = itemRow.dataset.id;
-            const nuevaCantidad = parseInt(this.value);
-            const titulo = itemRow.dataset.titulo;
-            
-            if (nuevaCantidad >= 1) {
-                actualizarCantidad(itemId, nuevaCantidad, titulo);
-            }
-        });
-    });
 }
 
-async function actualizarCantidad(itemId, nuevaCantidad, titulo) {
-    try {
-        const res = await fetch('/api/cart.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ action: 'update', product_id: itemId, cantidad: nuevaCantidad })
-        });
-        const data = await res.json();
+function actualizarCantidad(itemId, nuevaCantidad, titulo) {
+    fetch('/api/cart.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ action: 'update', product_id: itemId, cantidad: nuevaCantidad })
+    })
+    .then(r => r.json())
+    .then(data => {
         if (data.success) {
             const itemRow = document.querySelector(`.cart-item[data-id="${itemId}"]`);
             if (itemRow) {
                 itemRow.dataset.cantidad = nuevaCantidad;
                 const precio = parseFloat(itemRow.dataset.precio);
                 itemRow.querySelector('.item-price').textContent = `$${(precio * nuevaCantidad).toFixed(2)}`;
-                actualizarResumen(JSON.parse(await fetch('/api/cart.php?action=list').then(r => r.text())));
+                actualizarResumen(JSON.parse(JSON.stringify(carritoActual)));
             }
         }
-    } catch (err) {
-        console.error('Error al actualizar cantidad:', err);
-    }
+    })
+    .catch(err => console.error('Error al actualizar:', err));
 }
 
-async function eliminarItem(itemId, titulo) {
-    try {
-        const res = await fetch('/api/cart.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ action: 'remove', product_id: itemId })
-        });
-        const data = await res.json();
+function eliminarItem(itemId, titulo) {
+    fetch('/api/cart.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ action: 'remove', product_id: itemId })
+    })
+    .then(r => r.json())
+    .then(data => {
         if (data.success) {
             alert(`${titulo} removido del carrito`);
             inicializarCarrito();
         }
-    } catch (err) {
-        console.error('Error al eliminar:', err);
-    }
+    })
+    .catch(err => console.error('Error al eliminar:', err));
 }
 
 function actualizarResumen(carrito) {
@@ -217,3 +156,45 @@ function actualizarContadores() {
 }
 
 setInterval(actualizarContadores, 2000);
+
+// EVENT DELEGATION - Manejo de botones
+document.getElementById('cartItems').addEventListener('click', function(e) {
+    const btn = e.target;
+    const itemRow = btn.closest('.cart-item');
+    
+    if (!itemRow) return;
+    
+    const itemId = itemRow.dataset.id;
+    const currentCantidad = parseInt(itemRow.dataset.cantidad);
+    const titulo = itemRow.dataset.titulo;
+    
+    // Botón Eliminar (X)
+    if (btn.classList.contains('btn-remove')) {
+        if (confirm('¿Estás seguro de que deseas eliminar este item?')) {
+            eliminarItem(itemId, titulo);
+        }
+        return;
+    }
+    
+    // Botón Disminuir (-)
+    if (btn.classList.contains('btn-minus')) {
+        if (currentCantidad > 1) {
+            actualizarCantidad(itemId, currentCantidad - 1, titulo);
+        }
+        return;
+    }
+    
+    // Botón Aumentar (+)
+    if (btn.classList.contains('btn-plus')) {
+        actualizarCantidad(itemId, currentCantidad + 1, titulo);
+        return;
+    }
+    
+    // Input de cantidad
+    if (btn.classList.contains('quantity-input')) {
+        const nuevaCantidad = parseInt(btn.value);
+        if (nuevaCantidad >= 1) {
+            actualizarCantidad(itemId, nuevaCantidad, titulo);
+        }
+    }
+});
