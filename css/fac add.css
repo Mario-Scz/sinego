@@ -1,238 +1,316 @@
-﻿*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+﻿/* =========================================
+   REINICIO Y BASE
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body{
-background-color:#f5f5f5;
-display:flex;
-flex-direction:column;
-min-height:100vh;
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* NAV */
-
-.n{
-background-color:#fff;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-position:sticky;
-top:0;
-z-index:1000;
+/* =========================================
+   NAVBAR (ESTILO REFERENCIA + CENTRADO)
+   ========================================= */
+.n {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.nc{
-max-width:1200px;
-margin:0 auto;
-padding:0 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-height:60px;
+.nc {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px; /* Altura consistente */
+    position: relative; 
 }
 
-.nl{
-display:flex;
-align-items:center;
-gap:10px;
+.nl {
+    display: flex;
+    align-items: center;
+    z-index: 10;
 }
 
-.lg{
-height:40px;
-width:auto;
+.lg {
+    height: 45px;
+    width: auto;
 }
 
-/* HERO */
-
-.h{
-background:linear-gradient(135deg,#1D7874 0%,#22545C 100%);
-color:white;
-padding:60px 20px;
-text-align:center;
+/* MENÚ CENTRADO ABSOLUTO */
+.mn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
 }
 
-.hc{
-max-width:800px;
-margin:0 auto;
+.mn ul {
+    display: flex;
+    gap: 25px;
+    list-style: none;
 }
 
-.ht{
-font-size:42px;
-margin-bottom:15px;
-font-weight:bold;
+.mn a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.3s;
+    text-transform: uppercase;
 }
 
-.hs{
-font-size:18px;
-opacity:0.9;
+.mn a:hover {
+    color: #1D7874;
 }
 
-/* CONTENEDOR */
-
-.c{
-max-width:1200px;
-margin:0 auto;
-padding:40px 20px;
-flex:1;
+/* ICONOS DERECHA (Carrito/Favoritos) */
+.ni {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    z-index: 10;
 }
 
-/* FORM SECTION */
-
-.fs{
-display:flex;
-justify-content:center;
-align-items:flex-start;
+.ic {
+    position: relative;
+    color: #1D7874;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    text-decoration: none;
 }
 
-/* TARJETA FORM */
-
-.ac{
-background:white;
-padding:40px;
-border-radius:12px;
-box-shadow:0 4px 16px rgba(0,0,0,0.1);
-max-width:500px;
-width:100%;
+.ic svg {
+    width: 24px;
+    height: 24px;
+    stroke: #1D7874;
 }
 
-.ac h2{
-color:#1D7874;
-margin-bottom:30px;
-font-size:28px;
+.cc, .cf {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: #e74c3c;
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
 }
 
-/* FORM */
-
-.fm{
-display:flex;
-flex-direction:column;
-gap:20px;
+/* GESTIÓN MÓVIL */
+.cm { display: none; }
+.tm {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+.tm span {
+    width: 25px;
+    height: 3px;
+    background: #1D7874;
+    border-radius: 3px;
 }
 
-/* GRUPOS */
-
-.fg{
-display:flex;
-flex-direction:column;
-gap:8px;
+/* =========================================
+   SECCIÓN HERO (GRADIENTE)
+   ========================================= */
+.h {
+    background: linear-gradient(135deg, #1D7874 0%, #22545C 100%);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
 }
 
-.fg label{
-font-weight:600;
-color:#333;
-font-size:14px;
+.hc {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.fg input{
-padding:12px;
-border:2px solid #e0e0e0;
-border-radius:6px;
-font-size:14px;
-transition:border-color 0.3s ease;
+.ht {
+    font-size: 42px;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
-.fg input:focus{
-outline:none;
-border-color:#1D7874;
-box-shadow:0 0 0 3px rgba(29,120,116,0.1);
+.hs {
+    font-size: 18px;
+    opacity: 0.9;
 }
 
-/* BOTONES */
-
-.fa{
-display:flex;
-gap:12px;
-margin-top:30px;
+/* =========================================
+   CONTENEDOR Y FORMULARIO
+   ========================================= */
+.c {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    flex: 1;
 }
 
-.fa a{
-flex:1;
+.fs {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-.b{
-padding:12px 24px;
-border:none;
-border-radius:6px;
-font-weight:600;
-cursor:pointer;
-font-size:14px;
-transition:all 0.3s ease;
-text-decoration:none;
-display:inline-block;
-text-align:center;
-flex:1;
+/* Tarjeta de Factura (ac) */
+.ac {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
 }
 
-.bp{
-background-color:#1D7874;
-color:white;
+.ac h2 {
+    color: #1D7874;
+    margin-bottom: 30px;
+    font-size: 26px;
+    text-align: center;
 }
 
-.bp:hover{
-background-color:#155f5c;
-transform:translateY(-2px);
-box-shadow:0 6px 12px rgba(29,120,116,0.3);
+.fm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.bs{
-background-color:#e0e0e0;
-color:#333;
+/* Grupos de entrada (fg) */
+.fg {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.bs:hover{
-background-color:#d0d0d0;
-transform:translateY(-2px);
+.fg label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
 }
 
-/* FOOTER */
-
-.ft{
-background-color:#222;
-color:white;
-padding:30px 20px;
-text-align:center;
-margin-top:40px;
+.fg input {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    outline: none;
 }
 
-/* RESPONSIVE */
-
-@media (max-width:768px){
-
-.ht{
-font-size:28px;
+.fg input:focus {
+    border-color: #1D7874;
+    box-shadow: 0 0 0 3px rgba(29, 120, 116, 0.1);
 }
 
-.hs{
-font-size:16px;
+/* BOTONES (fa) */
+.fa {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
 }
 
-.ac{
-padding:30px;
+.fa a { flex: 1; text-decoration: none; }
+
+.b {
+    padding: 14px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    width: 100%;
+    display: block;
+    text-align: center;
 }
 
-.fa{
-flex-direction:column;
+.bp {
+    background-color: #1D7874;
+    color: white;
 }
 
-.b{
-width:100%;
+.bp:hover {
+    background-color: #155f5c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(29, 120, 116, 0.3);
 }
 
+.bs {
+    background-color: #e0e0e0;
+    color: #333;
 }
 
-@media (max-width:600px){
-
-.ht{
-font-size:24px;
+.bs:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-2px);
 }
 
-.c{
-padding:20px 15px;
+/* =========================================
+   FOOTER
+   ========================================= */
+.ft {
+    background-color: #222;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
 }
 
-.ac{
-padding:20px;
+/* =========================================
+   RESPONSIVO
+   ========================================= */
+@media (max-width: 900px) {
+    .tm { display: flex; }
+    
+    .mn {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transform: none; /* Quitamos centrado absoluto en móvil */
+    }
+
+    .cm:checked ~ .mn {
+        max-height: 450px;
+    }
+
+    .mn ul {
+        flex-direction: column;
+        padding: 20px;
+        gap: 0;
+    }
+
+    .mn ul li a {
+        padding: 15px;
+        border-bottom: 1px solid #f0f0f0;
+        display: block;
+        text-align: center;
+    }
 }
 
+@media (max-width: 600px) {
+    .ht { font-size: 30px; }
+    .ac { padding: 25px; }
+    .fa { flex-direction: column; }
 }
