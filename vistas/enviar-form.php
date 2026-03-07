@@ -20,7 +20,7 @@ $mail->isSMTP();
 $mail->Host = 'smtp.gmail.com';
 $mail->SMTPAuth = true;
 $mail->Username = 'mroberto.drako@gmail.com';
-$mail->Password = 'uxhh eptj pgmc vxif';
+$mail->Password = 'uxhheptjpgmcvxif';
 $mail->SMTPSecure = 'tls';
 $mail->Port = 587;
 
