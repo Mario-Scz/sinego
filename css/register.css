@@ -29,64 +29,10 @@ body {
   line-height: 1.6;
 }
 
-/* Barra de Navegación */
-.n {
-  background: linear-gradient(135deg, var(--cs) 0%, var(--cp) 100%);
-  padding: 1rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: var(--sm);
-}
-
-.nc {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.nl {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: var(--cw);
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-  letter-spacing: 1px;
-}
-
-.lg {
-  height: 50px;
-  width: auto;
-  filter: brightness(1.2);
-}
-
-.cm {
-  display: none;
-}
-
-.tm {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 0.4rem;
-}
-
-.tm span {
-  width: 28px;
-  height: 3px;
-  background-color: var(--cw);
-  border-radius: 2px;
-  transition: var(--t);
-}
-
-/* Nav Menu (.mn) adaptado del menú principal */
+/* Barra de Navegación (solo ajustada .mn) */
 .mn {
   display: flex;
+  justify-content: center;
 }
 
 .mn ul {
@@ -104,9 +50,9 @@ body {
   color: var(--cw);
   text-decoration: none;
   padding: 1rem 1.5rem;
-  transition: var(--t);
   font-weight: 500;
   position: relative;
+  transition: var(--t);
 }
 
 .mn ul li a::after {
@@ -128,58 +74,9 @@ body {
   width: 100%;
 }
 
-/* Nav Icons (Carrito y Favoritos) */
-.ni {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-}
-
-.ic {
-  color: var(--cw);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: var(--t);
-}
-
-.ic:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.ic.active svg {
-  stroke: var(--ca);
-}
-
-.ic svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--cw);
-}
-
-.cc, .cf {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #e74c3c;
-  color: white;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-/* Login Card */
+/* Login Card Original */
 .login-wrapper {
-  min-height: calc(100vh - 300px);
+  min-height: calc(100vh - 200px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -311,20 +208,10 @@ body {
   color: var(--cs);
 }
 
-/* Responsive */
+/* Responsive para nav */
 @media (max-width: 768px) {
-  .tm {
-    display: flex;
-  }
-
   .mn {
-    position: absolute;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background: linear-gradient(135deg, var(--cs) 0%, var(--cp) 100%);
     flex-direction: column;
-    padding: 2rem 0;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
@@ -334,22 +221,9 @@ body {
     max-height: 500px;
   }
 
-  .cm:checked ~ .tm span:nth-child(1) {
-    transform: rotate(45deg) translate(10px, 10px);
-  }
-
-  .cm:checked ~ .tm span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .cm:checked ~ .tm span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
-  }
-
   .mn ul {
     flex-direction: column;
-    padding: 0 2rem;
-    gap: 1rem;
+    gap: 0;
   }
 
   .mn ul li a {
