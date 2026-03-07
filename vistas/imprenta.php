@@ -68,13 +68,7 @@
         <h2>Cotiza tu Proyecto</h2>
 
         <!-- Mensaje dinámico -->
-        <?php
-        if(isset($_GET['success']) && $_GET['success'] == 1){
-            echo '<p class="mensaje-exito">¡Formulario enviado correctamente!</p>';
-        } elseif(isset($_GET['error']) && $_GET['error'] == 1){
-            echo '<p class="mensaje-error">Error al enviar el formulario. Intenta de nuevo.</p>';
-        }
-        ?>
+      
 
         <p>Completa los siguientes datos para obtener un presupuesto personalizado</p>
         <form id="formImprenta" class="fm">
@@ -116,15 +110,7 @@
       </div>
     </div>
   </section>
-  <?php
-if(isset($_GET['success'])){
-echo "<p style='color:green;'>Formulario enviado correctamente ✔</p>";
-}
 
-if(isset($_GET['error'])){
-echo "<p style='color:red;'>Error al enviar el formulario</p>";
-}
-?>
   <!-- Services Section -->
   <section class="ss">
     <h2>Nuestros Servicios</h2>
@@ -152,7 +138,6 @@ echo "<p style='color:red;'>Error al enviar el formulario</p>";
 <script src="/js/common.js"></script>
 <script src="/js/cart.js"></script>
 <script src="/js/favorites.js"></script>
-<script src="/js/imprenta2.js"></script>
 
 <!-- ftr -->
 <footer class="ft">
