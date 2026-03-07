@@ -1,97 +1,77 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     inicializarCarrito();
     actualizarContadores();
 });
 
-// Carga inicial y actualización de la vista
 function inicializarCarrito() {
-    const emptyCart = document.getElementById('emptyCart');
-    const itemsList = document.getElementById('cartItems');
-
     fetch('/api/cart.php?action=list')
         .then(r => r.json())
         .then(data => {
-            if (!data.success) throw new Error('Error al obtener carrito');
+            const emptyCart = document.getElementById('emptyCart');
+            const itemsList = document.getElementById('cartItems');
             
-            const carrito = data.items;
-            if (carrito.length === 0) {
-                emptyCart.style.display = 'block';
-                itemsList.style.display = 'none';
-                actualizarResumen([]); // Poner ceros
-            } else {
+            if (data.success && data.items.length > 0) {
                 emptyCart.style.display = 'none';
                 itemsList.style.display = 'block';
-                mostrarItemsCarrito(carrito);
-                actualizarResumen(carrito);
+                renderizarItems(data.items);
+                actualizarResumen(data.items);
+            } else {
+                emptyCart.style.display = 'block';
+                itemsList.style.display = 'none';
+                actualizarResumen([]);
             }
-        })
-        .catch(err => console.error('Error:', err));
+        });
 }
 
-// Genera el HTML de cada fila
-function mostrarItemsCarrito(carrito) {
-    const itemsList = document.getElementById('cartItems');
-    itemsList.innerHTML = '';
-
-    carrito.forEach(item => {
-        const itemElement = document.createElement('div');
-        itemElement.className = 'cart-item';
-        
-        // IMPORTANTE: Guardamos el ID de la fila del carrito (item.id)
-        itemElement.dataset.id_carrito = item.id; 
-        itemElement.dataset.cantidad = item.cantidad;
-        itemElement.dataset.precio = item.precio;
-
-        itemElement.innerHTML = `
-            <div class="item-image">📚</div>
+function renderizarItems(items) {
+    const container = document.getElementById('cartItems');
+    container.innerHTML = items.map(item => `
+        <div class="cart-item" data-id="${item.id}" data-precio="${item.precio}" data-cant="${item.cantidad}">
             <div class="item-details">
-                <h3>${item.titulo || 'Sin título'}</h3>
-                <p>Autor: ${item.autor || 'Sin autor'}</p>
-                <p>Precio unitario: $${parseFloat(item.precio || 0).toFixed(2)}</p>
+                <h3>${item.titulo || 'Libro'}</h3>
+                <p>Precio: $${parseFloat(item.precio).toFixed(2)}</p>
             </div>
-            <div class="item-price">
-                $${(parseFloat(item.precio || 0) * item.cantidad).toFixed(2)}
-            </div>
+            <div class="item-price">$${(item.precio * item.cantidad).toFixed(2)}</div>
             <div class="item-quantity">
-                <button class="quantity-btn btn-minus">−</button>
-                <input type="number" class="quantity-input" value="${item.cantidad}" min="1" readonly />
-                <button class="quantity-btn btn-plus">+</button>
-                <button class="item-remove btn-remove" title="Eliminar">✕</button>
+                <button class="btn-minus">−</button>
+                <input type="number" value="${item.cantidad}" readonly />
+                <button class="btn-plus">+</button>
+                <button class="btn-remove">✕</button>
             </div>
-        `;
-        itemsList.appendChild(itemElement);
-    });
+        </div>
+    `).join('');
 }
 
-// Función para sumar o restar unidades
-function actualizarCantidad(id_carrito, nuevaCantidad) {
+// Delegación de eventos para botones
+document.getElementById('cartItems').addEventListener('click', (e) => {
+    const row = e.target.closest('.cart-item');
+    if (!row) return;
+
+    const id = row.dataset.id; // Este es el ID de la base de datos
+    const cant = parseInt(row.dataset.cant);
+
+    if (e.target.classList.contains('btn-plus')) {
+        peticionUpdate(id, cant + 1);
+    } else if (e.target.classList.contains('btn-minus') && cant > 1) {
+        peticionUpdate(id, cant - 1);
+    } else if (e.target.classList.contains('btn-remove')) {
+        if (confirm('¿Eliminar producto?')) peticionRemove(id);
+    }
+});
+
+function peticionUpdate(id, nuevaCant) {
     fetch('/api/cart.php', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ 
-            action: 'update', 
-            product_id: id_carrito, // El PHP espera 'product_id' pero le mandamos el ID del carrito
-            cantidad: nuevaCantidad 
-        })
+        body: JSON.stringify({ action: 'update', product_id: id, cantidad: nuevaCant })
     })
     .then(r => r.json())
-    .then(data => {
-        if (data.success) {
-            inicializarCarrito(); // Refrescamos todo para ver cambios
-        }
-    })
-    .catch(err => console.error('Error:', err));
+    .then(data => data.success && inicializarCarrito());
 }
 
-// Función para eliminar producto
-function eliminarItem(id_carrito, titulo) {
+function peticionRemove(id) {
     fetch('/api/cart.php', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ 
-            action: 'remove', 
-            product_id: id_carrito 
-        })
+        body: JSON.stringify({ action: 'remove', product_id: id })
     })
     .then(r => r.json())
     .then(data => {
@@ -99,69 +79,20 @@ function eliminarItem(id_carrito, titulo) {
             inicializarCarrito();
             actualizarContadores();
         }
-    })
-    .catch(err => console.error('Error:', err));
-}
-
-// Calcula Subtotal, IVA y Total
-function actualizarResumen(carrito) {
-    let subtot = 0;
-    carrito.forEach(item => {
-        subtot += parseFloat(item.precio || 0) * item.cantidad;
-    });
-    const tax = subtot * 0.10;
-    const tot = subtot + tax;
-
-    document.getElementById('subtotal').textContent = `$${subtot.toFixed(2)}`;
-    document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-    document.getElementById('total').textContent = `$${tot.toFixed(2)}`;
-}
-
-// Eventos de los botones (Delegación)
-document.getElementById('cartItems').addEventListener('click', function(e) {
-    const btn = e.target;
-    const itemRow = btn.closest('.cart-item');
-    if (!itemRow) return;
-
-    const id_carrito = itemRow.dataset.id_carrito;
-    const cantidadActual = parseInt(itemRow.dataset.cantidad);
-    const titulo = itemRow.querySelector('h3').textContent;
-
-    if (btn.classList.contains('btn-remove')) {
-        if (confirm(`¿Eliminar "${titulo}" del carrito?`)) {
-            eliminarItem(id_carrito, titulo);
-        }
-    } 
-    else if (btn.classList.contains('btn-minus')) {
-        if (cantidadActual > 1) {
-            actualizarCantidad(id_carrito, cantidadActual - 1);
-        } else {
-            // Si es 1 y pica menos, preguntamos si quiere borrarlo
-            if (confirm(`¿Eliminar "${titulo}"?`)) eliminarItem(id_carrito, titulo);
-        }
-    } 
-    else if (btn.classList.contains('btn-plus')) {
-        actualizarCantidad(id_carrito, cantidadActual + 1);
-    }
-});
-
-// Botón de pago
-const chkBtn = document.getElementById('chkBtn');
-if (chkBtn) {
-    chkBtn.addEventListener('click', () => {
-        alert('Procesando pago... ¡Gracias!');
-        fetch('/api/cart.php?action=clear').then(() => {
-            window.location.href = '/vistas/bienvenido.php';
-        });
     });
 }
 
-// Contador del icono del nav
+function actualizarResumen(items) {
+    let sub = items.reduce((a, b) => a + (b.precio * b.cantidad), 0);
+    document.getElementById('subtotal').textContent = `$${sub.toFixed(2)}`;
+    document.getElementById('tax').textContent = `$${(sub * 0.1).toFixed(2)}`;
+    document.getElementById('total').textContent = `$${(sub * 1.1).toFixed(2)}`;
+}
+
 function actualizarContadores() {
     fetch('/api/cart.php?action=count')
         .then(r => r.json())
         .then(data => {
-            const el = document.getElementById('cc');
-            if (el) el.textContent = data.total || 0;
+            document.querySelectorAll('#cc').forEach(el => el.textContent = data.total || 0);
         });
 }
