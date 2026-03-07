@@ -11,17 +11,17 @@ if (!$input || !isset($input['codigo'], $input['autor'], $input['titulo'], $inpu
 }
 
 try {
-
     $stmt = $pdo->prepare("
-        INSERT INTO libros (codigo, autor, titulo, tipo)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO libros (codigo, autor, titulo, tipo, precio)
+        VALUES (?, ?, ?, ?, ?)
     ");
 
     $stmt->execute([
         $input['codigo'],
         $input['autor'],
         $input['titulo'],
-        $input['tipo']
+        $input['tipo'],
+        $input['precio'] ?? 0.00
     ]);
 
     echo json_encode([
@@ -30,9 +30,8 @@ try {
     ]);
 
 } catch (PDOException $e) {
-
     echo json_encode([
         'error' => $e->getMessage()
     ]);
-
 }
+?>
