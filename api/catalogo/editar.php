@@ -14,10 +14,11 @@ $autor = $input['autor'];
 $titulo = $input['titulo'];
 $codigo = $input['codigo'];
 $tipo = $input['tipo'];
+$precio = $input['precio'] ?? 0.00;
 
 try {
-    $stmt = $pdo->prepare("UPDATE libros SET autor = ?, titulo = ?, codigo = ?, tipo = ? WHERE id = ?");
-    $stmt->execute([$autor, $titulo, $codigo, $tipo, $id]);
+    $stmt = $pdo->prepare("UPDATE libros SET autor = ?, titulo = ?, codigo = ?, tipo = ?, precio = ? WHERE id = ?");
+    $stmt->execute([$autor, $titulo, $codigo, $tipo, $precio, $id]);
     
     echo json_encode(['success' => true]);
 } catch (PDOException $e) {

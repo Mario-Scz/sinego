@@ -1,154 +1,125 @@
-// ============================================
-// FUNCIONALIDAD DEL CATÁLOGO
-// ============================================
+document.addEventListener("DOMContentLoaded", () => {
+  const grid = document.querySelector(".pg");
+  const buscarInput = document.querySelector(".ib");
+  const checkboxes = document.querySelectorAll(".flt input[type='checkbox']");
 
-document.addEventListener('DOMContentLoaded', function() {
-    inicializarCatalogo();
-});
+  async function cargarLibros() {
+    try {
+      const res = await fetch("/api/catalogo/consultar.php");
+      const data = await res.json();
 
-function inicializarCatalogo() {
-    // Búsqueda de productos
-    const inpBus = document.querySelector('.inp-bus');
-    if (inpBus) {
-        inpBus.addEventListener('input', buscarProductos);
-    }
+      grid.innerHTML = "";
 
-    // flts de géneros
-    const flts = document.querySelectorAll('.flt input[type="checkbox"]');
-    flts.forEach(flt => {
-        flt.addEventListener('change', aplicarflts);
-    });
+      if (data.length === 0) {
+        grid.innerHTML = "<p style='text-align:center; padding:20px;'>No hay libros disponibles</p>";
+        return;
+      }
 
-    // cargar productos desde el servidor
-    fetch('/api/productos.php')
-        .then(r => r.json())
-        .then(data => {
-            if (data.success) {
-                renderizarProductos(data.productos);
-            } else {
-                mostrarNotificacion('No se pudieron cargar los productos', 'error');
-            }
-        })
-        .catch(err => debug('error fetch productos', err));
+      data.forEach(libro => {
+        const card = document.createElement("div");
+        card.className = "pc";
+        card.dataset.id = libro.id;
+        card.dataset.titulo = libro.titulo.toLowerCase();
+        card.dataset.autor = libro.autor.toLowerCase();
+        card.dataset.tipo = libro.tipo.toLowerCase();
 
-    debug('Catálogo inicializado');
-}
+        const precio = libro.precio ? parseFloat(libro.precio).toFixed(2) : "0.00";
 
-// guarda el listado obtenido del servidor para filtrar localmente
-let productosLista = [];
-
-// Buscar productos
-function buscarProductos(e) {
-    const termBus = e.target.value.toLowerCase();
-    const filtrados = productosLista.filter(p =>
-        p.nombre.toLowerCase().includes(termBus) ||
-        (p.descripcion || '').toLowerCase().includes(termBus)
-    );
-    renderizarProductos(filtrados);
-    debug(`Búsqueda de productos: ${termBus} - ${filtrados.length} resultados`);
-}
-
-// Aplicar flts de géneros
-function aplicarflts() {
-    const fltsActivos = document.querySelectorAll('.flt input[type="checkbox"]:checked');
-    const generosSeleccionados = Array.from(fltsActivos).map(f => 
-        f.nextElementSibling.textContent.toLowerCase()
-    );
-    
-    const filtrados = productosLista.filter(p => {
-        if (generosSeleccionados.length === 0) return true;
-        return generosSeleccionados.includes((p.genero || '').toLowerCase());
-    });
-    renderizarProductos(filtrados);
-    debug('flts aplicados:', generosSeleccionados, filtrados.length);
-}
-
-// Configurar botones de agregar al carrito (convertidos en acción POST al backend)
-function configurarBotonesCarrito() {
-    const botonesAgregar = document.querySelectorAll('.bagr');
-    
-    botonesAgregar.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const card = this.closest('.prod-crd');
-            const id = card.dataset.id;
-            fetch('/api/cart.php', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ action: 'add', product_id: id })
-            }).then(r => r.json())
-              .then(data => {
-                  if (data.success) {
-                      mostrarNotificacion('✓ Producto agregado al carrito','success');
-                      actualizarContadores();
-                  } else {
-                      mostrarNotificacion(data.message || 'No se pudo agregar al carrito','error');
-                  }
-              }).catch(err => {
-                  debug('error add cart', err);
-              });
-        });
-    });
-}
-
-// Ver carrito sólo notifica vía servidor
-function verCarrito() {
-    fetch('/api/cart.php?action=list')
-        .then(r => r.json())
-        .then(data => {
-            if (data.success) {
-                const count = data.items.length;
-                if (count === 0) {
-                    mostrarNotificacion('El carrito está vacío', 'info');
-                } else {
-                    mostrarNotificacion(`Carrito: ${count} producto(s)`, 'info');
-                }
-            }
-        });
-}
-
-// Vaciar carrito
-function vaciarCarrito() {
-    fetch('/api/cart.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ action: 'clear' })
-    }).then(r => r.json())
-      .then(data => {
-          if (data.success) {
-              mostrarNotificacion('Carrito vaciado', 'success');
-              actualizarContadores();
-          }
-      });
-}
-
-// renderiza un array de productos en el contenedor
-function renderizarProductos(arr) {
-    productosLista = arr.slice(); // clonar para filtros posteriores
-    const grid = document.querySelector('.pg') || document.getElementById('productosGrid');
-    if (!grid) return;
-    grid.innerHTML = '';
-    arr.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'prod-crd';
-        card.dataset.id = p.id;
         card.innerHTML = `
-            <div class="pc">
-                <div class="pi"><img src="${p.imagen || '../img/ejemplos.png'}" alt="${p.nombre}"></div>
-                <div class="pf">
-                    <h3>${p.nombre}</h3>
-                    <p>${p.descripcion || ''}</p>
-                    <span class="pr">$${parseFloat(p.precio).toFixed(2)}</span>
-                    <div class="card-actions">
-                        <button class="btn-agr bagr">Agregar al carrito</button>
-                        <button class="btn-fav" onclick="agregarAFavoritos(${p.id})">❤</button>
-                    </div>
-                </div>
-            </div>
+          <div class="pi">
+            <img src="/img/ejemplos.png" alt="${libro.titulo}">
+          </div>
+          <div class="pf">
+            <h3>${libro.titulo}</h3>
+            <p><strong>Autor:</strong> ${libro.autor}</p>
+            <p><strong>Tipo:</strong> ${libro.tipo}</p>
+            <p><strong>Código:</strong> ${libro.codigo}</p>
+            <span class="pr">$${precio}</span>
+            <button class="btn-agr" data-id="${libro.id}" data-titulo="${libro.titulo}" data-precio="${libro.precio}">Agregar al carrito</button>
+          </div>
         `;
+
         grid.appendChild(card);
+      });
+
+      document.querySelectorAll(".btn-agr").forEach(btn => {
+        btn.addEventListener("click", agregarAlCarrito);
+      });
+
+    } catch (err) {
+      console.error("Error al cargar libros:", err);
+      grid.innerHTML = "<p style='text-align:center; padding:20px; color:red;'>Error al cargar los libros</p>";
+    }
+  }
+
+  async function agregarAlCarrito(e) {
+    const id = e.target.dataset.id;
+    const titulo = e.target.dataset.titulo;
+    
+    try {
+      const res = await fetch("/api/cart.php?action=add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, tipo: "libro" })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert(`${titulo} agregado al carrito`);
+        actualizarContadorCarrito();
+      } else {
+        alert("Error: " + (data.error || "desconocido"));
+      }
+    } catch (err) {
+      alert("Error de conexión: " + err.message);
+    }
+  }
+
+  async function actualizarContadorCarrito() {
+    try {
+      const res = await fetch("/api/cart.php?action=count");
+      const data = await res.json();
+      document.getElementById("cc").textContent = data.total || 0;
+    } catch (err) {
+      console.error("Error al actualizar carrito:", err);
+    }
+  }
+
+  buscarInput?.addEventListener("input", e => {
+    const termino = e.target.value.toLowerCase();
+    const cards = document.querySelectorAll(".pc");
+
+    cards.forEach(card => {
+      const titulo = card.dataset.titulo;
+      const autor = card.dataset.autor;
+      const tipo = card.dataset.tipo;
+
+      if (titulo.includes(termino) || autor.includes(termino) || tipo.includes(termino)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
     });
-    configurarBotonesCarrito();
-}
+  });
 
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener("change", () => {
+      const termino = checkbox.parentElement.querySelector("span").textContent.toLowerCase();
+      const cards = document.querySelectorAll(".pc");
 
+      cards.forEach(card => {
+        const tipo = card.dataset.tipo;
+
+        if (tipo.includes(termino)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+
+  cargarLibros();
+  actualizarContadorCarrito();
+});

@@ -10,9 +10,8 @@ require __DIR__ . '/../config/session_check.php';
     <link rel="stylesheet" href="/css/cat add.css">
 </head>
 <body>
-<!--
-barra de navegación
--->
+
+<!-- NAV -->
 <nav class="n">
   <div class="nc">
     <div class="nl">
@@ -30,7 +29,7 @@ barra de navegación
       <ul>
         <li><a href="/vistas/bienvenido.php">INICIO</a></li>
         <li><a href="/vistas/imprenta.php">IMPRENTA</a></li>
-        <li><a href="/vistas/catalogo.php">CATALOGO</a></li>
+        <li><a href="/vistas/catalogo.php">CATÁLOGO</a></li>
         <li><a href="/vistas/register.php">INICIAR SESIÓN</a></li>
         <li><a href="/vistas/menu.php">MENÚ</a></li>
       </ul>
@@ -53,9 +52,8 @@ barra de navegación
     </div>
   </div>
 </nav>
-<!--
-sección dstacada
--->
+
+<!-- SECCIÓN DESTACADA -->
 <section class="d2">
   <div class="cd">
     <h1 class="td2">Agregar Nuevo Libro</h1>
@@ -63,9 +61,7 @@ sección dstacada
   </div>
 </section>
 
-<!--
-contenido principal (formulario libro)
--->
+<!-- CONTENIDO PRINCIPAL (FORMULARIO LIBRO) -->
 <main class="c">
   <section class="fs">
     <div class="ac">
@@ -91,17 +87,21 @@ contenido principal (formulario libro)
           <input type="text" id="tp" placeholder="Ej: Novela, Cuento, Clásico..." required />
         </div>
 
+        <div class="fg">
+          <label for="prc">Precio ($)</label>
+          <input type="number" id="prc" placeholder="Ej: 25.99" step="0.01" min="0" />
+        </div>
+
         <div class="fa">
-          <a href="catalog.html"><button type="button" class="b bs">Cancelar</button></a>
+          <a href="catalogo.php"><button type="button" class="b bs">Cancelar</button></a>
           <button type="submit" class="b bp">Agregar Libro</button>
         </div>
       </form>
     </div>
   </section>
 </main>
-<!--
-pie de página
--->
+
+<!-- FOOTER -->
 <footer class="ft">
   <div class="ftc">
     <p>&copy; 2026 Sinego. Todos los derechos reservados.</p>
@@ -112,5 +112,6 @@ pie de página
 <script src="/js/cat-add.js"></script>
 <script src="/js/cart.js"></script>
 <script src="/js/favorites.js"></script>
+
 </body>
 </html>

@@ -1,7 +1,3 @@
-// ============================================
-// carrito - gestionar productos compra
-// ============================================
-
 document.addEventListener('DOMContentLoaded', function() {
     inicializarCarrito();
     actualizarContadores();
@@ -11,11 +7,11 @@ function inicializarCarrito() {
     const emptyCart = document.getElementById('emptyCart');
     const itemsList = document.getElementById('cartItems');
 
-    // obtener lista de carrito desde el servidor
     fetch('/api/cart.php?action=list')
         .then(r => r.json())
         .then(data => {
-            const carrito = data.success ? data.items : [];
+            if (!data.success) throw new Error('Error al obtener carrito');
+            const carrito = data.items;
             if (carrito.length === 0) {
                 emptyCart.style.display = 'block';
                 itemsList.style.display = 'none';
@@ -25,165 +21,165 @@ function inicializarCarrito() {
                 mostrarItemsCarrito(carrito);
                 actualizarResumen(carrito);
             }
-            debug('Carrito inicializado:', carrito);
+        })
+        .catch(err => {
+            console.error('Error:', err);
         });
 }
 
 function mostrarItemsCarrito(carrito) {
     const itemsList = document.getElementById('cartItems');
     itemsList.innerHTML = '';
-    
-    carrito.forEach((item, index) => {
+
+    carrito.forEach(item => {
         const itemElement = document.createElement('div');
         itemElement.className = 'cart-item';
+        itemElement.dataset.id_libro = item.id_libro;
+        itemElement.dataset.cantidad = item.cantidad;
+        itemElement.dataset.titulo = item.titulo;
+        itemElement.dataset.precio = item.precio;
+
         itemElement.innerHTML = `
-            <div class="item-image">📦</div>
+            <div class="item-image">📚</div>
             <div class="item-details">
-                <h3>${item.nombre}</h3>
-                <p>prec: $${parseFloat(item.prec).toFixed(2)}</p>
+                <h3>${item.titulo || 'Sin título'}</h3>
+                <p>Autor: ${item.autor || 'Sin autor'}</p>
+                <p>Precio unitario: $${parseFloat(item.precio || 0).toFixed(2)}</p>
             </div>
             <div class="item-price">
-                $${(parseFloat(item.prec) * item.cantidad).toFixed(2)}
+                $${(parseFloat(item.precio || 0) * item.cantidad).toFixed(2)}
             </div>
             <div class="item-quantity">
-                <button class="quantity-btn" onclick="cambiarCantidad(${index}, -1)">−</button>
-                <input type="number" class="quantity-input" value="${item.cantidad}" min="1" onchange="cambiarCantidadDirecta(${index}, this.value)">
-                <button class="quantity-btn" onclick="cambiarCantidad(${index}, 1)">+</button>
-                <button class="item-remove" onclick="eliminarDelCarrito(${index})">✕</button>
+                <button class="quantity-btn btn-minus">−</button>
+                <input type="number" class="quantity-input" value="${item.cantidad}" min="1" />
+                <button class="quantity-btn btn-plus">+</button>
+                <button class="item-remove btn-remove">✕</button>
             </div>
         `;
         itemsList.appendChild(itemElement);
     });
 }
 
-function cambiarCantidad(index, cantidad) {
-    // ya no tenemos índice; hacemos update por producto
-    // lista actual se puede recuperar vía API nuevamente
+function actualizarCantidad(id_libro, nuevaCantidad, titulo) {
     fetch('/api/cart.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ action: 'list' })
+        body: JSON.stringify({ action: 'update', product_id: id_libro, cantidad: nuevaCantidad })
     })
     .then(r => r.json())
     .then(data => {
-        if (!data.success) return;
-        const carrito = data.items;
-        const item = carrito[index];
-        if (!item) return;
-        const nuevaCantidad = item.cantidad + cantidad;
-        fetch('/api/cart.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ action: 'update', product_id: item.id, cantidad: nuevaCantidad })
-        }).then(() => inicializarCarrito());
-    });
+        if (data.success) {
+            const itemRow = document.querySelector(`.cart-item[data-id_libro="${id_libro}"]`);
+            if (itemRow) {
+                itemRow.dataset.cantidad = nuevaCantidad;
+                const precio = parseFloat(itemRow.dataset.precio);
+                itemRow.querySelector('.item-price').textContent = `$${(precio * nuevaCantidad).toFixed(2)}`;
+                fetch('/api/cart.php?action=list')
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            actualizarResumen(data.items);
+                        }
+                    });
+            }
+        }
+    })
+    .catch(err => console.error('Error:', err));
 }
 
-function cambiarCantidadDirecta(index, cantidad) {
-    const cant = parseInt(cantidad);
-    if (cant < 1) return;
+function eliminarItem(id_libro, titulo) {
     fetch('/api/cart.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ action: 'list' })
+        body: JSON.stringify({ action: 'remove', product_id: id_libro })
     })
     .then(r => r.json())
     .then(data => {
-        if (!data.success) return;
-        const carrito = data.items;
-        const item = carrito[index];
-        if (!item) return;
-        fetch('/api/cart.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ action: 'update', product_id: item.id, cantidad: cant })
-        }).then(() => inicializarCarrito());
-    });
-}
-
-function eliminarDelCarrito(index) {
-    if (confirm('¿Estás seguro de que deseas eliminar este item?')) {
-        fetch('/api/cart.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ action: 'list' })
-        })
-        .then(r => r.json())
-        .then(data => {
-            if (!data.success) return;
-            const item = data.items[index];
-            if (!item) return;
-            fetch('/api/cart.php', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ action: 'remove', product_id: item.id })
-            }).then(() => {
-                mostrarNotificacion(`${item.nombre} removido del carrito`, 'success');
-                inicializarCarrito();
-            });
-        });
-    }
+        if (data.success) {
+            alert(`${titulo} removido del carrito`);
+            inicializarCarrito();
+            actualizarContadores();
+        }
+    })
+    .catch(err => console.error('Error:', err));
 }
 
 function actualizarResumen(carrito) {
     let subtot = 0;
     carrito.forEach(item => {
-        subtot += parseFloat(item.prec) * item.cantidad;
+        subtot += parseFloat(item.precio || 0) * item.cantidad;
     });
-    
     const tax = subtot * 0.10;
     const tot = subtot + tax;
-    
-    document.getElementById('subtot').textContent = `$${subtot.toFixed(2)}`;
-    document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-    document.getElementById('tot').textContent = `$${tot.toFixed(2)}`;
-}
 
-function vaciarCarrito() {
-    if (confirm('¿Estás seguro de que deseas vaciar todo el carrito?')) {
-        Storage.remove('carrito');
-        mostrarNotificacion('Carrito vaciado', 'success');
-        inicializarCarrito();
-    }
+    document.getElementById('subtotal').textContent = `$${subtot.toFixed(2)}`;
+    document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+    document.getElementById('total').textContent = `$${tot.toFixed(2)}`;
 }
 
 function procederAlPago() {
-    const carrito = Storage.get('carrito') || [];
-    if (carrito.length === 0) {
-        mostrarNotificacion('Tu carrito está vacío', 'error');
+    const carritoDiv = document.getElementById('cartItems');
+    if (carritoDiv.style.display === 'none') {
+        alert('Tu carrito está vacío');
         return;
     }
-    
-    debug('Procesando pago...', carrito);
-    mostrarNotificacion('Procesando pago. Gracias por tu compra', 'success');
-    
+    alert('Procesando pago. Gracias por tu compra');
+
     setTimeout(() => {
-        fetch('/api/cart.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ action: 'clear' })
-        }).then(()=>{
-            window.location.href = '/vistas/bienvenido.php';
-        });
+        fetch('/api/cart.php?action=clear')
+            .then(() => {
+                window.location.href = '/vistas/bienvenido.php';
+            });
     }, 2000);
 }
 
-document.getElementById('checkoutBtn')?.addEventListener('click', procederAlPago);
-
-function actualizarContadores() {
-    // traer ambos conteos desde servidor
-    Promise.all([
-        fetch('/api/cart.php?action=list').then(r=>r.json()),
-        fetch('/api/favorites.php?action=list').then(r=>r.json())
-    ]).then(([cartRes, favRes]) => {
-        const ccount = cartRes.success ? cartRes.items.length : 0;
-        const fcount = favRes.success ? favRes.items.length : 0;
-        document.querySelectorAll('#cCnt').forEach(el => { el.textContent = ccount; });
-        document.querySelectorAll('#fCnt').forEach(el => { el.textContent = fcount; });
-    }).catch(err=>debug('error contadores', err));
+const chkBtn = document.getElementById('chkBtn');
+if (chkBtn) {
+    chkBtn.addEventListener('click', procederAlPago);
 }
 
-// Actualizar contadores cada vez que se agregue algo
-setInterval(actualizarContadores, 500);
+// Contadores en tiempo real
+function actualizarContadores() {
+    fetch('/api/cart.php?action=count')
+        .then(r => r.json())
+        .then(data => {
+            document.querySelectorAll('#cc').forEach(el => { el.textContent = data.total || 0; });
+        })
+        .catch(err => console.error('Error contador:', err));
+}
+setInterval(actualizarContadores, 2000);
 
+// Delegación de eventos
+document.getElementById('cartItems').addEventListener('click', function(e) {
+    const btn = e.target;
+    const itemRow = btn.closest('.cart-item');
+    if (!itemRow) return;
 
+    const id_libro = itemRow.dataset.id_libro;
+    const cantidad = parseInt(itemRow.dataset.cantidad);
+    const titulo = itemRow.dataset.titulo;
+
+    if (btn.classList.contains('btn-remove')) {
+        if (confirm('¿Estás seguro de que deseas eliminar este item?')) {
+            eliminarItem(id_libro, titulo);
+        }
+        return;
+    }
+    if (btn.classList.contains('btn-minus')) {
+        if (cantidad > 1) {
+            actualizarCantidad(id_libro, cantidad - 1, titulo);
+        }
+        return;
+    }
+    if (btn.classList.contains('btn-plus')) {
+        actualizarCantidad(id_libro, cantidad + 1, titulo);
+        return;
+    }
+    if (btn.classList.contains('quantity-input')) {
+        const nuevaCantidad = parseInt(btn.value);
+        if (nuevaCantidad >= 1) {
+            actualizarCantidad(id_libro, nuevaCantidad, titulo);
+        }
+        return;
+    }
+});

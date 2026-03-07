@@ -1,23 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   const form = document.querySelector(".fm");
 
   form.addEventListener("submit", async (e) => {
-
     e.preventDefault();
 
     const codigo = document.getElementById("idL").value.trim();
     const autor = document.getElementById("aut").value.trim();
     const titulo = document.getElementById("libro").value.trim();
     const tipo = document.getElementById("tp").value.trim();
+    const precio = document.getElementById("prc").value.trim() || "0.00";
 
     if (!codigo || !autor || !titulo || !tipo) {
-      alert("Completa todos los campos");
+      alert("Completa todos los campos obligatorios");
+      return;
+    }
+
+    if (isNaN(precio) || precio < 0) {
+      alert("El precio debe ser un número válido");
       return;
     }
 
     try {
-
       const res = await fetch("/api/catalogo/agregar.php", {
         method: "POST",
         headers: {
@@ -27,31 +30,22 @@ document.addEventListener("DOMContentLoaded", () => {
           codigo,
           autor,
           titulo,
-          tipo
+          tipo,
+          precio
         })
       });
 
       const data = await res.json();
 
       if (data.success) {
-
         alert("Libro agregado correctamente");
-
         form.reset();
-
       } else {
-
         alert("Error: " + (data.error || "desconocido"));
-
       }
-
     } catch (err) {
-
-      alert("Error de conexión");
+      alert("Error de conexión: " + err.message);
       console.error(err);
-
     }
-
   });
-
 });

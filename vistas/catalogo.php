@@ -1,3 +1,6 @@
+<?php
+require __DIR__ . '/../config/session_check.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,6 +11,7 @@
 </head>
 <body>
 
+<!-- NAV -->
 <nav class="n">
   <div class="nc">
     <div class="nl">
@@ -23,9 +27,9 @@
     </label>
     <nav class="mn">
       <ul>
-    <li><a href="/vistas/bienvenido.php">INICIO</a></li>
+        <li><a href="/vistas/bienvenido.php">INICIO</a></li>
         <li><a href="/vistas/imprenta.php">IMPRENTA</a></li>
-        <li><a href="/vistas/catalogo.php">CATALOGO</a></li>
+        <li><a href="/vistas/catalogo.php">CATÁLOGO</a></li>
         <li><a href="/vistas/register.php">INICIAR SESIÓN</a></li>
         <li><a href="/vistas/menu.php">MENÚ</a></li>
       </ul>
@@ -49,6 +53,7 @@
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="h">
   <div class="hc">
     <h1 class="ht">Nuestro Catálogo</h1>
@@ -56,9 +61,11 @@
   </div>
 </section>
 
+<!-- CONTENIDO PRINCIPAL -->
 <main class="c">
   <div class="cl2">
 
+    <!-- SIDEBAR DE FILTROS -->
     <aside class="fs2">
       <h3>Filtros</h3>
       <div class="fg2">
@@ -93,87 +100,24 @@
         </label>
       </div>
     </aside>
+
+    <!-- GRID DE PRODUCTOS -->
     <section class="ps">
+      <!-- BARRA DE BÚSQUEDA -->
       <div class="bb">
         <input type="text" placeholder="Buscar productos..." class="ib">
       </div>
 
-      <div class="pg">  
-        <div class="pc">
-          <div class="pi">
-            <img src="/img/ejemplos.png" alt="Libro 1">
-          </div>
-          <div class="pf">
-            <h3>Libro 1</h3>
-            <p>Descripción del producto</p>
-            <span class="pr">$25.99</span>
-            <button class="btn-agr">Agregar al carrito</button>
-          </div>
-        </div>
-
-        <div class="pc">
-          <div class="pi">
-            <img src="/img/ejemplos.png" alt="Libro 2">
-          </div>
-          <div class="pf">
-            <h3>Libro 2</h3>
-            <p>Descripción del producto</p>
-            <span class="pr">$32.50</span>
-            <button class="btn-agr">Agregar al carrito</button>
-          </div>
-        </div>
-
-        <div class="pc">
-          <div class="pi">
-            <img src="/img/ejemplos.png" alt="Libro 3">
-          </div>
-          <div class="pf">
-            <h3>Libro 3</h3>
-            <p>Descripción del producto</p>
-            <span class="pr">$28.75</span>
-            <button class="btn-agr">Agregar al carrito</button>
-          </div>
-        </div>
-
-        <div class="pc">
-          <div class="pi">
-            <img src="/img/ejemplos.png" alt="Libro 4">
-          </div>
-          <div class="pf">
-            <h3>Libro 4</h3>
-            <p>Descripción del producto</p>
-            <span class="pr">$35.00</span>
-            <button class="btn-agr">Agregar al carrito</button>
-          </div>
-        </div>
-
-        <div class="pc">
-          <div class="pi">
-            <img src="/img/ejemplos.png" alt="Libro 5">
-          </div>
-          <div class="pf">
-            <h3>Libro 5</h3>
-            <p>Descripción del producto</p>
-            <span class="pr">$29.99</span>
-            <button class="btn-agr">Agregar al carrito</button>
-          </div>
-        </div>
-
-        <div class="pc">
-          <div class="pi">
-            <img src="/img/ejemplos.png" alt="Libro 6">
-          </div>
-          <div class="pf">
-            <h3>Libro 6</h3>
-            <p>Descripción del producto</p>
-            <span class="pr">$31.45</span>
-            <button class="btn-agr">Agregar al carrito</button>
-          </div>
-        </div>
+      <!-- GRID DE LIBROS (Aquí se insertan dinámicamente) -->
+      <div class="pg">
+        <!-- Los libros se cargarán aquí con JavaScript -->
       </div>
     </section>
+
   </div>
 </main>
+
+<!-- FOOTER -->
 <footer class="ft">
   <div class="ftc">
     <p>&copy; 2026 Sinego. Todos los derechos reservados.</p>
@@ -181,9 +125,11 @@
   </div>
 </footer>
 
+<!-- SCRIPTS -->
 <script src="/js/common.js"></script>
 <script src="/js/catalogo.js"></script>
 <script src="/js/cart.js"></script>
 <script src="/js/favorites.js"></script>
+
 </body>
 </html>

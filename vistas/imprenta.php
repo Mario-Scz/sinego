@@ -126,7 +126,7 @@
 </main>
 
 <script src="/js/common.js"></script>
-<script src="/js/imprenta.js"></script>
+<script src="/js/imprenta2.js"></script>
 <script src="/js/cart.js"></script>
 <script src="/js/favorites.js"></script>
 <!-- ftr -->
