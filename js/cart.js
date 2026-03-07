@@ -8,46 +8,37 @@ function inicializarCarrito() {
     const itemsList = document.getElementById('cartItems');
 
     fetch('/api/cart.php?action=list')
-        .then(r => {
-            if (!r.ok) {
-                throw new Error('Error en la respuesta: ' + r.status);
-            }
-            return r.text();
-        })
-        .then(text => {
-            try {
-                const data = JSON.parse(text);
-                const carrito = data.success ? data.items : [];
-                if (carrito.length === 0) {
-                    emptyCart.style.display = 'block';
-                    itemsList.style.display = 'none';
-                } else {
-                    emptyCart.style.display = 'none';
-                    itemsList.style.display = 'block';
-                    mostrarItemsCarrito(carrito);
-                    actualizarResumen(carrito);
-                }
-            } catch (e) {
-                console.error('Error al parsear JSON:', text);
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) throw new Error('Error al obtener carrito');
+            const carrito = data.items;
+            if (carrito.length === 0) {
+                emptyCart.style.display = 'block';
+                itemsList.style.display = 'none';
+            } else {
+                emptyCart.style.display = 'none';
+                itemsList.style.display = 'block';
+                mostrarItemsCarrito(carrito);
+                actualizarResumen(carrito);
             }
         })
         .catch(err => {
-            console.error('Error de red:', err);
+            console.error('Error:', err);
         });
 }
 
 function mostrarItemsCarrito(carrito) {
     const itemsList = document.getElementById('cartItems');
     itemsList.innerHTML = '';
-    
-    carrito.forEach((item, index) => {
+
+    carrito.forEach(item => {
         const itemElement = document.createElement('div');
         itemElement.className = 'cart-item';
-        itemElement.dataset.id = item.id;
+        itemElement.dataset.id_libro = item.id_libro;
         itemElement.dataset.cantidad = item.cantidad;
         itemElement.dataset.titulo = item.titulo;
         itemElement.dataset.precio = item.precio;
-        
+
         itemElement.innerHTML = `
             <div class="item-image">📚</div>
             <div class="item-details">
@@ -60,7 +51,7 @@ function mostrarItemsCarrito(carrito) {
             </div>
             <div class="item-quantity">
                 <button class="quantity-btn btn-minus">−</button>
-                <input type="number" class="quantity-input" value="${item.cantidad}" min="1">
+                <input type="number" class="quantity-input" value="${item.cantidad}" min="1" />
                 <button class="quantity-btn btn-plus">+</button>
                 <button class="item-remove btn-remove">✕</button>
             </div>
@@ -69,25 +60,23 @@ function mostrarItemsCarrito(carrito) {
     });
 }
 
-function actualizarCantidad(itemId, nuevaCantidad, titulo) {
+function actualizarCantidad(id_libro, nuevaCantidad, titulo) {
     fetch('/api/cart.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ action: 'update', product_id: itemId, cantidad: nuevaCantidad })
+        body: JSON.stringify({ action: 'update', product_id: id_libro, cantidad: nuevaCantidad })
     })
     .then(r => r.json())
     .then(data => {
         if (data.success) {
-            const itemRow = document.querySelector(`.cart-item[data-id="${itemId}"]`);
+            const itemRow = document.querySelector(`.cart-item[data-id_libro="${id_libro}"]`);
             if (itemRow) {
                 itemRow.dataset.cantidad = nuevaCantidad;
                 const precio = parseFloat(itemRow.dataset.precio);
                 itemRow.querySelector('.item-price').textContent = `$${(precio * nuevaCantidad).toFixed(2)}`;
-                // Actualizar resumen después de cambiar cantidad
                 fetch('/api/cart.php?action=list')
-                    .then(r => r.text())
-                    .then(text => {
-                        const data = JSON.parse(text);
+                    .then(r => r.json())
+                    .then(data => {
                         if (data.success) {
                             actualizarResumen(data.items);
                         }
@@ -95,24 +84,24 @@ function actualizarCantidad(itemId, nuevaCantidad, titulo) {
             }
         }
     })
-    .catch(err => console.error('Error al actualizar:', err));
+    .catch(err => console.error('Error:', err));
 }
 
-function eliminarItem(itemId, titulo) {
+function eliminarItem(id_libro, titulo) {
     fetch('/api/cart.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ action: 'remove', product_id: itemId })
+        body: JSON.stringify({ action: 'remove', product_id: id_libro })
     })
     .then(r => r.json())
     .then(data => {
         if (data.success) {
             alert(`${titulo} removido del carrito`);
             inicializarCarrito();
-            actualizarContadores(); // Aquí actualizamos el contador en tiempo real
+            actualizarContadores();
         }
     })
-    .catch(err => console.error('Error al eliminar:', err));
+    .catch(err => console.error('Error:', err));
 }
 
 function actualizarResumen(carrito) {
@@ -120,24 +109,22 @@ function actualizarResumen(carrito) {
     carrito.forEach(item => {
         subtot += parseFloat(item.precio || 0) * item.cantidad;
     });
-    
     const tax = subtot * 0.10;
     const tot = subtot + tax;
-    
+
     document.getElementById('subtotal').textContent = `$${subtot.toFixed(2)}`;
     document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
     document.getElementById('total').textContent = `$${tot.toFixed(2)}`;
 }
 
 function procederAlPago() {
-    const carrito = document.getElementById('cartItems');
-    if (carrito.style.display === 'none') {
+    const carritoDiv = document.getElementById('cartItems');
+    if (carritoDiv.style.display === 'none') {
         alert('Tu carrito está vacío');
         return;
     }
-    
     alert('Procesando pago. Gracias por tu compra');
-    
+
     setTimeout(() => {
         fetch('/api/cart.php?action=clear')
             .then(() => {
@@ -146,65 +133,53 @@ function procederAlPago() {
     }, 2000);
 }
 
-document.getElementById('chkBtn')?.addEventListener('click', procederAlPago);
-
-function actualizarContadores() {
-    fetch('/api/cart.php?action=count')
-        .then(r => r.text())
-        .then(text => {
-            try {
-                const data = JSON.parse(text);
-                document.querySelectorAll('#cc').forEach(el => { el.textContent = data.total || 0; });
-            } catch (e) {
-                console.error('Error al parsear contador:', text);
-            }
-        })
-        .catch(err => {
-            console.error('Error contadores:', err);
-        });
+const chkBtn = document.getElementById('chkBtn');
+if (chkBtn) {
+    chkBtn.addEventListener('click', procederAlPago);
 }
 
-// Actualizar contadores cada 2 segundos
+// Contadores en tiempo real
+function actualizarContadores() {
+    fetch('/api/cart.php?action=count')
+        .then(r => r.json())
+        .then(data => {
+            document.querySelectorAll('#cc').forEach(el => { el.textContent = data.total || 0; });
+        })
+        .catch(err => console.error('Error contador:', err));
+}
 setInterval(actualizarContadores, 2000);
 
-// EVENT DELEGATION - Manejo de botones
+// Delegación de eventos
 document.getElementById('cartItems').addEventListener('click', function(e) {
     const btn = e.target;
     const itemRow = btn.closest('.cart-item');
-    
     if (!itemRow) return;
-    
-    const itemId = itemRow.dataset.id;
-    const currentCantidad = parseInt(itemRow.dataset.cantidad);
+
+    const id_libro = itemRow.dataset.id_libro;
+    const cantidad = parseInt(itemRow.dataset.cantidad);
     const titulo = itemRow.dataset.titulo;
-    
-    // Botón Eliminar (X)
+
     if (btn.classList.contains('btn-remove')) {
         if (confirm('¿Estás seguro de que deseas eliminar este item?')) {
-            eliminarItem(itemId, titulo);
+            eliminarItem(id_libro, titulo);
         }
         return;
     }
-    
-    // Botón Disminuir (-)
     if (btn.classList.contains('btn-minus')) {
-        if (currentCantidad > 1) {
-            actualizarCantidad(itemId, currentCantidad - 1, titulo);
+        if (cantidad > 1) {
+            actualizarCantidad(id_libro, cantidad - 1, titulo);
         }
         return;
     }
-    
-    // Botón Aumentar (+)
     if (btn.classList.contains('btn-plus')) {
-        actualizarCantidad(itemId, currentCantidad + 1, titulo);
+        actualizarCantidad(id_libro, cantidad + 1, titulo);
         return;
     }
-    
-    // Input de cantidad
     if (btn.classList.contains('quantity-input')) {
         const nuevaCantidad = parseInt(btn.value);
         if (nuevaCantidad >= 1) {
-            actualizarCantidad(itemId, nuevaCantidad, titulo);
+            actualizarCantidad(id_libro, nuevaCantidad, titulo);
         }
+        return;
     }
 });
