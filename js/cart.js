@@ -29,7 +29,7 @@ function inicializarCarrito() {
                 }
             } catch (e) {
                 console.error('Error al parsear JSON:', text);
-                alert('Error: El servidor no devolvió datos válidos');
+                
             }
         })
         .catch(err => {
