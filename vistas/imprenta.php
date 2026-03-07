@@ -1,3 +1,6 @@
+<?php
+// imprenta.php
+?>
 <section class="fs">
   <div class="fg">
     <div class="fi">
@@ -5,6 +8,16 @@
     </div>
     <div class="fc">
       <h2>Cotiza tu Proyecto</h2>
+
+      <!-- Mensaje dinámico -->
+      <?php
+      if(isset($_GET['success']) && $_GET['success'] == 1){
+          echo '<p class="mensaje-exito">¡Formulario enviado correctamente!</p>';
+      } elseif(isset($_GET['error']) && $_GET['error'] == 1){
+          echo '<p class="mensaje-error">Error al enviar el formulario. Intenta de nuevo.</p>';
+      }
+      ?>
+
       <p>Completa los siguientes datos para obtener un presupuesto personalizado</p>
       <form class="fm" action="/vistas/enviar_form.php" method="POST">
         <div class="cp">

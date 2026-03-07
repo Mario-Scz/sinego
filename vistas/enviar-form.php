@@ -2,7 +2,6 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Incluir PHPMailer manualmente
 require 'phpmailer/PHPMailer.php';
 require 'phpmailer/SMTP.php';
 require 'phpmailer/Exception.php';
@@ -17,20 +16,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail = new PHPMailer(true);
 
     try {
-        // Configuración SMTP
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com'; // Cambia si usas otro servicio
+        $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'mroberto.drako@gmail.com'; // tu correo
-        $mail->Password   = 'uxhh eptj pgmc vxif';    // contraseña de app
+        $mail->Username   = 'mroberto.drako@gmail.com'; // Tu correo
+        $mail->Password   = 'uxhh eptj pgmc vxif';    // Contraseña de aplicación
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 
-        // Destinatarios
         $mail->setFrom('mroberto.drako@gmail.com', 'Sinego Imprenta');
-        $mail->addAddress('gustav.arsene@gmail.com'); // correo destino
+        $mail->addAddress('gustav.arsene@gmail.com'); // correo receptor
 
-        // Contenido
         $mail->isHTML(true);
         $mail->Subject = 'Nueva Cotización de Imprenta';
         $mail->Body    = "
@@ -42,11 +38,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ";
 
         $mail->send();
-        echo "<p>Formulario enviado correctamente.</p>";
-        echo "<p><a href='/vistas/imprenta.php'>Volver</a></p>";
+
+        header("Location: /vistas/imprenta.php?success=1");
+        exit;
 
     } catch (Exception $e) {
-        echo "Error al enviar formulario: {$mail->ErrorInfo}";
+        header("Location: /vistas/imprenta.php?error=1");
+        exit;
     }
 }
 ?>
