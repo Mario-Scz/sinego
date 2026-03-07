@@ -4,27 +4,23 @@ header('Access-Control-Allow-Origin: *');
 
 require_once "../../config/db.php";
 
-// Obtener datos
 $codigo = $_POST['codigo'] ?? '';
 $autor = $_POST['autor'] ?? '';
 $titulo = $_POST['titulo'] ?? '';
 $tipo = $_POST['tipo'] ?? '';
 $precio = $_POST['precio'] ?? 0.00;
 
-// Validar datos
 if (!$codigo || !$autor || !$titulo || !$tipo) {
     echo json_encode(['success' => false, 'error' => 'Datos incompletos']);
     exit;
 }
 
 try {
-    $imagen = 'img/ejemplos.png'; // Imagen por defecto
+    $imagen = 'img/ejemplos.png';
 
-    // Si hay imagen subida
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = "../../img/libros/";
         
-        // Crear directorio si no existe
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
@@ -32,7 +28,6 @@ try {
         $fileName = uniqid() . '_' . time() . '_' . basename($_FILES['imagen']['name']);
         $uploadPath = $uploadDir . $fileName;
 
-        // Validar tipo de archivo
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         $fileType = $_FILES['imagen']['type'];
 
@@ -43,7 +38,6 @@ try {
         }
     }
 
-    // Insertar libro
     $stmt = $pdo->prepare("
         INSERT INTO libros (codigo, autor, titulo, tipo, precio, imagen)
         VALUES (?, ?, ?, ?, ?, ?)

@@ -1,7 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
   const form = document.querySelector(".fm");
 
-  form.addEventListener("submit", async (e) => {
+  form.addEventListener("submit", async function(e) {
     e.preventDefault();
 
     const codigo = document.getElementById("idL").value.trim();
@@ -11,19 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const precio = document.getElementById("prc").value.trim() || "0.00";
     const imagenInput = document.getElementById("img");
 
-    // Validar campos obligatorios
     if (!codigo || !autor || !titulo || !tipo) {
       alert("Completa todos los campos obligatorios");
       return;
     }
 
-    // Validar precio
     if (isNaN(precio) || precio < 0) {
       alert("El precio debe ser un número válido");
       return;
     }
 
-    // Crear FormData para enviar imagen
     const formData = new FormData();
     formData.append("codigo", codigo);
     formData.append("autor", autor);
