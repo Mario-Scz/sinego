@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
         grid.appendChild(card);
       });
 
-      // Agregar eventos a los botones de agregar
       document.querySelectorAll(".btn-agr").forEach(btn => {
         btn.addEventListener("click", agregarAlCarrito);
       });
@@ -53,11 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Función para agregar al carrito
   async function agregarAlCarrito(e) {
     const id = e.target.dataset.id;
     const titulo = e.target.dataset.titulo;
-    const precio = e.target.dataset.precio;
     
     try {
       const res = await fetch("/api/cart.php?action=add", {
@@ -72,14 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
         alert(`${titulo} agregado al carrito`);
         actualizarContadorCarrito();
       } else {
-        alert("Error al agregar al carrito: " + (data.error || "desconocido"));
+        alert("Error: " + (data.error || "desconocido"));
       }
     } catch (err) {
       alert("Error de conexión: " + err.message);
     }
   }
 
-  // Actualizar contador del carrito
   async function actualizarContadorCarrito() {
     try {
       const res = await fetch("/api/cart.php?action=count");
@@ -90,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Filtrar por búsqueda
   buscarInput?.addEventListener("input", e => {
     const termino = e.target.value.toLowerCase();
     const cards = document.querySelectorAll(".pc");
@@ -108,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Filtrar por géneros (checkboxes)
   checkboxes.forEach(checkbox => {
     checkbox.addEventListener("change", () => {
       const termino = checkbox.parentElement.querySelector("span").textContent.toLowerCase();
@@ -126,7 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Cargar al inicio
   cargarLibros();
   actualizarContadorCarrito();
 });

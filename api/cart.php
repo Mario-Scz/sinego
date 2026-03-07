@@ -1,19 +1,24 @@
 <?php
 header('Content-Type: application/json');
 require_once "../../config/db.php";
-session_start();
 
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
 // LISTAR CARRITO
 if ($action === 'list') {
-    $stmt = $pdo->query("SELECT * FROM carrito ORDER BY id DESC");
-    $items = $stmt->fetchAll();
-    
-    echo json_encode([
-        'success' => true,
-        'items' => $items
-    ]);
+    try {
+        $stmt = $pdo->query("
+            SELECT c.*, l.titulo, l.autor, l.precio 
+            FROM carrito c 
+            LEFT JOIN libros l ON c.id_libro = l.id 
+            ORDER BY c.id DESC
+        ");
+        $items = $stmt->fetchAll();
+        
+        echo json_encode(['success' => true, 'items' => $items]);
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    }
     exit;
 }
 
@@ -30,18 +35,15 @@ if ($action === 'add') {
     $tipo = $input['tipo'] ?? 'libro';
     
     try {
-        // Verificar si ya está en el carrito
         $stmt = $pdo->prepare("SELECT * FROM carrito WHERE id_libro = ? AND tipo = ?");
         $stmt->execute([$id, $tipo]);
         $existe = $stmt->fetch();
         
         if ($existe) {
-            // Si ya existe, aumentar cantidad
             $nuevaCantidad = $existe['cantidad'] + 1;
-            $stmt = $pdo->prepare("UPDATE carrito SET cantidad = ? WHERE id_libro = ? AND tipo = ?");
-            $stmt->execute([$nuevaCantidad, $id, $tipo]);
+            $stmt = $pdo->prepare("UPDATE carrito SET cantidad = ? WHERE id = ?");
+            $stmt->execute([$nuevaCantidad, $existe['id']]);
         } else {
-            // Si no existe, agregar nuevo
             $stmt = $pdo->prepare("INSERT INTO carrito (id_libro, tipo, cantidad) VALUES (?, ?, 1)");
             $stmt->execute([$id, $tipo]);
         }
@@ -68,7 +70,6 @@ if ($action === 'update') {
     try {
         $stmt = $pdo->prepare("UPDATE carrito SET cantidad = ? WHERE id = ?");
         $stmt->execute([$cantidad, $id]);
-        
         echo json_encode(['success' => true]);
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
@@ -90,7 +91,6 @@ if ($action === 'remove') {
     try {
         $stmt = $pdo->prepare("DELETE FROM carrito WHERE id = ?");
         $stmt->execute([$id]);
-        
         echo json_encode(['success' => true]);
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
@@ -101,8 +101,7 @@ if ($action === 'remove') {
 // VACIAR CARRITO
 if ($action === 'clear') {
     try {
-        $stmt = $pdo->query("DELETE FROM carrito");
-        
+        $pdo->query("DELETE FROM carrito");
         echo json_encode(['success' => true]);
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
@@ -112,13 +111,15 @@ if ($action === 'clear') {
 
 // CONTAR ITEMS
 if ($action === 'count') {
-    $stmt = $pdo->query("SELECT SUM(cantidad) as total FROM carrito");
-    $data = $stmt->fetch();
-    
-    echo json_encode(['total' => $data['total'] ?? 0]);
+    try {
+        $stmt = $pdo->query("SELECT SUM(cantidad) as total FROM carrito");
+        $data = $stmt->fetch();
+        echo json_encode(['total' => $data['total'] ?? 0]);
+    } catch (PDOException $e) {
+        echo json_encode(['total' => 0]);
+    }
     exit;
 }
 
-// ERROR
 echo json_encode(['success' => false, 'error' => 'Acción inválida']);
 ?>

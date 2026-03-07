@@ -7,7 +7,6 @@ function inicializarCarrito() {
     const emptyCart = document.getElementById('emptyCart');
     const itemsList = document.getElementById('cartItems');
 
-    // Obtener lista de carrito desde el servidor
     fetch('/api/cart.php?action=list')
         .then(r => r.json())
         .then(data => {
@@ -21,7 +20,9 @@ function inicializarCarrito() {
                 mostrarItemsCarrito(carrito);
                 actualizarResumen(carrito);
             }
-            debug('Carrito inicializado:', carrito);
+        })
+        .catch(err => {
+            alert("Error al cargar el carrito: " + err.message);
         });
 }
 
@@ -35,12 +36,12 @@ function mostrarItemsCarrito(carrito) {
         itemElement.innerHTML = `
             <div class="item-image">📚</div>
             <div class="item-details">
-                <h3>${item.titulo}</h3>
-                <p>Autor: ${item.autor}</p>
-                <p>Precio unitario: $${parseFloat(item.precio).toFixed(2)}</p>
+                <h3>${item.titulo || 'Sin título'}</h3>
+                <p>Autor: ${item.autor || 'Sin autor'}</p>
+                <p>Precio unitario: $${parseFloat(item.precio || 0).toFixed(2)}</p>
             </div>
             <div class="item-price">
-                $${(parseFloat(item.precio) * item.cantidad).toFixed(2)}
+                $${(parseFloat(item.precio || 0) * item.cantidad).toFixed(2)}
             </div>
             <div class="item-quantity">
                 <button class="quantity-btn" onclick="cambiarCantidad(${index}, -1)">−</button>
@@ -102,7 +103,7 @@ function eliminarDelCarrito(index) {
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ action: 'remove', product_id: item.id })
                 }).then(() => {
-                    mostrarNotificacion(`${item.titulo} removido del carrito`, 'success');
+                    alert(`${item.titulo} removido del carrito`);
                     inicializarCarrito();
                 });
             });
@@ -112,7 +113,7 @@ function eliminarDelCarrito(index) {
 function actualizarResumen(carrito) {
     let subtot = 0;
     carrito.forEach(item => {
-        subtot += parseFloat(item.precio) * item.cantidad;
+        subtot += parseFloat(item.precio || 0) * item.cantidad;
     });
     
     const tax = subtot * 0.10;
@@ -126,12 +127,11 @@ function actualizarResumen(carrito) {
 function procederAlPago() {
     const carrito = document.getElementById('cartItems');
     if (carrito.style.display === 'none') {
-        mostrarNotificacion('Tu carrito está vacío', 'error');
+        alert('Tu carrito está vacío');
         return;
     }
     
-    debug('Procesando pago...');
-    mostrarNotificacion('Procesando pago. Gracias por tu compra', 'success');
+    alert('Procesando pago. Gracias por tu compra');
     
     setTimeout(() => {
         fetch('/api/cart.php?action=clear')
@@ -144,26 +144,12 @@ function procederAlPago() {
 document.getElementById('chkBtn')?.addEventListener('click', procederAlPago);
 
 function actualizarContadores() {
-    Promise.all([
-        fetch('/api/cart.php?action=count').then(r=>r.json()),
-        fetch('/api/favorites.php?action=list').then(r=>r.json())
-    ]).then(([cartRes, favRes]) => {
-        const ccount = cartRes.total || 0;
-        const fcount = favRes.success ? favRes.items.length : 0;
-        document.querySelectorAll('#cc').forEach(el => { el.textContent = ccount; });
-        document.querySelectorAll('#cf').forEach(el => { el.textContent = fcount; });
-    }).catch(err=>debug('error contadores', err));
+    fetch('/api/cart.php?action=count')
+        .then(r => r.json())
+        .then(data => {
+            document.querySelectorAll('#cc').forEach(el => { el.textContent = data.total || 0; });
+        })
+        .catch(err => console.error('Error contadores:', err));
 }
 
-// Actualizar contadores cada vez que se agregue algo
 setInterval(actualizarContadores, 500);
-
-// Funciones auxiliares
-function debug(msg, data) {
-    console.log(msg, data);
-}
-
-function mostrarNotificacion(msg, type) {
-    // Puedes implementar tu propio sistema de notificaciones
-    alert(msg);
-}
