@@ -116,7 +116,15 @@
       </div>
     </div>
   </section>
+  <?php
+if(isset($_GET['success'])){
+echo "<p style='color:green;'>Formulario enviado correctamente ✔</p>";
+}
 
+if(isset($_GET['error'])){
+echo "<p style='color:red;'>Error al enviar el formulario</p>";
+}
+?>
   <!-- Services Section -->
   <section class="ss">
     <h2>Nuestros Servicios</h2>

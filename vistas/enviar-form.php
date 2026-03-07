@@ -1,51 +1,36 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'phpmailer/Exception.php';
-require 'phpmailer/PHPMailer.php';
-require 'phpmailer/SMTP.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $unidades = $_POST['unidades'] ?? '';
 $paginas = $_POST['paginas'] ?? '';
 $tipo_impresion = $_POST['tipo_impresion'] ?? '';
 $material = $_POST['material'] ?? '';
 
-$mail = new PHPMailer(true);
+$to = "mroberto.drako@gmail.com"; // TU CORREO
+$subject = "Nueva cotización - Sinego";
 
-try{
+$message = "
+Nueva solicitud de cotización
 
-$mail->isSMTP();
-$mail->Host = 'smtp.gmail.com';
-$mail->SMTPAuth = true;
-$mail->Username = 'mroberto.drako@gmail.com';
-$mail->Password = 'uxhheptjpgmcvxif';
-$mail->SMTPSecure = 'tls';
-$mail->Port = 587;
-
-$mail->Timeout = 10;
-
-$mail->setFrom('mroberto.drako@gmail.com','Formulario Sinego');
-$mail->addAddress('mroberto.drako@gmail.com');
-
-$mail->isHTML(true);
-$mail->Subject = "Nueva cotización";
-
-$mail->Body = "
-<h2>Nueva solicitud</h2>
-<b>Unidades:</b> $unidades <br>
-<b>Páginas:</b> $paginas <br>
-<b>Tipo:</b> $tipo_impresion <br>
-<b>Material:</b> $material
+Unidades: $unidades
+Páginas: $paginas
+Tipo de impresión: $tipo_impresion
+Material: $material
 ";
 
-$mail->send();
+$headers = "From: Sinego <mroberto.drako@gmail.com>\r\n";
+$headers .= "Reply-To: mroberto.drako@gmail.com\r\n";
+$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-echo "<span style='color:green;'>Formulario enviado correctamente ✔</span>";
+if(mail($to,$subject,$message,$headers)){
+    header("Location: imprenta.php?success=1");
+}else{
+    header("Location: imprenta.php?error=1");
+}
 
-}catch(Exception $e){
-
-echo "<span style='color:red;'>Error al enviar: ".$mail->ErrorInfo."</span>";
+exit;
 
 }
+
+?>
