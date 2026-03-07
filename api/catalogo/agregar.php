@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
 
 require_once "../../config/db.php";
 
@@ -49,7 +50,13 @@ try {
         if (in_array($fileType, $allowedTypes)) {
             if (move_uploaded_file($_FILES['imagen']['tmp_name'], $uploadPath)) {
                 $imagen = "img/libros/" . $fileName;
+            } else {
+                echo json_encode(['error' => 'Error al subir la imagen']);
+                exit;
             }
+        } else {
+            echo json_encode(['error' => 'Tipo de archivo no permitido']);
+            exit;
         }
     }
 
@@ -69,11 +76,13 @@ try {
 
     echo json_encode([
         'success' => true,
-        'id' => $pdo->lastInsertId()
+        'id' => $pdo->lastInsertId(),
+        'mensaje' => 'Libro agregado correctamente'
     ]);
 
 } catch (PDOException $e) {
     echo json_encode([
+        'success' => false,
         'error' => $e->getMessage()
     ]);
 }

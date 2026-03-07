@@ -40,17 +40,23 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData
       });
 
+      // Verificar si la respuesta es JSON
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Respuesta no es JSON");
+      }
+
       const data = await res.json();
 
       if (data.success) {
-        alert("Libro agregado correctamente");
+        alert(data.mensaje || "Libro agregado correctamente");
         form.reset();
       } else {
         alert("Error: " + (data.error || "desconocido"));
       }
     } catch (err) {
-      alert("Error de conexión");
-      console.error(err);
+      alert("Error de conexión: " + err.message);
+      console.error("Error completo:", err);
     }
   });
 });
