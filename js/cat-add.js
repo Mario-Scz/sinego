@@ -30,6 +30,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (imagenInput.files && imagenInput.files[0]) {
       formData.append("imagen", imagenInput.files[0]);
+      console.log("✅ Imagen seleccionada:", imagenInput.files[0].name);
+      console.log("✅ Tamaño:", imagenInput.files[0].size, "bytes");
+      console.log("✅ Tipo:", imagenInput.files[0].type);
+    } else {
+      console.log("⚠️ Sin imagen seleccionada");
     }
 
     try {
@@ -39,16 +44,21 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       const data = await res.json();
+      console.log("📦 Respuesta del servidor:", data);
 
       if (data.success) {
-        alert(data.mensaje || "Libro agregado correctamente");
+        if (data.imagen_subida) {
+          alert("✅ Libro agregado con imagen: " + data.ruta_imagen);
+        } else {
+          alert("⚠️ Libro agregado sin imagen (usando imagen por defecto)");
+        }
         form.reset();
       } else {
-        alert("Error: " + (data.error || "desconocido"));
+        alert("❌ Error: " + (data.error || "desconocido"));
       }
     } catch (err) {
-      console.error("Error:", err);
-      alert("Error de conexión: " + err.message);
+      console.error("❌ Error:", err);
+      alert("❌ Error de conexión: " + err.message);
     }
   });
 });
