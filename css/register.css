@@ -1,5 +1,5 @@
 ﻿/* =========================================
-   REINICIO Y VARIABLES
+   REINICIO Y VARIABLES (Sinego Standard)
    ========================================= */
 * {
   margin: 0;
@@ -32,7 +32,7 @@ body {
 }
 
 /* =========================================
-   BARRA DE NAVEGACIÓN (NAV)
+   NAVBAR (ESTILO MENÚ PRINCIPAL)
    ========================================= */
 .n {
   background: linear-gradient(135deg, var(--cs) 0%, var(--cp) 100%);
@@ -52,27 +52,18 @@ body {
   align-items: center;
 }
 
-.nl {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: var(--cw);
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-  letter-spacing: 1px;
-}
-
-.lg {
+.nl img {
   height: 50px;
   width: auto;
   filter: brightness(1.2);
+  transition: var(--t);
 }
 
 .cm {
   display: none;
 }
 
+/* Menú Hamburguesa */
 .tm {
   display: none;
   flex-direction: column;
@@ -88,53 +79,45 @@ body {
   transition: var(--t);
 }
 
-.mn {
-  display: flex;
-}
-
+/* Enlaces del Menú */
 .mn ul {
   display: flex;
   list-style: none;
-  gap: 0;
-}
-
-.mn ul li {
-  position: relative;
+  gap: 0.5rem;
 }
 
 .mn ul li a {
   display: block;
   color: var(--cw);
   text-decoration: none;
-  padding: 1rem 1.5rem;
+  padding: 0.8rem 1.2rem;
   transition: var(--t);
   font-weight: 500;
   position: relative;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
 }
 
 .mn ul li a::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 50%;
   width: 0;
   height: 3px;
   background-color: var(--ca);
   transition: var(--t);
-}
-
-.mn ul li a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(-50%);
 }
 
 .mn ul li a:hover::after {
-  width: 100%;
+  width: 80%;
 }
 
-/* Iconos de Navegación (Carrito y Favoritos) */
+/* Iconos de Interacción (Carrito, Favoritos, Login) */
 .ni {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   align-items: center;
 }
 
@@ -145,54 +128,54 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 0.5rem;
-  border-radius: 50%;
+  padding: 0.6rem;
+  border-radius: 50px; /* Redondeado para botones con texto */
   transition: var(--t);
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .ic:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.ic.active svg {
-  stroke: var(--ca);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .ic svg {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   stroke: var(--cw);
 }
 
+/* Contadores (Burbujas Rojas) */
 .cc, .cf {
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -5px;
+  right: -5px;
   background-color: #e74c3c;
   color: white;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bold;
+  border: 2px solid var(--cp);
 }
 
 /* =========================================
-   SECCIÓN HERO / DESTACADA
+   HERO SECTION (Título de la página)
    ========================================= */
-.h, .d {
+.h {
   background: linear-gradient(135deg, var(--cs) 0%, var(--cp) 100%);
   color: var(--cw);
-  padding: 100px 2rem;
+  padding: 60px 2rem;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
 
-.h::before, .d::before {
+.h::before {
   content: '';
   position: absolute;
   top: 0;
@@ -201,262 +184,105 @@ body {
   bottom: 0;
   background: radial-gradient(circle at 20% 50%, rgba(179, 209, 205, 0.1) 0%, transparent 50%),
               radial-gradient(circle at 80% 80%, rgba(179, 209, 205, 0.1) 0%, transparent 50%);
-  pointer-events: none;
 }
 
-.hc {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.ht {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.hs {
-  font-size: 1.3rem;
-  opacity: 0.95;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-}
-
-.c {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
+.hc { position: relative; z-index: 1; }
+.ht { font-size: 2.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+.hs { font-size: 1.1rem; opacity: 0.9; font-weight: 300; }
 
 /* =========================================
-   SECCIÓN LOGIN
+   LOGIN CARD & WRAPPER
    ========================================= */
 .login-wrapper {
-  min-height: calc(100vh - 300px);
+  min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 2rem;
-}
-
-.login-cont {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  padding: 40px 2rem;
 }
 
 .login-card {
   background: var(--cw);
-  padding: 3rem;
+  padding: 2.5rem;
   border-radius: 16px;
   box-shadow: var(--sl);
   width: 100%;
-  max-width: 450px;
-  border-top: 4px solid var(--cp);
+  max-width: 420px;
+  border-top: 5px solid var(--cp);
+  animation: fadeIn 0.5s ease;
 }
 
-.login-logo {
-  text-align: center;
-  margin-bottom: 2rem;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.login-logo img {
-  height: 80px;
-  width: auto;
-  filter: drop-shadow(0 4px 8px rgba(29, 120, 116, 0.1));
-}
+.login-logo { text-align: center; margin-bottom: 1.5rem; }
+.login-logo img { height: 70px; width: auto; }
 
-.login-card h2 {
-  color: var(--cs);
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  font-weight: 700;
-}
+.login-card h2 { color: var(--cs); font-size: 1.8rem; text-align: center; margin-bottom: 0.5rem; }
+.login-subtitle { color: var(--ct); text-align: center; margin-bottom: 2rem; opacity: 0.6; font-size: 0.9rem; }
 
-.login-subtitle {
-  color: var(--ct);
-  text-align: center;
-  margin-bottom: 2rem;
-  opacity: 0.7;
-  font-size: 0.95rem;
-}
-
-.login-frm {
-  display: grid;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.fm-grp {
-  display: flex;
-  flex-direction: column;
-}
-
-.fm-grp label {
-  font-weight: 600;
-  color: var(--cs);
-  margin-bottom: 0.75rem;
-  font-size: 0.95rem;
-  letter-spacing: 0.3px;
-}
-
+/* Formulario */
+.login-frm { display: grid; gap: 1.2rem; }
+.fm-grp { display: flex; flex-direction: column; gap: 0.5rem; }
+.fm-grp label { font-weight: 600; color: var(--cs); font-size: 0.9rem; }
 .fm-grp input {
-  padding: 14px 16px;
-  border: 2px solid var(--ca);
+  padding: 12px 15px;
+  border: 2px solid #eee;
   border-radius: 8px;
   font-size: 1rem;
   transition: var(--t);
-  font-family: inherit;
-  color: var(--ct);
-}
-
-.fm-grp input::placeholder {
-  color: var(--ct);
-  opacity: 0.5;
-}
-
-.fm-grp input:focus {
   outline: none;
-  border-color: var(--cp);
-  box-shadow: 0 0 0 4px rgba(29, 120, 116, 0.1);
 }
+.fm-grp input:focus { border-color: var(--cp); box-shadow: 0 0 0 3px rgba(29, 120, 116, 0.1); }
 
 .btn-login {
-  padding: 14px 20px;
-  border-radius: 50px;
   background-color: var(--cs);
   color: var(--cw);
+  padding: 14px;
   border: none;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: var(--t);
+  border-radius: 8px;
+  font-weight: 700;
   cursor: pointer;
+  transition: var(--t);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-family: inherit;
-  width: 100%;
-  margin-top: 1rem;
+  letter-spacing: 1px;
+  margin-top: 10px;
 }
-
-.btn-login:hover {
-  background-color: var(--cp);
-  transform: translateY(-3px);
-  box-shadow: var(--sl);
-}
-
-.btn-login:active {
-  transform: translateY(-1px);
-}
+.btn-login:hover { background-color: var(--cp); transform: translateY(-2px); box-shadow: var(--sm); }
 
 .login-note {
-  background-color: #f0f7f6;
-  border-left: 4px solid var(--ca);
-  padding: 1rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  color: var(--ct);
-  line-height: 1.6;
   margin-top: 1.5rem;
-}
-
-.login-note strong {
-  color: var(--cs);
-}
-
-/* =========================================
-   FOOTER (PIE DE PÁGINA)
-   ========================================= */
-.ft {
-  background: linear-gradient(135deg, var(--cs) 0%, var(--cp) 100%);
-  color: var(--cw);
-  padding: 3rem 2rem;
-  text-align: center;
-  margin-top: 100px;
-}
-
-.ftc {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.ftc p {
-  margin: 0.5rem 0;
-  font-size: 1rem;
-  opacity: 0.95;
-}
-
-.ftc p:last-child {
-  font-style: italic;
-  font-size: 0.95rem;
-  opacity: 0.85;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  border-left: 3px solid var(--ca);
 }
 
 /* =========================================
-   DISEÑO RESPONSIVO (MOBILE)
+   DISEÑO RESPONSIVO
    ========================================= */
 @media (max-width: 768px) {
-  .tm {
-    display: flex;
-  }
-
+  .tm { display: flex; }
   .mn {
     position: absolute;
-    top: 70px;
+    top: 100%;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, var(--cs) 0%, var(--cp) 100%);
+    background: var(--cs);
     flex-direction: column;
-    padding: 2rem 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.4s ease-in-out;
   }
-
-  /* Control del Menú Hamburguesa */
-  .cm:checked ~ .mn {
-    max-height: 500px;
-  }
-
-  .cm:checked ~ .tm span:nth-child(1) {
-    transform: rotate(45deg) translate(10px, 10px);
-  }
-
-  .cm:checked ~ .tm span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .cm:checked ~ .tm span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
-  }
-
-  .mn ul {
-    flex-direction: column;
-    padding: 0 2rem;
-    gap: 1rem;
-  }
-
-  .mn ul li a {
-    padding: 1rem;
-    text-align: center;
-  }
-
-  .ht {
-    font-size: 2.5rem;
-  }
-
-  .hs {
-    font-size: 1.1rem;
-  }
-
-  .auth-card {
-    padding: 2rem;
-  }
-
-  .nl span {
-    display: none;
-  }
+  .cm:checked ~ .mn { max-height: 350px; }
+  .mn ul { flex-direction: column; padding: 1rem 0; }
+  .mn ul li a { text-align: center; padding: 1rem; }
+  
+  .ni { gap: 0.5rem; }
+  .ic span { display: none; } /* Oculta texto "Salir/Entrar" en móvil */
+  
+  .ht { font-size: 2rem; }
 }
