@@ -1,29 +1,26 @@
 <?php
-header("Content-Type: application/json");
+header('Content-Type: application/json');
+require_once "../../config/db.php";
 
-$conexion = new mysqli("localhost","root","","sinego");
+$input = json_decode(file_get_contents('php://input'), true);
 
-if ($conexion->connect_error) {
-    echo json_encode(["success"=>false]);
+if (!$input || !isset($input['id'])) {
+    echo json_encode(['success' => false, 'error' => 'Datos inválidos']);
     exit;
 }
 
-$id = $_POST["id"];
-$codigo = $_POST["codigo"];
-$autor = $_POST["autor"];
-$titulo = $_POST["titulo"];
-$tipo = $_POST["tipo"];
+$id = $input['id'];
+$autor = $input['autor'];
+$titulo = $input['titulo'];
+$codigo = $input['codigo'];
+$tipo = $input['tipo'];
 
-$sql = "UPDATE libros 
-        SET codigo=?, autor=?, titulo=?, tipo=? 
-        WHERE id=?";
-
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("ssssi",$codigo,$autor,$titulo,$tipo,$id);
-
-if($stmt->execute()){
-    echo json_encode(["success"=>true]);
-}else{
-    echo json_encode(["success"=>false]);
+try {
+    $stmt = $pdo->prepare("UPDATE libros SET autor = ?, titulo = ?, codigo = ?, tipo = ? WHERE id = ?");
+    $stmt->execute([$autor, $titulo, $codigo, $tipo, $id]);
+    
+    echo json_encode(['success' => true]);
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }
 ?>

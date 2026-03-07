@@ -1,22 +1,22 @@
 <?php
-header("Content-Type: application/json");
+header('Content-Type: application/json');
+require_once "../../config/db.php";
 
-$conexion = new mysqli("localhost","root","","sinego");
+$input = json_decode(file_get_contents('php://input'), true);
 
-if ($conexion->connect_error) {
-    echo json_encode(["success"=>false]);
+if (!$input || !isset($input['id'])) {
+    echo json_encode(['success' => false, 'error' => 'ID inválido']);
     exit;
 }
 
-$id = $_POST["id"];
+$id = $input['id'];
 
-$sql = "DELETE FROM libros WHERE id = ?";
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("i",$id);
-
-if($stmt->execute()){
-    echo json_encode(["success"=>true]);
-}else{
-    echo json_encode(["success"=>false]);
+try {
+    $stmt = $pdo->prepare("DELETE FROM libros WHERE id = ?");
+    $stmt->execute([$id]);
+    
+    echo json_encode(['success' => true]);
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }
 ?>
